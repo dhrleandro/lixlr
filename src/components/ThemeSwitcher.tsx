@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import styles from "./ThemeSwitcher.module.css";
+import styles from "../styles/ThemeSwitcher.module.css";
 
 interface ThemeSwitcher {
 }

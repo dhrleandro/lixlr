@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Container.module.css";
+import styles from "../styles/Container.module.css";
 
 interface ContainerProps {
   className?: string;

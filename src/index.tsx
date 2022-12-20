@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./theme.css";
-import "./index.css";
+import "./styles/theme.css";
+import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 // import { AppStateProvider } from "./store/store";
