@@ -4,7 +4,7 @@ import "./styles/theme.css";
 import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-// import { AppStateProvider } from "./store/store";
+import { AppStateProvider } from "./state/store";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const root = ReactDOM.createRoot(
@@ -12,11 +12,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ThemeProvider>
-      {/* <AppStateProvider> */}
+    <AppStateProvider>
+      <ThemeProvider>
         <App />
-      {/* </AppStateProvider> */}
-    </ThemeProvider>
+      </ThemeProvider>
+    </AppStateProvider>
   </React.StrictMode>
 );
 

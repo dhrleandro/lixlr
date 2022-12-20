@@ -55,7 +55,7 @@ import { Observer, Subject } from "./SubjectObserver";
     return this._state;
   }
 
-  private setAppState(newState: State): void {
+  public setAppState(newState: State): void {
       this._state = newState;
       this.notify();
   }

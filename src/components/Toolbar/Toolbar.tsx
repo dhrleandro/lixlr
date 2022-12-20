@@ -2,41 +2,38 @@ import React from "react";
 import styles from "../../styles/Toolbar.module.css";
 import ToolButton from "./ToolButton";
 import { Brush, Eraser, Hand, Pencil } from "../../icons";
+import { useDispatch, useTrackedState } from "../../state/store";
+import { ToolType } from "../../core/tools/ToolType";
+import { ActionType } from "../../core/state/Store";
 
-export enum ToolbarTools {
-  PEN = 0,
-  BRUSH = 1,
-  ERASER = 2,
-  HAND = 3,
-}
+function Toolbar() {
 
-interface ToolbarProps {
-  selectedTool: ToolbarTools
-}
+  const dispatch = useDispatch();
+  const appState = useTrackedState();
 
-function Toolbar(props: ToolbarProps) {
-
-  const [selectedTool, setSelectedTool] = React.useState<ToolbarTools>(props.selectedTool);
+  function setTool(value: ToolType) {
+    dispatch({ type: ActionType.SELECT_TOOL, value });
+  }
 
   const tools = [
-    ToolbarTools.PEN,
-    ToolbarTools.BRUSH,
-    ToolbarTools.ERASER,
-    ToolbarTools.HAND,
+    ToolType.PEN,
+    ToolType.BRUSH,
+    ToolType.ERASER,
+    ToolType.HAND,
   ];
 
-  function getToolIcon(tool: ToolbarTools): React.ReactNode | undefined {
+  function getToolIcon(tool: ToolType): React.ReactNode | undefined {
     switch (tool) {
-      case ToolbarTools.PEN:
+      case ToolType.PEN:
         return <Pencil />;
 
-      case ToolbarTools.BRUSH:
+      case ToolType.BRUSH:
         return <Brush />;
 
-      case ToolbarTools.ERASER:
+      case ToolType.ERASER:
         return <Eraser />;
 
-      case ToolbarTools.HAND:
+      case ToolType.HAND:
         return <Hand />;
 
       default:
@@ -44,18 +41,16 @@ function Toolbar(props: ToolbarProps) {
     }
   }
 
-  React.useEffect(() => {}, [selectedTool]);
-
   return (
     <div className={styles.toolbar}>
       {tools.map(
         (item, key) => (
           <ToolButton
             key={key}
-            selected={selectedTool === item}
-            click={() => setSelectedTool(item)}
+            selected={appState.selectedTool === item}
+            click={() => setTool(item)}
           >
-            { getToolIcon(key) }
+            { getToolIcon(item) }
           </ToolButton>
         )
       )}

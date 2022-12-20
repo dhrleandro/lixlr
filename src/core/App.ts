@@ -6,14 +6,16 @@ import StateManager from "./state/StateManager";
 import { createInitialAppState, State } from "./state/State";
 import { ActionType, makeAction } from "./state/Store";
 
-export default class App extends StateManager {
+export default class App {
 
+  private stateManager: StateManager;
   private appView: CanvasView;
 
-  constructor(containerReference: HTMLDivElement, appState: State) {
-    super(appState);
+  constructor(containerReference: HTMLDivElement, state: State) {
+    this.stateManager = new StateManager(state);
+    this.appView = new CanvasView(containerReference, this.stateManager);
 
-    this.appView = new CanvasView(containerReference, this);
+    this.attachObservers();
 
     // create PixelEditor centered
     const containerReact = containerReference.getBoundingClientRect();
@@ -28,6 +30,14 @@ export default class App extends StateManager {
     this.appView.setChild(child);
   }
 
+  private attachObservers() {
+    // this.appView will be notified and its stateManager reference will be updated whenever the state of this.stateManager changes
+    this.stateManager.attach(this.appView);
+
+    // force notify
+    this.stateManager.notify();
+  }
+
   public mountEvents() {
     this.appView.mountEvents();
   }
@@ -36,10 +46,16 @@ export default class App extends StateManager {
     this.appView.unmountEvents();
   }
 
-  public static create(containerReference: HTMLDivElement, appState?: State): App {
-    if (!appState)
-      appState = createInitialAppState();
+  // public setStateManager(stateManager: StateManager): void {
+  //   this.stateManager = stateManager;
+  //   this.attachObservers();
+  // }
 
-    return new App(containerReference, appState);
+  public setState(state: State): void {
+    this.stateManager.setAppState(state);
+  }
+
+  public static create(containerReference: HTMLDivElement, state: State): App {
+    return new App(containerReference, state);
   }
 }

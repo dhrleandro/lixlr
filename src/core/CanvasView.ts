@@ -12,6 +12,7 @@ import { ActionType, makeAction } from "./state/Store";
 import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import { hitTest } from "./utils/math";
+import { ToolType } from "./tools/ToolType";
 
 export default class CanvasView extends AbstractStateObserver {
 
@@ -24,8 +25,8 @@ export default class CanvasView extends AbstractStateObserver {
   private dragStartPosition: DOMPoint = new DOMPoint(0, 0);
   private currentTransformedCursor: DOMPoint = new DOMPoint(0, 0);
 
-  constructor(containerReference: HTMLDivElement, appState: Subject) {
-    super(appState);
+  constructor(containerReference: HTMLDivElement, stateManager: Subject) {
+    super(stateManager);
     this.containerReference = containerReference;
 
     const canvas = document.createElement('canvas');
@@ -87,9 +88,15 @@ export default class CanvasView extends AbstractStateObserver {
   }
 
   private handlePointerDown(event: PointerEvent) {
-    this.isDragging = true;
-    const offset = this.getOffsetPoint(event);
-    this.dragStartPosition = this.getTransformedPoint(offset.x, offset.y);
+    const middleButton = (event.button === 1); // pressing mouse scroll wheel
+
+    if (
+      middleButton ||
+      (this.state && this.state.selectedTool == ToolType.HAND)) {
+      this.isDragging = true;
+      const offset = this.getOffsetPoint(event);
+      this.dragStartPosition = this.getTransformedPoint(offset.x, offset.y);
+    }
   }
 
   private handlePointerMove(event: PointerEvent) {
