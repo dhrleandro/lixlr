@@ -42,6 +42,7 @@
 
   /* custom */
   --shadow-color: rgba(23, 23, 23, 0.2); /* 12 custom */
+  --high-contrast-button-text: hsl(0, 0%, 93.0%);
 }
 
 
@@ -78,6 +79,7 @@
 
   /* custom */
   --shadow-color: rgba(237, 237, 237, 0.2); /* 12 custom */
+  --high-contrast-button-text: hsl(0, 0%, 93.0%);
 }
 
 
