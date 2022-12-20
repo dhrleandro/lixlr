@@ -32,7 +32,7 @@ export default class LayerManager {
     const id = this.lastLayerId + 1;
     this.lastLayerId = id;
 
-    const name = 'Layer ' + id;
+    const name = 'Layer ' + (this.layers.length + 1);
     this.layers.push(new Layer(imageData, id, name, this.layersWidth, this.layersHeight));
   }
 
@@ -83,12 +83,13 @@ export default class LayerManager {
 
   public setLayers(layers: Layer[]) {
     this.layers = [];
+    let sercureId = 0;
     layers.forEach((layer, index) => {
-      layer.setId(index + 1);
+      sercureId += layer.getId();
       this.layers.push(layer);
     });
 
-    this.lastLayerId = this.layers[this.layers.length - 1].getId();
+    this.lastLayerId = sercureId;
   }
 
   public getLastLayerId(): number {

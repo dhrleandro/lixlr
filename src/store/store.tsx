@@ -75,6 +75,19 @@ function setLayerVisibility(appState: AppState, id: number, visible: boolean) {
   return { ...appState, layers: layerManager };
 }
 
+function deleteLayer(appState: AppState, id: number) {
+  if (appState.selectedLayer === id || appState.layers.getLayers().length <= 1)
+    return appState;
+
+  const layers = appState.layers;
+
+  const layerManager = new LayerManager(layers.getWidth(), layers.getHeight());
+  layerManager.setLayers(layers.getLayers());
+  layerManager.deleteLayer(id);
+
+  return { ...appState, layers: layerManager };
+}
+
 const reducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
 
@@ -108,6 +121,9 @@ const reducer = (state: AppState, action: Action): AppState => {
 
     case 'ADD_LAYER':
       return addLayer(state);
+
+    case 'DELETE_LAYER':
+      return deleteLayer(state, action.id);
 
     default:
       return state;
