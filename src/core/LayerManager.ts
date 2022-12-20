@@ -36,6 +36,11 @@ export default class LayerManager {
     this.layers = this.layers.filter(layer => layer.getId() !== id);
   }
 
+  public getLayer(id: number): Layer {
+    const index = this.getLayerIndex(id);
+    return this.layers[index];
+  }
+
   public getLayers(): Layer[] {
     const layers: Layer[] = [];
     this.layers.map(layer => layers.push(layer));
@@ -43,9 +48,15 @@ export default class LayerManager {
     return layers;
   }
 
-  public getLayer(id: number): Layer {
-    const index = this.getLayerIndex(id);
-    return this.layers[index];
+  public setLayers(layers: Layer[]) {
+    this.layers = [];
+    let sercureId = 0;
+    layers.forEach(layer => {
+      sercureId += layer.getId();
+      this.layers.push(layer);
+    });
+
+    this.lastLayerId = sercureId;
   }
 
   public setVisible(id: number, visible: boolean): boolean {
@@ -65,17 +76,6 @@ export default class LayerManager {
 
   public getHeight(): number {
     return this.layersHeight;
-  }
-
-  public setLayers(layers: Layer[]) {
-    this.layers = [];
-    let sercureId = 0;
-    layers.forEach(layer => {
-      sercureId += layer.getId();
-      this.layers.push(layer);
-    });
-
-    this.lastLayerId = sercureId;
   }
 
   public getLastLayerId(): number {

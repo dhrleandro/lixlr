@@ -3,8 +3,7 @@ import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import PixelEditor from "./PixelEditor";
 import StateManager from "./state/StateManager";
-import { createInitialAppState, State } from "./state/State";
-import { ActionType, makeAction } from "./state/Store";
+import { State } from "./state/State";
 
 export default class App {
 

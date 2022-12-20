@@ -8,7 +8,7 @@
 import AbstractStateObserver from "./state/AbstractStateObserver";
 import { Subject } from "./state/SubjectObserver";
 import { ViewChild } from "./ViewChild";
-import { ActionType, makeAction } from "./state/Store";
+import { ActionType } from "./state/Store";
 import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import { hitTest } from "./utils/math";
@@ -127,7 +127,10 @@ export default class CanvasView extends AbstractStateObserver {
     this.requestDraw();
 
     const matrix = this.context.getTransform();
-    this.stateManager?.updateState(makeAction(ActionType.SET_ZOOM, matrix.a)); // scaleX: matrix.a, scaleY: matrix.d
+    this.stateManager?.updateState({
+      type: ActionType.SET_ZOOM,
+      value: matrix.a
+    }); // scaleX: matrix.a, scaleY: matrix.d
 
     event.preventDefault();
   }

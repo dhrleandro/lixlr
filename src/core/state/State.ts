@@ -1,13 +1,24 @@
+import Rect2D from "../entities/Rect2D";
+import LayerManager from "../LayerManager";
 import { ToolType } from "../tools/ToolType";
 import StateManager from "./StateManager";
 
 export interface State {
+  sheetSize: Rect2D,
+  layerManager: LayerManager,
+  selectedLayerId: number,
   selectedTool: ToolType,
   scale: number;
 }
 
 export function createInitialAppState(): State {
+
+  const sheetDimension = Rect2D.create(400, 400);
+
   const appState: State = {
+    sheetSize: Rect2D.create(sheetDimension.width, sheetDimension.height),
+    layerManager: new LayerManager(sheetDimension.width, sheetDimension.height),
+    selectedLayerId: 0,
     selectedTool: ToolType.HAND,
     scale: 1
   }
@@ -16,10 +27,7 @@ export function createInitialAppState(): State {
 }
 
 export function createDefaultStateManager(): StateManager {
-  const appState: State = {
-    selectedTool: ToolType.HAND,
-    scale: 1
-  }
+  const appState = createInitialAppState();
 
   const stateManager = new StateManager(appState);
   return stateManager;

@@ -1,4 +1,5 @@
 import RGBA from "../entities/RGBA";
+import LayerManager from "../LayerManager";
 import { ToolType } from "../tools/ToolType";
 import { createInitialAppState, createStateManager, State } from "./State";
 import StateManager from "./StateManager";
@@ -9,26 +10,26 @@ export enum ActionType {
   // ZOOM_UP = "ZOOM_UP",
   // ZOOM_DOWN = "ZOOM_DOWN",
   SET_ZOOM = "SET_ZOOM",
+  SET_LAYER_MANAGER = "SET_LAYER_MANAGER",
+  SELECT_LAYER = "SELECT_LAYER",
+  CREATE_LAYER = "CREATE_LAYER",
+  DELETE_LAYER = "DELETE_LAYER",
+  TOGGLE_LAYER_VISIBILITY = "TOGGLE_LAYER_VISIBILITY"
 }
 
 export type Action =
   | { type: ActionType.SELECT_TOOL; value: ToolType }
   | { type: ActionType.SELECT_COLOR; value: string }
-  // | { type: ActionType.'ZOOM_UP'; value: number }
-  // | { type: ActionType.'ZOOM_DOWN'; value: number }
-  | { type: ActionType.SET_ZOOM; value: number }
-//  | { type: 'SET_LAYER_MANAGER'; layerManager: LayerManager }
-//  | { type: 'SELECT_LAYER'; id: number }
-//  | { type: 'DELETE_LAYER'; id: number }
-//  | { type: 'TOGGLE_LAYER_VISIBILITY'; id: number; visible: boolean }
-//  | { type: 'ADD_LAYER'/*; layer: Layer */}
 
-export function makeAction(type: ActionType, value: any): Action {
-  return {
-    type,
-    value
-  };
-}
+  // | { type: ActionType.'ZOOM_UP'; value: number }
+  // | { type: ActionType.'ZOOM_DOWN'; value: number }[]
+  | { type: ActionType.SET_ZOOM; value: number }
+
+  | { type: ActionType.SET_LAYER_MANAGER; layerManager: LayerManager }
+  | { type: ActionType.SELECT_LAYER; id: number }
+  | { type: ActionType.CREATE_LAYER}
+  | { type: ActionType.DELETE_LAYER; id: number }
+  | { type: ActionType.TOGGLE_LAYER_VISIBILITY; id: number, visible: boolean }
 
 const initialState: State = createInitialAppState();
 
@@ -60,41 +61,39 @@ function zoomDown(appState: State, value: number): State {
   return { ...appState, scale: value };
 }
 
-/*
-function addLayer(appState: State): State {
-  const layers = appState.layers;
+function addLayer(stateManager: StateManager): StateManager {
+  const layers = stateManager.state.layerManager;
   const layerManager = new LayerManager(layers.getWidth(), layers.getHeight());
 
   layerManager.setLayers(layers.getLayers());
   layerManager.createLayer();
   const lastId = layerManager.getLastLayerId();
 
-  return { ...appState, layers: layerManager, selectedLayer: lastId };
+  return createStateManager({ ...stateManager.state, layerManager: layerManager, selectedLayerId: lastId });
 }
 
-function setLayerVisibility(appState: AppState, id: number, visible: boolean) {
-  const layers = appState.layers;
+function setLayerVisibility(stateManager: StateManager, id: number, visible: boolean): StateManager {
+  const layers = stateManager.state.layerManager;
   layers.setVisible(id, visible);
 
   const layerManager = new LayerManager(layers.getWidth(), layers.getHeight());
   layerManager.setLayers(layers.getLayers());
 
-  return { ...appState, layers: layerManager };
+  return createStateManager({ ...stateManager.state, layerManager: layerManager });
 }
 
-function deleteLayer(appState: AppState, id: number) {
-  if (appState.selectedLayer === id || appState.layers.getLayers().length <= 1)
-    return appState;
+function deleteLayer(stateManager: StateManager, id: number): StateManager {
+  if (stateManager.state.selectedLayerId === id || stateManager.state.layerManager.getLayers().length <= 1)
+    return stateManager;
 
-  const layers = appState.layers;
+  const layers = stateManager.state.layerManager;
 
   const layerManager = new LayerManager(layers.getWidth(), layers.getHeight());
   layerManager.setLayers(layers.getLayers());
   layerManager.deleteLayer(id);
 
-  return { ...appState, layers: layerManager };
+  return createStateManager({ ...stateManager.state, layerManager: layerManager });
 }
-*/
 
 export const reducer = (stateManager: StateManager, action: Action): StateManager => {
   switch (action.type) {
@@ -118,23 +117,24 @@ export const reducer = (stateManager: StateManager, action: Action): StateManage
 
     case 'ZOOM_DOWN':
       return zoomDown(state, action.value);
-
-    case 'SET_LAYER_MANAGER':
-      const lastId = action.layerManager.getLastLayerId();
-      return { ...state, layers: action.layerManager, selectedLayer: lastId };
-
-    case 'SELECT_LAYER':
-      return { ...state, selectedLayer: action.id };
-
-    case 'TOGGLE_LAYER_VISIBILITY':
-      return setLayerVisibility(state, action.id, action.visible);
-
-    case 'ADD_LAYER':
-      return addLayer(state);
-
-    case 'DELETE_LAYER':
-      return deleteLayer(state, action.id);
   */
+
+    case ActionType.SET_LAYER_MANAGER:
+      const lastId = action.layerManager.getLastLayerId();
+      return createStateManager({ ...stateManager.state, layerManager: action.layerManager, selectedLayerId: lastId });
+
+    case ActionType.SELECT_LAYER:
+      return createStateManager({ ...stateManager.state, selectedLayerId: action.id });
+
+    case ActionType.CREATE_LAYER:
+      return addLayer(stateManager);
+
+    case ActionType.DELETE_LAYER:
+      return deleteLayer(stateManager, action.id);
+
+
+    case ActionType.TOGGLE_LAYER_VISIBILITY:
+      return setLayerVisibility(stateManager, action.id, action.visible);
 
     default:
       return stateManager;
