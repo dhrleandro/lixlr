@@ -45,13 +45,11 @@ function setColor(appState: AppState, color: string): AppState {
 }
 
 function zoomUp(appState: AppState, value: number) {
-  const scale = appState.scale + value;
-  return { ...appState, scale: scale };
+  return { ...appState, scale: value };
 }
 
 function zoomDown(appState: AppState, value: number) {
-  const scale = appState.scale - value;
-  return { ...appState, scale: scale };
+  return { ...appState, scale: value };
 }
 
 function addLayer(appState: AppState) {

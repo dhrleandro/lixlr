@@ -11,7 +11,6 @@ export const useCameraViewer = (
   const cameraViewer = React.useRef<HTMLDivCameraViewer>();
 
   const handleChangedScaleEvent = (event: CustomEvent<ScaleData>) => {
-    //console.log(event.detail.scale);
     if (changedScaleEventCallback)
       changedScaleEventCallback(event);
   }

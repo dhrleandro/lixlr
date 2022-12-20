@@ -8,12 +8,14 @@ type CameraViewerProps = {
   debug?: boolean;
   children?: React.ReactNode;
   scale: number;
+  changedScaleEventCallback?: (event: CustomEvent<ScaleData>) => void;
 }
 
 function CameraViewer(props: CameraViewerProps) {
 
   const handleChangedScaleEvent = (event: CustomEvent<ScaleData>) => {
-    // console.log(event.detail.scale);
+    if (props.changedScaleEventCallback)
+      props.changedScaleEventCallback(event);
   }
 
   const reference = React.useRef<HTMLDivElement>(null);
