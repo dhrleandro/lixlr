@@ -1,18 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-// import { AppStateProvider } from './store/store';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./theme.css";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+// import { AppStateProvider } from "./store/store";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    {/* <AppStateProvider> */}
-      <App />
-    {/* </AppStateProvider> */}
+    <ThemeProvider>
+      {/* <AppStateProvider> */}
+        <App />
+      {/* </AppStateProvider> */}
+    </ThemeProvider>
   </React.StrictMode>
 );
 
