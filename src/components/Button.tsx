@@ -38,8 +38,8 @@ function Button(props: ButtonProps) {
         ${props.className}
       `}
       style={{
-        width: props.w,
-        height: props.h,
+        width: props.w ?? 32,
+        height: props.h ?? 32,
         ...props.style
       }}
     >

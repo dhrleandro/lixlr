@@ -34,3 +34,11 @@
 .flex span {
     margin-left: 1rem;
 }
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1rem;
+    width: 100%;
+}
