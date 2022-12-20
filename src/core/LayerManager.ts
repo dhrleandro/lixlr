@@ -54,7 +54,7 @@ export default class LayerManager {
 
   public setVisible(id: number, visible: boolean): boolean {
     const index = this.getLayerIndex(id);
-    console.log(index, this.layers);
+
     try {
       this.layers[index].setVisible(visible);
       return true;
@@ -84,7 +84,7 @@ export default class LayerManager {
   public setLayers(layers: Layer[]) {
     this.layers = [];
     let sercureId = 0;
-    layers.forEach((layer, index) => {
+    layers.forEach(layer => {
       sercureId += layer.getId();
       this.layers.push(layer);
     });
