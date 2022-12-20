@@ -19,9 +19,6 @@
     "[typescriptreact]": {
         "editor.tabSize": 2,
     },
-    "[handlebars]": {
-      "editor.tabSize": 2,
-    },
     "[json]": {
       "editor.tabSize": 2,
     },
