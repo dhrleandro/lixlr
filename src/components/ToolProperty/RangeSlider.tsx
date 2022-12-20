@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/RangeSlider.module.css";
+import styles from "../../styles/RangeSlider.module.css";
 
 interface RangeSliderProps {
   min: number;

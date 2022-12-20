@@ -51,6 +51,7 @@ export default class CanvasView extends AbstractStateObserver {
       image-rendering: -o-crisp-edges;
       image-rendering: -webkit-optimize-contrast;
       -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: pixelated;
     `);
 
     this.canvas = canvas;
