@@ -3,7 +3,6 @@ import Point2D from "../entities/Point2D";
 import { BaseTool } from "./Tool";
 import { ToolType } from "./ToolType";
 import { putPixel, circlePoints, floodFill, drawLinePoints } from "../utils/graphic";
-import { ToolProperty, ToolPropertyType } from "./Property";
 
 interface BrushConfig {
   canvas: HTMLCanvasElement,
