@@ -64,6 +64,9 @@ export default class Render {
 
     // render all layers
     appState.layers.getLayers().forEach((layer, index) => {
+
+      if (layer.isVisible() === false) return;
+
       const layerRendered = layer.render();
       this.renderBackBuffer.context.putImageData(layerRendered, 0, 0);
 
@@ -82,7 +85,6 @@ export default class Render {
   public async renderLayers(appState: Readonly<AppState>, mainContext: CanvasRenderingContext2D) {
 
     if (this.layersRenderedCache === undefined || appState.selectedLayer !== this.lastSelectedLayer) {
-      console.log('cache');
       this.lastSelectedLayer = appState.selectedLayer;
       this.layersRenderedCache = this.buildLayersCache(appState);
     }

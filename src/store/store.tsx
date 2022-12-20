@@ -44,6 +44,17 @@ function addLayer(appState: AppState) {
   return { ...appState, layers: layerManager };
 }
 
+function setLayerVisibility(appState: AppState, id: number, visible: boolean) {
+  const layers = appState.layers;
+  const layerManager = new LayerManager(layers.getWidth(), layers.getHeight());
+
+  const newLayers = layers.getLayers();
+  newLayers[id].setVisible(visible);
+  layerManager.setLayers(newLayers);
+
+  return { ...appState, layers: layerManager };
+}
+
 type Action =
   | { type: 'SELECT_TOOL'; tool: ToolType }
   | { type: 'SELECT_COLOR'; color: string }
@@ -51,6 +62,7 @@ type Action =
   | { type: 'ZOOM_DOWN'; value: number }
   | { type: 'SET_LAYER_MANAGER'; layerManager: LayerManager }
   | { type: 'SELECT_LAYER'; id: number }
+  | { type: 'TOGGLE_LAYER_VISIBILITY'; id: number; visible: boolean }
   | { type: 'ADD_LAYER'/*; layer: Layer */}
 
 const initialState: AppState = {
@@ -88,6 +100,9 @@ const reducer = (state: AppState, action: Action): AppState => {
 
     case 'SELECT_LAYER':
       return { ...state, selectedLayer: action.id };
+
+    case 'TOGGLE_LAYER_VISIBILITY':
+      return setLayerVisibility(state, action.id, action.visible);
 
     case 'ADD_LAYER':
       return addLayer(state);

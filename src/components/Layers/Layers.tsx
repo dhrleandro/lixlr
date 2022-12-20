@@ -1,4 +1,5 @@
 import React from 'react';
+import { MouseEvent } from 'react';
 import Layer from '../../core/entities/Layer';
 import { useDispatch, useTrackedState } from '../../store/store';
 import Button from '../Button';
@@ -17,7 +18,13 @@ function Layers() {
   }
 
   function selectLayer(id: number) {
-    dispatch({ type: 'SELECT_LAYER',  id } );
+    dispatch({ type: 'SELECT_LAYER',  id });
+  }
+
+  function toggleVisible(event: MouseEvent<any>, layer: Layer, id: number) {
+    event.stopPropagation();
+    const visible = !layer.isVisible();
+    dispatch({ type: 'TOGGLE_LAYER_VISIBILITY',  id, visible });
   }
 
   const listItems = layers.map((layer: Layer, index: number) =>
@@ -25,7 +32,12 @@ function Layers() {
       key={index}
       onClick={() => selectLayer(index)}
     >
-      <LayerItem index={index} layer={layer} selected={appState.selectedLayer === index} />
+      <LayerItem
+        index={index}
+        layer={layer}
+        selected={appState.selectedLayer === index}
+        toggleVisible={event => toggleVisible(event, layer, index)}
+      />
     </li>
   );
 
