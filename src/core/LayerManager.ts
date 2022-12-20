@@ -2,6 +2,7 @@ import Layer from "./entities/Layer";
 
 export default class LayerManager {
   private layers: Layer[];
+  private lastLayerId: number;
   private layersWidth: number;
   private layersHeight: number;
 
@@ -9,6 +10,18 @@ export default class LayerManager {
     this.layers = [];
     this.layersWidth = layersWidth;
     this.layersHeight = layersWidth;
+    this.lastLayerId = 0;
+  }
+
+  private getLayerIndex(id: number): number {
+    let arrayIndex = -1;
+    this.layers.forEach((layer, index) => {
+      if (layer.getId() === id) {
+        arrayIndex = index;
+      }
+    });
+
+    return arrayIndex;
   }
 
   public createLayer(imageData?: ImageData) {
@@ -16,18 +29,15 @@ export default class LayerManager {
     if (!imageData)
       imageData = new ImageData(this.layersWidth, this.layersHeight);
 
-    const name = 'Layer ' + this.layers.length;
+    const id = this.lastLayerId + 1;
+    this.lastLayerId = id;
 
-    this.layers.push(new Layer(imageData, name, this.layersWidth, this.layersHeight));
+    const name = 'Layer ' + id;
+    this.layers.push(new Layer(imageData, id, name, this.layersWidth, this.layersHeight));
   }
 
-  public deleteLayer(index: number): boolean {
-    try {
-      this.layers = this.layers.splice(index, 1);
-      return true;
-    } catch (error) {
-      return false;
-    }
+  public deleteLayer(id: number): void {
+    this.layers = this.layers.filter(layer => layer.getId() !== id);
   }
 
   public getLayers(): Layer[] {
@@ -37,11 +47,14 @@ export default class LayerManager {
     return layers;
   }
 
-  public getLayer(index: number): Layer {
+  public getLayer(id: number): Layer {
+    const index = this.getLayerIndex(id);
     return this.layers[index];
   }
 
-  public setVisible(index: number, visible: boolean): boolean {
+  public setVisible(id: number, visible: boolean): boolean {
+    const index = this.getLayerIndex(id);
+    console.log(index, this.layers);
     try {
       this.layers[index].setVisible(visible);
       return true;
@@ -50,7 +63,8 @@ export default class LayerManager {
     }
   }
 
-  public setImageData(index: number, imageData: ImageData): boolean {
+  public setImageData(id: number, imageData: ImageData): boolean {
+    const index = this.getLayerIndex(id);
     try {
       this.layers[index].setImageData(imageData);
       return true;
@@ -68,6 +82,16 @@ export default class LayerManager {
   }
 
   public setLayers(layers: Layer[]) {
-    this.layers = layers;
+    this.layers = [];
+    layers.forEach((layer, index) => {
+      layer.setId(index + 1);
+      this.layers.push(layer);
+    });
+
+    this.lastLayerId = this.layers[this.layers.length - 1].getId();
+  }
+
+  public getLastLayerId(): number {
+    return this.lastLayerId;
   }
 }

@@ -21,22 +21,27 @@ function Layers() {
     dispatch({ type: 'SELECT_LAYER',  id });
   }
 
-  function toggleVisible(event: MouseEvent<any>, layer: Layer, id: number) {
-    event.stopPropagation();
+  function toggleVisible(layer: Layer, id: number) {
     const visible = !layer.isVisible();
     dispatch({ type: 'TOGGLE_LAYER_VISIBILITY',  id, visible });
   }
 
-  const listItems = layers.map((layer: Layer, index: number) =>
+  function deleteLayer(layer: Layer, id: number) {
+    const visible = !layer.isVisible();
+    dispatch({ type: 'DELETE_LAYER',  id });
+  }
+
+  const listItems = layers.map((layer: Layer) =>
     <li
-      key={index}
-      onClick={() => selectLayer(index)}
+      key={layer.getId()}
+      onClick={() => selectLayer(layer.getId())}
     >
       <LayerItem
-        index={index}
+        index={layer.getId()}
         layer={layer}
-        selected={appState.selectedLayer === index}
-        toggleVisible={event => toggleVisible(event, layer, index)}
+        selected={appState.selectedLayer === layer.getId()}
+        toggleVisible={() => toggleVisible(layer, layer.getId())}
+        deleteLayer={() => deleteLayer(layer, layer.getId())}
       />
     </li>
   );

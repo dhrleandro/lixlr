@@ -14,13 +14,15 @@ export default class Layer {
   private height: number;
   private visible: boolean;
   private name: string;
+  private id: number;
 
-  constructor(pixels: ImageData, name: string, width: number, height: number, visible: boolean = true) {
+  constructor(pixels: ImageData, id: number, name: string, width: number, height: number, visible: boolean = true) {
     this.pixels = new ImageData(pixels.data, pixels.width, pixels.height);
     this.width = width;
     this.height = height;
     this.visible = visible;
     this.name = name;
+    this.id = id;
   }
 
   get data(): ImageData {
@@ -74,5 +76,13 @@ export default class Layer {
 
   public getName(): string {
     return this.name;
+  }
+
+  public getId(): number {
+    return this.id;
+  }
+
+  public setId(id: number): void {
+    this.id = id;
   }
 }

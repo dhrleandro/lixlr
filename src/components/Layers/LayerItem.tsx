@@ -10,7 +10,8 @@ type LayerItemPorps = {
   index: number,
   layer: Layer,
   selected: boolean,
-  toggleVisible: MouseEventHandler<HTMLButtonElement> | undefined
+  toggleVisible: MouseEventHandler<HTMLButtonElement> | undefined,
+  deleteLayer: MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 function LayerItem(props: LayerItemPorps) {
@@ -30,6 +31,7 @@ function LayerItem(props: LayerItemPorps) {
           w={24}
           h={24}
           style={{color: 'var(--red-500)'}}
+          click={props.deleteLayer}
         >
           <Trash />
         </Button>
