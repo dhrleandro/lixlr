@@ -9,6 +9,7 @@ export default class BrushTool extends BaseTool {
   private static readonly SIZE: number = 1;
   private lastPoint: Point;
   private paintStart: boolean;
+  private color: ColorRgb;
 
   constructor(context: CanvasRenderingContext2D) {
     super(context);
@@ -16,12 +17,15 @@ export default class BrushTool extends BaseTool {
     this.lastPoint = Point.create(0,0);
     this.paintStart = false;
 
-    this.addColorProperty('color', ColorRgb.create(0,0,0))
+    this.color = ColorRgb.create(0,0,0);
+
+    this.addColorProperty('color', ColorRgb.create(0,0,0));
   }
 
   public onPointerDown(point: Point): void {
     this.paintStart = true;
     this.lastPoint = point;
+    this.color = this.getProperty('color')?.value as ColorRgb;
   }
 
   public onPointerUp(point: Point): void {
@@ -31,11 +35,9 @@ export default class BrushTool extends BaseTool {
 
   public onPointerMove(point: Point): void {
 
-    const color = this.getProperty('color')?.value as ColorRgb;
-
     if (this.paintStart) {
-      this.context.fillStyle = color.rgbCss;
-      this.context.strokeStyle = color.rgbCss;
+      this.context.fillStyle = this.color.rgbCss;
+      this.context.strokeStyle = this.color.rgbCss;
       this.context.lineWidth = 100;
       this.context.lineCap = 'round';
       this.context.beginPath();

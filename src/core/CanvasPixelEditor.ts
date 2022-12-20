@@ -213,6 +213,7 @@ export default class CanvasPixelEditor {
 
     switch (this.selectedTool?.type) {
       case ToolType.PEN:
+      case ToolType.BRUSH:
         const color = this.selectedTool.getProperty('color') as ToolProperty;
         color.value = this.appState.primaryColor;
         this.selectedTool.setProperty('color', color);
