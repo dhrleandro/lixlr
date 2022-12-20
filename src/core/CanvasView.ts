@@ -32,6 +32,7 @@ export default class CanvasView extends AbstractStateObserver {
   private toolState: Tool | undefined;
 
   private pinchGesture: PinchGesture;
+  private isMakingPinchGesture: boolean = false;
 
   constructor(containerReference: HTMLDivElement, stateManager: Subject) {
     super(stateManager);
@@ -99,7 +100,14 @@ export default class CanvasView extends AbstractStateObserver {
   }
 
   private handlePointerDown(event: PointerEvent): void {
+    if (this.pinchGesture.getCountOfPoints() > 1 || this.isMakingPinchGesture)
+      return;
+
     const middleButton = (event.button === 1); // pressing mouse scroll wheel
+
+    // if have more of one touch point and this is not the first point
+    if (!event.isPrimary)
+      return;
 
     if (
       middleButton ||
@@ -121,8 +129,15 @@ export default class CanvasView extends AbstractStateObserver {
   }
 
   private handlePointerMove(event: PointerEvent): void {
+    if (this.pinchGesture.getCountOfPoints() > 1 || this.isMakingPinchGesture)
+      return;
+
     const offset = this.getOffsetPoint(event);
     this.currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
+
+    // if have more of one touch point and this is not the first point
+    if (!event.isPrimary)
+      return;
 
     if (this.isDragging) {
       this.context.translate(this.currentTransformedCursor.x - this.dragStartPosition.x, this.currentTransformedCursor.y - this.dragStartPosition.y);
@@ -149,7 +164,10 @@ export default class CanvasView extends AbstractStateObserver {
     this.requestDraw();
   }
 
-  private zoom(zoom: number) {
+  private handleWheel(event: WheelEvent) {
+    const zoom = event.deltaY < 0 ? 1.1 : 0.9;
+
+
     this.context.translate(this.currentTransformedCursor.x, this.currentTransformedCursor.y);
     this.context.scale(zoom, zoom);
     this.context.translate(-this.currentTransformedCursor.x, -this.currentTransformedCursor.y);
@@ -161,22 +179,55 @@ export default class CanvasView extends AbstractStateObserver {
       type: ActionType.SET_ZOOM,
       value: matrix.a
     }); // scaleX: matrix.a, scaleY: matrix.d
-  }
-
-  private handleWheel(event: WheelEvent) {
-    const zoom = event.deltaY < 0 ? 1.1 : 0.9;
-
-    this.zoom(zoom);
 
     event.preventDefault();
   }
 
+  private pinchZoom(zoom: number) {
+
+    const childPosition = this.child?.getPosition();
+    const childSize = this.child?.getSize();
+
+    if (!childPosition || !childSize)
+      return;
+
+    const center = Point2D.create(
+      childPosition.x + childSize.width / 2,
+      childPosition.y + childSize.height / 2
+    );
+
+    if (zoom < 1 && this.state!.scale < 1.01)
+      return
+
+    this.context.translate(center.x, center.y);
+    this.context.scale(zoom, zoom);
+    this.context.translate(-center.x, -center.y);
+
+    this.requestDraw();
+  }
+
   private handlePinchIn() {
-    this.zoom(1.1);
+    if (this.state?.selectedTool !== ToolType.HAND)
+      return;
+
+    this.isMakingPinchGesture = true;
+    this.pinchZoom(1.05);
+
+    setTimeout(() => {
+      this.isMakingPinchGesture = false;
+    }, 500);
   }
 
   private handlePinchOut() {
-    this.zoom(0.9);
+    if (this.state?.selectedTool !== ToolType.HAND)
+      return;
+
+    this.isMakingPinchGesture = true;
+    this.pinchZoom(0.97);
+
+    setTimeout(() => {
+      this.isMakingPinchGesture = false;
+    }, 500);
   }
 
   private drawGrid() {
@@ -240,10 +291,6 @@ export default class CanvasView extends AbstractStateObserver {
     this.canvas.height = this.containerReference.offsetHeight;
     this.context.setTransform(matrix);
     this.requestDraw();
-  }
-
-  private getMultitouch(): Array<number> | undefined {
-    return undefined;
   }
 
   public setContainerReference(containerReference: HTMLDivElement): void | Error {

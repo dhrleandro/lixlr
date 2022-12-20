@@ -58,6 +58,10 @@ export default class PinchGesture {
     this.element.removeEventListener('pointerleave', this.pointerupHandler.bind(this));
   }
 
+  public getCountOfPoints() {
+    return this.evCache.length;
+  }
+
   private pointerdownHandler(ev: PointerEvent) {
     // The pointerdown event signals the start of a touch interaction.
     // This event is cached to support 2-finger gestures
