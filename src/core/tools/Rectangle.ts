@@ -79,7 +79,7 @@ export default class Rectangle extends BaseTool {
     this.paintStart = false;
   }
 
-  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+  public getPreview(): HTMLCanvasElement {
     if (!this.preview) {
       this.preview = document.createElement("canvas");
       this.preview.width = 1;

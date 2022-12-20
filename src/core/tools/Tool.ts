@@ -19,7 +19,7 @@ export interface Tool {
   onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void;
   onPointerMove(point: Point2D, context: CanvasRenderingContext2D): void;
 
-  getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement;
+  getPreview(): HTMLCanvasElement;
 }
 
 export abstract class BaseTool implements Tool {
@@ -83,7 +83,7 @@ export abstract class BaseTool implements Tool {
   public abstract onPointerDown(point: Point2D, context: CanvasRenderingContext2D): void;
   public abstract onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void;
   public abstract onPointerMove(point: Point2D, context: CanvasRenderingContext2D): void;
-  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+  public getPreview(): HTMLCanvasElement {
     return document.createElement("canvas");
   };
 }

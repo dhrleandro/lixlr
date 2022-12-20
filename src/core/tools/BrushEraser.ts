@@ -119,7 +119,7 @@ export default class BrushEraser extends BaseTool {
     context.restore();
   }
 
-  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+  public getPreview(): HTMLCanvasElement {
     if (!this.preview) {
       this.preview = document.createElement("canvas");
 

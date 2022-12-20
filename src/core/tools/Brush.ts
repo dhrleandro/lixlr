@@ -148,7 +148,7 @@ export default class Brush extends BaseTool {
   //     this.createBrush();
   // }
 
-  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+  public getPreview(): HTMLCanvasElement {
     const color = this.getProperty('color')?.value as RGBA;
     const size = this.getProperty('size')?.value as number;
 

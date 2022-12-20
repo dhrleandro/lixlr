@@ -124,7 +124,7 @@ export default class PixelEditor extends BaseViewChild {
         tool.type === ToolType.RECTANGLE ||
         tool.type === ToolType.ERASER
     ) {
-      this.previewTool = tool.getPreview(point, this.getContext());
+      this.previewTool = tool.getPreview();
       this.previewPoint = point;
     } else {
       this.previewTool = undefined;
