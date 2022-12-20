@@ -1,7 +1,7 @@
 import { AppState } from "./AppState";
 import LayerManager from "./LayerManager";
 
-interface CanvasContext {
+export interface CanvasContext {
   canvas: HTMLCanvasElement,
   context: CanvasRenderingContext2D
 }
@@ -13,7 +13,10 @@ interface LayersRenderedCache {
 
 export default class Render {
 
+  private width: number;
+  private height: number;
   private renderBackBuffer: CanvasContext;
+  private lastSelectedLayer: number | undefined = undefined;
 
   /**
    * A ideia desses dois caches é evitar de ter que renderizar todas as camadas durante
@@ -29,6 +32,8 @@ export default class Render {
   private virtualLayer: CanvasContext;
 
   constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
     this.renderBackBuffer = this.createCanvas(width, height);
     this.virtualLayer = this.createCanvas(width, height);
     this.layersRenderedCache = undefined;
@@ -44,10 +49,17 @@ export default class Render {
     }
   }
 
-  private buildLayersCache(appState: Readonly<AppState>): layersRenderedCache {
-    this.layersRenderedCache = {
-      renderedBottomLayersCache: this.createCanvas(width, height),
-      renderedTopLayersCache: this.createCanvas(width, height),
+  public debugDownloadCanvas(canvas: HTMLCanvasElement) {
+    const link = document.createElement('a');
+    link.download = 'filename.png';
+    link.href = canvas.toDataURL()
+    link.click();
+  }
+
+  private buildLayersCache(appState: Readonly<AppState>): LayersRenderedCache {
+    const layersRenderedCache = {
+      renderedBottomLayersCache: this.createCanvas(this.width, this.height),
+      renderedTopLayersCache: this.createCanvas(this.width, this.height),
     };
 
     // render all layers
@@ -55,23 +67,34 @@ export default class Render {
       const layerRendered = layer.render();
       this.renderBackBuffer.context.putImageData(layerRendered, 0, 0);
 
-      if (index === appState.selectedLayer)
-        mainContext.drawImage(this.virtualLayer.canvas, 0, 0);
-
+      if (index <= appState.selectedLayer) {
+        layersRenderedCache.renderedBottomLayersCache.context.drawImage(this.renderBackBuffer.canvas, 0, 0);
+      } else {
+        layersRenderedCache.renderedTopLayersCache.context.drawImage(this.renderBackBuffer.canvas, 0, 0);
+      }
     });
+
+    // this.debugDownloadCanvas(layersRenderedCache.renderedBottomLayersCache.canvas);
+    // this.debugDownloadCanvas(layersRenderedCache.renderedTopLayersCache.canvas);
+    return layersRenderedCache;
   }
 
   public async renderLayers(appState: Readonly<AppState>, mainContext: CanvasRenderingContext2D) {
-    // render all layers
-    appState.layers.getLayers().forEach((layer, index) => {
-      const layerRendered = layer.render();
-      this.renderBackBuffer.context.putImageData(layerRendered, 0, 0);
-      mainContext.drawImage(this.renderBackBuffer.canvas, 0, 0);
 
-      if (index === appState.selectedLayer)
-        mainContext.drawImage(this.virtualLayer.canvas, 0, 0);
+    if (this.layersRenderedCache === undefined || appState.selectedLayer !== this.lastSelectedLayer) {
+      console.log('cache');
+      this.lastSelectedLayer = appState.selectedLayer;
+      this.layersRenderedCache = this.buildLayersCache(appState);
+    }
 
-    });
+    mainContext.clearRect(0, 0, mainContext.canvas.width, mainContext.canvas.height);
+    mainContext.drawImage(this.layersRenderedCache.renderedBottomLayersCache.canvas, 0, 0);
+    mainContext.drawImage(this.virtualLayer.canvas, 0, 0);
+    mainContext.drawImage(this.layersRenderedCache.renderedTopLayersCache.canvas, 0, 0);
+  }
+
+  public getVirtualLayer(): CanvasContext {
+    return this.virtualLayer;
   }
 
 }

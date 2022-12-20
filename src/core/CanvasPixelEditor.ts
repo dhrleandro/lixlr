@@ -5,21 +5,14 @@ import { ToolType } from "./tools/Type";
 import { createTool } from "./tools/Factory";
 import { AppState } from "./AppState";
 import { ToolProperty } from "./tools/Property";
+import Render, { CanvasContext } from "./Render";
 
 export default class CanvasPixelEditor {
 
   private canvasReference: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
 
-  private virtualLayer: {
-    canvas: HTMLCanvasElement,
-    context: CanvasRenderingContext2D
-  };
-
-  private renderBuffer: {
-    canvas: HTMLCanvasElement,
-    context: CanvasRenderingContext2D
-  };
+  private virtualLayer: CanvasContext;
 
   private selectedTool: Tool | undefined;
   private styles = {
@@ -30,27 +23,16 @@ export default class CanvasPixelEditor {
 
   private mouseDown: boolean = false;
 
+  private render: Render;
+
   constructor(canvasReference: HTMLCanvasElement, appState: AppState) {
     this.canvasReference = canvasReference;
     this.context = this.canvasReference.getContext('2d')!;
 
-    const virutalCanvas = document.createElement('canvas');
-    virutalCanvas.width = canvasReference.width;
-    virutalCanvas.height = canvasReference.height;
-    this.virtualLayer = {
-      canvas: virutalCanvas,
-      context: virutalCanvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D
-    }
-
-    const renderBufferCanvas = document.createElement('canvas');
-    renderBufferCanvas.width = canvasReference.width;
-    renderBufferCanvas.height = canvasReference.height;
-    this.renderBuffer = {
-      canvas: renderBufferCanvas,
-      context: renderBufferCanvas.getContext('2d') as CanvasRenderingContext2D
-    }
-
     this.setCss();
+
+    this.render = new Render(this.canvasReference.width, this.canvasReference.height);
+    this.virtualLayer = this.render.getVirtualLayer();
 
     this.appState = appState;
     this.setTool(this.appState.selectedTool);
@@ -84,10 +66,9 @@ export default class CanvasPixelEditor {
       const mouse = this.getOffsetPoint(event);
 
       if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
-        this.virtualLayer.context.clearRect(0,0,this.virtualLayer.canvas.width, this.virtualLayer.canvas.height);
         this.virtualLayer.context.putImageData(this.appState.layers.getLayer(this.appState.selectedLayer).render(), 0, 0);
         this.selectedTool.onPointerDown(mouse);
-        this.renderLayers();
+        this.render.renderLayers(this.appState, this.context);
       }
     }
   }
@@ -104,7 +85,6 @@ export default class CanvasPixelEditor {
 
     if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
       this.selectedTool.onPointerUp(mouse);
-      this.renderLayers();
 
       // set selected layer data
       const virtualLayerImageData = this.virtualLayer.context.getImageData(
@@ -114,7 +94,8 @@ export default class CanvasPixelEditor {
       this.appState.layers.setImageData(this.appState.selectedLayer, virtualLayerImageData);
     }
 
-    // console.log(this.debugGetRgba(event));
+    // this.virtualLayer.context.clearRect(0, 0, this.virtualLayer.canvas.width, this.virtualLayer.canvas.height);
+    this.render.renderLayers(this.appState, this.context);
   }
 
   private onPointerMove(event: PointerEvent) {
@@ -127,25 +108,10 @@ export default class CanvasPixelEditor {
 
     if (this.mouseDown && this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
       this.selectedTool.onPointerMove(mouse);
-      this.renderLayers();
+      this.render.renderLayers(this.appState, this.context);
     }
   }
 
-  private async renderLayers() {
-    // render all layers
-    //this.context.clearRect(0, 0, this.canvasReference.width, this.canvasReference.height);
-    this.appState.layers.getLayers().forEach((layer, index) => {
-
-      const layerRendered = layer.render();
-      // tempContext.clearRect(0,0,tempCanvas.width, tempCanvas.height);
-      this.renderBuffer.context.putImageData(layerRendered, 0, 0);
-      this.context.drawImage(this.renderBuffer.canvas, 0, 0);
-
-      if (index === this.appState.selectedLayer)
-        this.context.drawImage(this.virtualLayer.canvas, 0, 0);
-
-    });
-  }
 
   private debugGetRgba(event: PointerEvent) {
     let point = this.getOffsetPoint(event);
