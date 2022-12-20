@@ -23,17 +23,10 @@ export default class Brush extends BaseTool {
   }
 
   public onPointerDown(point: Point2D, context: CanvasRenderingContext2D): void {
-    console.log('haha');
     this.paintStart = true;
     this.lastPoint = point;
     this.color = this.getProperty('color')?.value as RGBA;
     context.save();
-  }
-
-  public onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void {
-    this.paintStart = false;
-    this.lastPoint = point;
-    context.restore();
   }
 
   public onPointerMove(point: Point2D, context: CanvasRenderingContext2D): void {
@@ -50,5 +43,11 @@ export default class Brush extends BaseTool {
     }
 
     this.lastPoint = point;
+  }
+
+  public onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void {
+    this.paintStart = false;
+    this.lastPoint = point;
+    context.restore();
   }
 }

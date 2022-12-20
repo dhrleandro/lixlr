@@ -136,11 +136,9 @@ export default class CanvasView extends AbstractStateObserver {
       return;
     }
 
-    if (this.pointHitChild(event)) {
-      const offset = this.getOffsetPoint(event);
-      const currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
-      this.child?.handlePointerUp(currentTransformedCursor, this.toolState, this.state);
-    }
+    const offset = this.getOffsetPoint(event);
+    const currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
+    this.child?.handlePointerUp(currentTransformedCursor, this.toolState, this.state);
 
     this.requestDraw();
   }
