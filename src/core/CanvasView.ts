@@ -285,5 +285,6 @@ export default class CanvasView extends AbstractStateObserver {
     }
 
     this.canvas.style.cursor = this.toolState?.cursorCss || 'default';
+    this.requestDraw();
   }
 }

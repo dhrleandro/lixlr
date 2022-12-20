@@ -99,7 +99,8 @@ export default class PixelEditor extends BaseViewChild {
     // draw layers
     if (appState) {
       appState.layerManager.getLayers().forEach(layer => {
-        ctx.drawImage(layer.canvas, 0, 0);
+        if (layer.isVisible())
+          ctx.drawImage(layer.canvas, 0, 0);
       });
     }
   }
