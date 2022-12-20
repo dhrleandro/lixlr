@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from '../Sidebar';
-import { Layers, Plus } from '../../icons';
+import { Layers, Plus, ArrowSmallDown, ArrowSmallUp } from '../../icons';
 import styles from "../../styles/LayerManager.module.css";
 import Layer from '../../core/entities/Layer';
 import Item from "./Item";
@@ -31,6 +31,16 @@ function LayerManager() {
     dispatch({ type: ActionType.DELETE_LAYER,  id });
   }
 
+  function moveUp() {
+    const id: number = stateManager.state.selectedLayerId;
+    dispatch({ type: ActionType.MOVE_UP_LAYER,  id });
+  }
+
+  function moveDown() {
+    const id = stateManager.state.selectedLayerId;
+    dispatch({ type: ActionType.MOVE_DOWN_LAYER,  id });
+  }
+
   const listItems = layers.map((layer: Layer) =>
     <li
       key={layer.getId()}
@@ -56,6 +66,10 @@ function LayerManager() {
         </div>
         <div className={styles.bottomBar}>
           <Button light={true} w={24} h={24} click={addLayer}><Plus /></Button>
+          <div className={styles.flex}>
+            <Button light={true} w={24} h={24} click={moveUp}><ArrowSmallUp /></Button>
+            <Button light={true} w={24} h={24} click={moveDown}><ArrowSmallDown /></Button>
+          </div>
         </div>
       </div>
     </Sidebar>

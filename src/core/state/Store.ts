@@ -8,14 +8,18 @@ export enum ActionType {
   SELECT_TOOL = "SELECT_TOOL",
   SET_TOOL_SIZE = "SET_TOOL_SIZE",
   SELECT_COLOR = "SELECT_COLOR",
+
   // ZOOM_UP = "ZOOM_UP",
   // ZOOM_DOWN = "ZOOM_DOWN",
   SET_ZOOM = "SET_ZOOM",
+
   SET_LAYER_MANAGER = "SET_LAYER_MANAGER",
   SELECT_LAYER = "SELECT_LAYER",
   CREATE_LAYER = "CREATE_LAYER",
   DELETE_LAYER = "DELETE_LAYER",
-  TOGGLE_LAYER_VISIBILITY = "TOGGLE_LAYER_VISIBILITY"
+  TOGGLE_LAYER_VISIBILITY = "TOGGLE_LAYER_VISIBILITY",
+  MOVE_UP_LAYER = "MOVE_UP_LAYER",
+  MOVE_DOWN_LAYER = "MOVE_DOWN_LAYER"
 }
 
 export type Action =
@@ -32,6 +36,8 @@ export type Action =
   | { type: ActionType.CREATE_LAYER}
   | { type: ActionType.DELETE_LAYER; id: number }
   | { type: ActionType.TOGGLE_LAYER_VISIBILITY; id: number, visible: boolean }
+  | { type: ActionType.MOVE_UP_LAYER; id: number }
+  | { type: ActionType.MOVE_DOWN_LAYER; id: number }
 
 const initialState: State = createInitialAppState();
 
@@ -97,6 +103,26 @@ function deleteLayer(stateManager: StateManager, id: number): StateManager {
   return createStateManager({ ...stateManager.state, layerManager: layerManager });
 }
 
+function moveLayerToUp(stateManager: StateManager, id: number): StateManager {
+  const layers = stateManager.state.layerManager;
+
+  const layerManager = new LayerManager(layers.getWidth(), layers.getHeight());
+  layerManager.setLayers(layers.getLayers());
+  layerManager.moveUp(id);
+
+  return createStateManager({ ...stateManager.state, layerManager: layerManager });
+}
+
+function moveLayerToDown(stateManager: StateManager, id: number): StateManager {
+  const layers = stateManager.state.layerManager;
+
+  const layerManager = new LayerManager(layers.getWidth(), layers.getHeight());
+  layerManager.setLayers(layers.getLayers());
+  layerManager.moveDown(id);
+
+  return createStateManager({ ...stateManager.state, layerManager: layerManager });
+}
+
 export const reducer = (stateManager: StateManager, action: Action): StateManager => {
   switch (action.type) {
 
@@ -139,6 +165,12 @@ export const reducer = (stateManager: StateManager, action: Action): StateManage
 
     case ActionType.TOGGLE_LAYER_VISIBILITY:
       return setLayerVisibility(stateManager, action.id, action.visible);
+
+    case ActionType.MOVE_UP_LAYER:
+      return moveLayerToUp(stateManager, action.id);
+
+    case ActionType.MOVE_DOWN_LAYER:
+      return moveLayerToDown(stateManager, action.id);
 
     default:
       return stateManager;

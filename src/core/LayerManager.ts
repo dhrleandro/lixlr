@@ -69,6 +69,34 @@ export default class LayerManager {
     }
   }
 
+  public moveUp(id: number): void {
+    const index = this.getLayerIndex(id);
+    const change = index - 1;
+
+    if (!this.layers[index] || !this.layers[change])
+      return;
+
+    const tempA = this.layers[index];
+    const tempB = this.layers[change];
+
+    this.layers[index] = tempB;
+    this.layers[change] = tempA;
+  }
+
+  public moveDown(id: number): void {
+    const index = this.getLayerIndex(id);
+    const change = index + 1;
+
+    if (!this.layers[index] || !this.layers[change])
+      return;
+
+    const tempA = this.layers[index];
+    const tempB = this.layers[change];
+
+    this.layers[index] = tempB;
+    this.layers[change] = tempA;
+  }
+
   public getWidth(): number {
     return this.layersWidth;
   }
