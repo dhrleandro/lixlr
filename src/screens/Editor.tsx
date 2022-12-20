@@ -4,6 +4,7 @@ import Container from "../components/Container";
 import LayerManager from "../components/LayerManager/LayerManager";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import Toolbar from "../components/Toolbar";
+import { ToolProperty } from "../components/ToolProperty";
 import { useCanvasPixelEditor } from "../hooks/useCanvasPixelEditor";
 import { useTrackedState } from "../state/store";
 import styles from '../styles/Editor.module.css';
@@ -25,11 +26,12 @@ function Editor() {
         <div><ThemeSwitcher/></div>
       </div>
 
-      <div className={styles.pixeleditor} ref={container}>asdsadsadd</div>
+      <div className={styles.pixeleditor} ref={container}></div>
 
       <div className={styles.bottombar}><Colorbar/></div>
 
-      <LayerManager></LayerManager>
+      <LayerManager/>
+      <ToolProperty/>
     </Container>
   );
 }

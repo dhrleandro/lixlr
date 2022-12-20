@@ -1,18 +1,33 @@
 .sidebar {
     position: absolute;
     top: 0;
-    left: -210px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 200px;
     height: 100%;
     z-index: 80;
+
+}
+
+.left {
+    left: -210px;
     transition: left 0.2s;
 }
 
-.visible {
+.right {
+    right: -210px;
+    transition: right 0.2s;
+}
+
+.visibleLeft {
     left: 0;
+    z-index: 9999;
+}
+
+.visibleRight {
+    right: 0;
+    z-index: 9999;
 }
 
 .sidebarBody {
@@ -28,14 +43,28 @@
 
 .toggleButton {
     position: absolute;
-    left: 220px;
-    transition: left 1s;
     box-shadow: var(--shadow-sm);
 }
 
-.visible .toggleButton {
+.btnLeft {
+    left: 220px;
+    transition: left 1s;
+}
+
+.btnRight {
+    right: 220px;
+    transition: right 1s;
+}
+
+.visibleLeft .toggleButton {
     top: 2px;
     left: 200px;
+    color: var(--tomato11);
+}
+
+.visibleRight .toggleButton {
+    top: 2px;
+    right: 200px;
     color: var(--tomato11);
 }
 
