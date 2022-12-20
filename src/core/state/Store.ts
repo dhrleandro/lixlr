@@ -2,9 +2,14 @@ import RGBA from "../entities/RGBA";
 import { ToolType } from "../tools/ToolType";
 import { createInitialAppState, State } from "./State";
 
+export enum ActionType {
+  ZOOM_UP = "ZOOM_UP",
+  ZOOM_DOWN = "ZOOM_DOWN"
+}
+
 export type Action =
-  | { type: 'SELECT_TOOL'; tool: ToolType }
-  | { type: 'SELECT_COLOR'; color: string }
+  | { type: 'SELECT_TOOL'; value: ToolType }
+  | { type: 'SELECT_COLOR'; value: string }
   | { type: 'ZOOM_UP'; value: number }
   | { type: 'ZOOM_DOWN'; value: number }
 //  | { type: 'SET_LAYER_MANAGER'; layerManager: LayerManager }
@@ -12,6 +17,13 @@ export type Action =
 //  | { type: 'DELETE_LAYER'; id: number }
 //  | { type: 'TOGGLE_LAYER_VISIBILITY'; id: number; visible: boolean }
 //  | { type: 'ADD_LAYER'/*; layer: Layer */}
+
+export function makeAction(type: ActionType, value: any): Action {
+  return {
+    type,
+    value
+  };
+}
 
 const initialState: State = createInitialAppState();
 

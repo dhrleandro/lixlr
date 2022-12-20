@@ -1,17 +1,22 @@
+import { State } from "./State";
 import { Observer, Subject } from "./SubjectObserver";
 
 export default abstract class AbstractStateObserver implements Observer {
-  private state: Subject | undefined;
+  private manager: Subject | undefined;
 
-  constructor(appState: Subject) {
-    this.state = appState;
+  constructor(stateManager: Subject) {
+    this.manager = stateManager;
   }
 
-  public get appState(): Subject | undefined {
-    return this.appState;
+  public get state(): State | undefined {
+    return this.manager?.state;
   }
 
-  public update(appState: Subject): void {
-    this.state = appState;
+  public get stateManager(): Subject | undefined {
+    return this.manager;
+  }
+
+  public update(stateManager: Subject): void {
+    this.manager = stateManager;
   }
 }

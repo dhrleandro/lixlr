@@ -8,10 +8,10 @@ import { Observer, Subject } from "./SubjectObserver";
  */
  export default class StateManager implements Subject {
 
-  private state: State;
+  private _state: State;
 
   constructor(state: State) {
-    this.state = state;
+    this._state = state;
   }
 
   /**
@@ -51,17 +51,17 @@ import { Observer, Subject } from "./SubjectObserver";
       }
   }
 
-  get appState(): State {
-    return this.state;
+  get state(): State {
+    return this._state;
   }
 
   private setAppState(newState: State): void {
-      this.state = newState;
+      this._state = newState;
       this.notify();
   }
 
   public updateState(action: Action): void {
-    const newState = reducer(this.appState, action);
+    const newState = reducer(this._state, action);
     this.setAppState(newState);
   }
 }

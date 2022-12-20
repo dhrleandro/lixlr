@@ -1,9 +1,7 @@
-import Point2D from "./entities/Point2D";
 import AbstractStateObserver from "./state/AbstractStateObserver";
-import { State } from "./state/State";
 import { Subject } from "./state/SubjectObserver";
 import { ViewChild } from "./ViewChild";
-
+import { ActionType, makeAction } from "./state/Store";
 export default class CanvasView extends AbstractStateObserver {
 
   private containerReference: HTMLDivElement;
@@ -11,7 +9,6 @@ export default class CanvasView extends AbstractStateObserver {
   private context: CanvasRenderingContext2D;
   private child: ViewChild | undefined;
 
-  private scale: number = 1;
   private isDragging: boolean = false;
   private dragStartPosition: DOMPoint = new DOMPoint(0, 0);
   private currentTransformedCursor: DOMPoint = new DOMPoint(0, 0);
@@ -81,7 +78,7 @@ export default class CanvasView extends AbstractStateObserver {
     this.requestDraw();
 
     const matrix = this.context.getTransform();
-    this.scale = matrix.a; // scaleX: matrix.a, scaleY: matrix.d
+    this.stateManager?.updateState(makeAction(ActionType.ZOOM_UP, matrix.a)); // scaleX: matrix.a, scaleY: matrix.d
 
     event.preventDefault();
   }
@@ -92,13 +89,16 @@ export default class CanvasView extends AbstractStateObserver {
     const position = this.child!.getPosition();
     const size = this.child!.getSize();
 
-    if (this.scale < 10)
+    if (!this.stateManager)
       return;
 
-    const scale = Math.floor(this.scale);
+    if (this.stateManager.state.scale < 10)
+      return;
+
+    const scale = Math.floor(this.stateManager.state.scale);
     const bw = size.width; // this.canvas.width;
     const bh = size.height; // this.canvas.height;
-    const lw = 1/this.scale; // box border
+    const lw = 1/this.stateManager.state.scale; // box border
     const boxRow = Math.floor(bw / 1); // how many boxes
     const box = bw / boxRow;   // box size
 

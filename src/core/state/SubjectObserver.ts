@@ -1,6 +1,7 @@
 // https://refactoring.guru/pt-br/design-patterns/observer
 
 import { State } from "./State";
+import { Action } from "./Store";
 
 /**
  * The Subject interface declares a set of methods for managing subscribers.
@@ -14,11 +15,14 @@ import { State } from "./State";
 
   // Notify all observers about an event.
   notify(): void;
+
+  updateState(action: Action): void;
+  get state(): State;
 }
 
 /**
  * The Observer interface declares the update method, used by subjects.
  */
 export interface Observer {
-  update(appState: Subject): void;
+  update(stateManager: Subject): void;
 }
