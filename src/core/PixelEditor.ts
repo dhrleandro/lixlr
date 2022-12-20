@@ -59,15 +59,16 @@ export default class PixelEditor extends BaseViewChild {
 
       const gridCtx = this.gridCacheLowZoom.getContext('2d') as CanvasRenderingContext2D;
       const size = 8;
-      const box = this.size.height / size;
+      const boxH = this.size.height / size;
+      const boxW = this.size.width / size;
 
-      for (let y = 0; y < box; y++) {
+      for (let y = 0; y < boxH; y++) {
 
         let par = (y % 2) === 0 ? true : false;
         let fristColor = (y % 2) === 0 ? 0 : 1;
         let secondColor = (fristColor === 0) ? 1 : 0;
 
-        for (let x = 0; x < box; x++) {
+        for (let x = 0; x < boxW; x++) {
 
           let colorId = (x % 2) === 0 ? fristColor : secondColor;
           gridCtx.fillStyle = color[colorId];
