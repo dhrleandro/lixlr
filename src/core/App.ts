@@ -52,6 +52,10 @@ export default class App {
     this.appView.recenterEditor();
   }
 
+  public getState(): State {
+    return this.stateManager.state;
+  }
+
   public static create(containerReference: HTMLDivElement, stateManager: StateManager): App {
     return new App(containerReference, stateManager);
   }
