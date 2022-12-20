@@ -188,6 +188,6 @@ export default class CanvasPixelEditor {
   public setAppState(appState: AppState) {
     this.appState = appState;
     this.setTool(appState.selectedTool);
-    this.render.renderLayers(appState, this.context);
+    this.render.renderLayers(appState, this.context, true);
   }
 }

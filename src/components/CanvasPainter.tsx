@@ -1,6 +1,5 @@
 import React from 'react';
 import { useCanvasPixelEditor } from '../hooks/useCanvasPixelEditor';
-import { ToolType } from '../core/tools/Type';
 import { AppState } from '../core/AppState';
 
 type CanvasPainterProps = {
