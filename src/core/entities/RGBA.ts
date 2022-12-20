@@ -27,6 +27,6 @@ export default class RGBA {
   }
 
   public static create(red: number, green: number, blue: number, alpha: number = 255) {
-    return new RGBA(red, green, blue);
+    return new RGBA(red, green, blue, alpha);
   }
 }

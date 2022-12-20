@@ -1,3 +1,4 @@
+import Layer from "./entities/Layer";
 import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import { State } from "./state/State";
@@ -96,7 +97,34 @@ export default class PixelEditor extends BaseViewChild {
     }
 
     // draw layers
+    if (appState) {
+      appState.layerManager.getLayers().forEach(layer => {
+        ctx.drawImage(layer.canvas, 0, 0);
+      });
+    }
   }
+
+
+  private globalToLocalCoordinates(point: Point2D): Point2D {
+    const rect = this.getSize();
+    const pos = this.getPosition();
+
+    const mouse = {
+      x: point.x - pos.x,
+      y: point.y - pos.y
+    }
+
+    return Point2D.create(mouse.x, mouse.y);
+  }
+
+  private getLayerContext(state?: Readonly<State>): CanvasRenderingContext2D | undefined {
+    if (state) {
+      return state.layerManager.getLayer(state.selectedLayerId).context;
+    }
+
+    return undefined;
+  }
+
 
   public setSize(size: Rect2D): void {
     this.size = size;
@@ -106,15 +134,27 @@ export default class PixelEditor extends BaseViewChild {
 
   public handlePointerDown(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
     this.mouseDown = true;
+
+    const mouse = this.globalToLocalCoordinates(point);
+    const ctx = this.getLayerContext(state)
+    if (ctx)
+      tool?.onPointerDown(mouse, ctx);
   }
 
   public handlePointerMove(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
     if (this.mouseDown) {
-      //
+      const mouse = this.globalToLocalCoordinates(point);
+      const ctx = this.getLayerContext(state)
+      if (ctx)
+        tool?.onPointerDown(mouse, ctx);
     }
   }
 
   public handlePointerUp(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
     this.mouseDown = false;
+    const mouse = this.globalToLocalCoordinates(point);
+    const ctx = this.getLayerContext(state)
+    if (ctx)
+      tool?.onPointerDown(mouse, ctx);
   }
 }
