@@ -1,6 +1,7 @@
 import Rect2D from "../entities/Rect2D";
 import RGBA from "../entities/RGBA";
 import LayerManager from "../LayerManager";
+import { createToolProperty, ToolProperty, ToolPropertyType } from "../tools/Property";
 import { ToolType } from "../tools/ToolType";
 import StateManager from "./StateManager";
 
@@ -10,6 +11,8 @@ export interface State {
   layerManager: LayerManager,
   selectedLayerId: number,
   selectedTool: ToolType,
+  // selectedToolProperties: Map<string, ToolProperty>,
+  toolSize: number,
   selectedColor: RGBA,
 }
 
@@ -20,12 +23,22 @@ export function createInitialAppState(): State {
   layerManager.createLayer();
   const lastLayerId = layerManager.getLastLayerId();
 
+  // const selectedToolProperties = new Map<string, ToolProperty>();
+  // selectedToolProperties.set('size', createToolProperty(
+  //   ToolPropertyType.NUMBER,
+  //   10,
+  //   0,
+  //   100
+  // ));
+
   const appState: State = {
     sheetSize: Rect2D.create(sheetDimension.width, sheetDimension.height),
     scale: 1,
     layerManager: layerManager,
     selectedLayerId: lastLayerId,
-    selectedTool: ToolType.HAND,
+    selectedTool: ToolType.BRUSH,
+    // selectedToolProperties: selectedToolProperties,
+    toolSize: 10,
     selectedColor: RGBA.create(0,0,0)
   }
 

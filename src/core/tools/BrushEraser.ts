@@ -3,9 +3,9 @@ import Point2D from "../entities/Point2D";
 import { BaseTool } from "./Tool";
 import { ToolType } from "./ToolType";
 
-export default class Brush extends BaseTool {
+export default class BrushEraser extends BaseTool {
 
-  public readonly type = ToolType.BRUSH;
+  public readonly type = ToolType.ERASER;
   public readonly cursorCss: string = 'crosshair';
   private lastPoint: Point2D;
   private paintStart: boolean;
@@ -18,10 +18,13 @@ export default class Brush extends BaseTool {
     this.lastPoint = Point2D.create(0,0);
     this.paintStart = false;
 
-    this.color = RGBA.create(0,0,0);
-
-    this.addColorProperty('color', RGBA.create(0,0,0));
     this.addNumberProperty('size', 10);
+
+    // important
+    const alpha = 0;
+    const color = RGBA.create(0,0,0,alpha);
+    this.addColorProperty('color', color);
+    this.color = color;
   }
 
   public onPointerDown(point: Point2D, context: CanvasRenderingContext2D): void {
@@ -39,6 +42,7 @@ export default class Brush extends BaseTool {
       context.strokeStyle = this.color.rgbaCss;
       context.lineWidth = this.size;
       context.lineCap = 'round';
+      context.globalCompositeOperation="destination-out"; // Important
       context.beginPath();
       context.moveTo(this.lastPoint.x, this.lastPoint.y);
       context.lineTo(point.x, point.y);

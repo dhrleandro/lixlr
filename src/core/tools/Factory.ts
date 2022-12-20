@@ -1,6 +1,7 @@
 // import BrushTool from "./BrushTool";
 // import EraserTool from "./EraserTool";
 import Brush from "./Brush";
+import BrushEraser from "./BrushEraser";
 import Eraser from "./Eraser";
 import Hand from "./Hand";
 import Pen from "./Pen";
@@ -16,8 +17,9 @@ export default class Factory {
     return new Brush();
   }
 
-  private static createEraser(): Eraser {
-    return new Eraser();
+  private static createEraser(): BrushEraser { // Eraser {
+    // return new Eraser();
+    return new BrushEraser();
   }
 
   private static createHand(): Hand {

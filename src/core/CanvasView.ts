@@ -276,6 +276,12 @@ export default class CanvasView extends AbstractStateObserver {
         color.value = stateManager.state.selectedColor;
         this.toolState?.setProperty('color', color);
       }
+
+      const size = this.toolState?.getProperty('size');
+      if (size) {
+        size.value = stateManager.state.toolSize;
+        this.toolState?.setProperty('size', size);
+      }
     }
 
     this.canvas.style.cursor = this.toolState?.cursorCss || 'default';
