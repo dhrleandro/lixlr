@@ -2,6 +2,7 @@ import AbstractStateObserver from "./state/AbstractStateObserver";
 import { Subject } from "./state/SubjectObserver";
 import { ViewChild } from "./ViewChild";
 import { ActionType, makeAction } from "./state/Store";
+
 export default class CanvasView extends AbstractStateObserver {
 
   private containerReference: HTMLDivElement;
@@ -103,7 +104,7 @@ export default class CanvasView extends AbstractStateObserver {
     const box = bw / boxRow;   // box size
 
     ctx.lineWidth = lw;
-    ctx.strokeStyle = 'rgba(255, 0, 0, 0.2)';
+    ctx.strokeStyle = 'rgba(255, 0, 255, 1)';
 
     for (let x=0;x<bw;x+=box)
     {
@@ -128,7 +129,7 @@ export default class CanvasView extends AbstractStateObserver {
     if (this.child) {
       const position = this.child.getPosition();
       const size = this.child.getSize();
-      ctx.drawImage(this.child.getRenderedView(), position.x, position.y, size.width, size.height);
+      ctx.drawImage(this.child.getRenderedView(this.stateManager?.state), position.x, position.y, size.width, size.height);
     }
 
     // this.drawGrid();
