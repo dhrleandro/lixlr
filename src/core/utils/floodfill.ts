@@ -25,7 +25,6 @@ export function getMatrixPixel(matrix: Uint8ClampedArray, imageWidth: number, x:
   const red = y * (imageWidth * 4) + x * 4;
   const rgba = RGBA.create(matrix[red], matrix[red + 1], matrix[red + 2], matrix[red + 3]);
 
-  console.log(x, y, matrix[red], matrix[red + 1], matrix[red + 2], matrix[red + 3]);
   return rgba;
 }
 
@@ -34,7 +33,7 @@ export function getMatrixPixel(matrix: Uint8ClampedArray, imageWidth: number, x:
 
 export default function floodFill(context: CanvasRenderingContext2D, row: number, col: number, color: RGBA) {
   const matrix = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
-  console.log(matrix.data.slice(0, 16));
+
   let matrixData = matrix.data; // reference of imageData.data
   context.putImageData(matrix, 0, 0);
   row = Math.floor(row);
