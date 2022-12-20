@@ -6,6 +6,7 @@ import Eraser from "./Eraser";
 import Hand from "./Hand";
 import Line from "./Line";
 import Pen from "./Pen";
+import Rectangle from "./Rectangle";
 import { Tool } from "./Tool";
 import { ToolType } from "./ToolType";
 
@@ -31,6 +32,10 @@ export default class Factory {
     return new Line();
   }
 
+  private static createRectangle(): Rectangle {
+    return new Rectangle();
+  }
+
   public static createTool(type: ToolType | undefined): Tool | undefined {
     let tool: (Tool | undefined) = undefined;
 
@@ -53,6 +58,10 @@ export default class Factory {
 
       case ToolType.LINE:
         tool = Factory.createLine();
+        break;
+
+      case ToolType.RECTANGLE:
+        tool = Factory.createRectangle();
         break;
 
       default:
