@@ -1,22 +1,22 @@
 import React from 'react';
-import Editor from '../core/Editor';
+import App from '../core/App';
 
 export const useCanvasPixelEditor = (containerReference: React.RefObject<HTMLDivElement>/*, appState: AppState*/) => {
 
-  const canvasPixelEditor = React.useRef<Editor>();
+  const pixelEditorApp = React.useRef<App>();
 
   React.useEffect(() => {
     if (!containerReference.current) return;
 
-    if (!canvasPixelEditor.current) {
-      canvasPixelEditor.current = new Editor(containerReference.current);
-      canvasPixelEditor.current!.mountEvents();
+    if (!pixelEditorApp.current) {
+      pixelEditorApp.current = new App(containerReference.current);
+      pixelEditorApp.current!.mountEvents();
     }
-    // canvasPixelEditor.current.setAppState(appState);
+    // pixelEditorApp.current.setAppState(appState);
 
     return () => {
-      if (!canvasPixelEditor.current) return;
-      canvasPixelEditor.current.unmountEvents();
+      if (!pixelEditorApp.current) return;
+      pixelEditorApp.current.unmountEvents();
     }
 
   }, [containerReference/*, appState*/]);
