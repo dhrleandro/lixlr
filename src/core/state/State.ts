@@ -33,7 +33,7 @@ export function createInitialAppState(): State {
 
   const appState: State = {
     sheetSize: Rect2D.create(sheetDimension.width, sheetDimension.height),
-    scale: 10,
+    scale: 1,
     layerManager: layerManager,
     selectedLayerId: lastLayerId,
     selectedTool: ToolType.BRUSH,

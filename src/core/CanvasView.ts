@@ -333,6 +333,29 @@ export default class CanvasView extends AbstractStateObserver {
     this.child = child;
   }
 
+  private setTrasformMatrixScale(zoom: number) {
+
+    const childPosition = this.child?.getPosition();
+    const childSize = this.child?.getSize();
+
+    if (!childPosition || !childSize)
+      return;
+
+    const center = Point2D.create(
+      childPosition.x + childSize.width / 2,
+      childPosition.y + childSize.height / 2
+    );
+
+    this.context.translate(center.x, center.y);
+    const matrix = this.context.getTransform();
+    matrix.a = zoom;
+    matrix.d = zoom;
+    this.context.setTransform(matrix);
+    this.context.translate(-center.x, -center.y);
+
+    this.requestDraw();
+  }
+
   public update(stateManager: Subject): void {
     super.update(stateManager);
 
@@ -353,6 +376,10 @@ export default class CanvasView extends AbstractStateObserver {
     }
 
     this.canvas.style.cursor = this.toolState?.cursorCss || 'default';
+
+    if (this.state)
+      this.setTrasformMatrixScale(this.state.scale);
+
     this.requestDraw();
   }
 }
