@@ -1,4 +1,5 @@
 import { State } from "./State";
+import { Action, reducer } from "./Store";
 import { Observer, Subject } from "./SubjectObserver";
 
 /**
@@ -46,10 +47,7 @@ import { Observer, Subject } from "./SubjectObserver";
    */
   public notify(): void {
       for (const observer of this.observers) {
-          const immutableState: Readonly<State> = {
-            ...this.state
-          };
-          observer.update(immutableState);
+        observer.update(this);
       }
   }
 
@@ -57,8 +55,13 @@ import { Observer, Subject } from "./SubjectObserver";
     return this.state;
   }
 
-  public setAppState(newState: State): void {
+  private setAppState(newState: State): void {
       this.state = newState;
       this.notify();
+  }
+
+  public updateState(action: Action): void {
+    const newState = reducer(this.appState, action);
+    this.setAppState(newState);
   }
 }

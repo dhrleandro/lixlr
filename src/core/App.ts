@@ -12,7 +12,7 @@ export default class App extends StateManager {
   constructor(containerReference: HTMLDivElement, appState: State) {
     super(appState);
 
-    this.appView = new CanvasView(containerReference, appState);
+    this.appView = new CanvasView(containerReference, this);
 
     const child = new PixelEditor(Point2D.create(0, 0), Rect2D.create(200, 200));
     this.appView.setChild(child);

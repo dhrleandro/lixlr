@@ -20,5 +20,5 @@ import { State } from "./State";
  * The Observer interface declares the update method, used by subjects.
  */
 export interface Observer {
-  update(appState: Readonly<State>): void;
+  update(appState: Subject): void;
 }
