@@ -5,6 +5,7 @@ import LayerManager from "../components/LayerManager/LayerManager";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import Toolbar from "../components/Toolbar";
 import { ToolProperty } from "../components/ToolProperty";
+import Zoom from "../components/Zoom";
 import { useCanvasPixelEditor } from "../hooks/useCanvasPixelEditor";
 import { useTrackedState } from "../state/store";
 import styles from '../styles/Editor.module.css';
@@ -32,6 +33,7 @@ function Editor() {
 
       <LayerManager/>
       <ToolProperty/>
+      <Zoom />
     </Container>
   );
 }

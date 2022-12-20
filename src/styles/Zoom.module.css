@@ -1,0 +1,38 @@
+.zoom {
+  display: flex;
+  position: absolute;
+  left: 1rem;
+  bottom: 4rem;
+
+  border-radius: 0.5rem;
+  min-height: 2.5rem;
+  z-index: 99;
+
+  background-color: var(--elm-bg) !important;
+  border: 1px solid var(--elm-border);
+  -webkit-box-shadow: var(--shadow-sm);
+  -moz-box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.vr {
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    min-height: 2.5rem;
+    background-color: var(--light-border);
+}
+
+.zoomValue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    min-width: 4rem;
+}
+
+.iconSize > * {
+    width: 20px;
+    height: 20px;
+}
