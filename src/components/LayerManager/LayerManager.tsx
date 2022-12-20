@@ -13,8 +13,17 @@ function LayerManager() {
     <Sidebar
       openIcon={<Layers/>}
     >
-      <Item index={0} layer={layer} selected={false}></Item>
-      <Item index={0} layer={layer} selected={true}></Item>
+      <div className={styles.LayerManager}>
+        <Item index={0} layer={layer} selected={false}></Item>
+        <Item index={0} layer={layer} selected={true}></Item>
+        <Item index={0} layer={layer} selected={false}></Item>
+        <Item index={0} layer={layer} selected={false}></Item>
+        <Item index={0} layer={layer} selected={false}></Item>
+        <Item index={0} layer={layer} selected={false}></Item>
+        <Item index={0} layer={layer} selected={false}></Item>
+        <Item index={0} layer={layer} selected={false}></Item>
+        <Item index={0} layer={layer} selected={false}></Item>
+      </div>
     </Sidebar>
   );
 }

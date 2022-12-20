@@ -35,7 +35,7 @@
   --solid-hover-bg: hsl(251, 48.1%, 53.5%); /* 10 Hovered solid backgrounds */
 
 
-  --low-conrast-text: hsl(0, 0%, 43.5%); /* 11
+  --low-contrast-text: hsl(0, 0%, 43.5%); /* 11
   Low-contrast text */
   --high-contrast-text: hsl(0, 0%, 9.0%); /* 12 High-contrast text */
 
@@ -76,7 +76,7 @@
   --solid-hover-bg: hsl(251, 63.2%, 63.2%); /* 10 */
 
 
-  --low-conrast-text: hsl(0, 0%, 62.8%); /* 11 */
+  --low-contrast-text: hsl(0, 0%, 62.8%); /* 11 */
   --high-contrast-text: hsl(0, 0%, 93.0%); /* 12 */
 
 

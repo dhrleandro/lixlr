@@ -3,7 +3,11 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background-color: var(--app-bg);
+    background-color: var(--elm-bg);
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .layerItem {
@@ -16,10 +20,14 @@
     background-color: var(--elm-bg);
     border-top: 1px solid var(--elm-border);
     border-bottom: 1px solid var(--elm-border);
+    cursor: pointer;
 }
 
+.layerItem:hover {
+    background-color: var(--elm-hover-bg);
+}
 .itemSelected {
-    background-color: var(--dark-700);
+    background-color: var(--elm-selected-bg);
 }
 
 .flex {
