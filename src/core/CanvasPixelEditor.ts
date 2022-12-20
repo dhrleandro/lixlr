@@ -1,6 +1,5 @@
 // import { Tool, ToolType } from "./entities/Tool";
 import { Tool } from "./tools/Tool";
-import Layer from "./entities/Layer";
 import Point from "./entities/Point";
 import { ToolType } from "./tools/Type";
 import { createTool } from "./tools/Factory";
@@ -21,9 +20,6 @@ export default class CanvasPixelEditor {
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D
   };
-
-  private selectedLayer: number;
-
 
   private selectedTool: Tool | undefined;
   private styles = {
@@ -53,8 +49,6 @@ export default class CanvasPixelEditor {
     }
 
     const imgData = new ImageData(canvasReference.width, canvasReference.height);
-
-    this.selectedLayer = 0;
 
     this.setCss();
 
@@ -90,7 +84,7 @@ export default class CanvasPixelEditor {
 
       if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
         this.virtualLayer.context.clearRect(0,0,this.virtualLayer.canvas.width, this.virtualLayer.canvas.height);
-        this.virtualLayer.context.putImageData(this.appState.layers.getLayer(this.selectedLayer).render(), 0, 0);
+        this.virtualLayer.context.putImageData(this.appState.layers.getLayer(this.appState.selectedLayer).render(), 0, 0);
         this.selectedTool.onPointerDown(mouse);
         this.renderLayers();
       }
@@ -114,7 +108,7 @@ export default class CanvasPixelEditor {
         0, 0,
         this.virtualLayer.canvas.width, this.virtualLayer.canvas.height
       );
-      this.appState.layers.setImageData(this.selectedLayer, virtualLayerImageData);
+      this.appState.layers.setImageData(this.appState.selectedLayer, virtualLayerImageData);
     }
 
     // console.log(this.debugGetRgba(event));
@@ -144,7 +138,7 @@ export default class CanvasPixelEditor {
       this.renderBuffer.context.putImageData(layerRendered, 0, 0);
       this.context.drawImage(this.renderBuffer.canvas, 0, 0);
 
-      if (index === this.selectedLayer)
+      if (index === this.appState.selectedLayer)
         this.context.drawImage(this.virtualLayer.canvas, 0, 0);
 
     });

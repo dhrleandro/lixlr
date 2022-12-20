@@ -5,11 +5,10 @@ import CanvasPainter from "./components/CanvasPainter";
 import CameraViewer from "./components/CameraViewer";
 import Layers from "./components/Layers";
 import { ToolType } from "./core/tools/Type";
-import { AppState } from "./core/AppState";
-import ColorRgb from "./core/entities/ColorRgb";
 import LayerManager from "./core/LayerManager";
 import DraggableContainer from "./components/DraggableContainer";
 import Button from "./components/Button";
+import { useDispatch, useTrackedState } from "./store/store";
 
 const createCanvas = (width: number, height: number) => {
   const canvas = document.createElement('canvas');
@@ -22,35 +21,24 @@ function App() {
 
   const sourceCanvas = React.useRef<HTMLCanvasElement>(createCanvas(300, 300));
 
-  const [appState, setAppState] = React.useState<AppState>({
-    scale: 1,
-    primaryColor: ColorRgb.create(0,0,0),
-    secondaryColor: ColorRgb.create(0,0,0),
-    selectedTool: ToolType.HAND,
-    layers: new LayerManager(0, 0)
-  });
-
+  const dispatch = useDispatch();
+  const appState = useTrackedState();
   const [debug, setDebug] = React.useState<boolean>(false);
 
   function setTool(tool: ToolType) {
-    setAppState({...appState, selectedTool: tool});
+    dispatch({ type: 'SELECT_TOOL', tool });
   }
 
   function setColor(color: string) {
-    const values = color.replaceAll('rgb(', '').replaceAll(')', '').split(',');
-
-    if (values.length >= 3)
-      setAppState({...appState, primaryColor: ColorRgb.create(parseInt(values[0]), parseInt(values[1]), parseInt(values[2]))});
+    dispatch({ type: 'SELECT_COLOR', color });
   }
 
   function scaleUp(value: number) {
-    const scale = appState.scale + value;
-    setAppState({...appState, scale: scale});
+    dispatch({ type: 'ZOOM_UP', value });
   }
 
   function scaleDown(value: number) {
-    const scale = appState.scale - value;
-    setAppState({...appState, scale: scale});
+    dispatch({ type: 'ZOOM_DOWN', value });
   }
 
   // first render
@@ -60,10 +48,7 @@ function App() {
       const layerManager = new LayerManager(sourceCanvas.current.width, sourceCanvas.current.height);
       layerManager.createLayer();
 
-      setAppState({
-        ...appState,
-        layers: layerManager
-      });
+      dispatch({ type: 'SET_LAYER_MANAGER', layerManager });
     }
   }, []);
 
@@ -73,7 +58,7 @@ function App() {
   return (
     <div className="app">
 
-      <Layers layers={appState.layers.getLayers()} />
+      <Layers />
       <DraggableContainer>
         <Button w={32} h={32} click={() => scaleUp(1)}>+</Button>
         <Button w={32} h={32} click={() => scaleDown(1)}>-</Button>

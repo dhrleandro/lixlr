@@ -5,15 +5,14 @@ import './Layers.css';
 
 type LayerItemPorps = {
   index: number,
-  layer: Layer
+  layer: Layer,
+  selected: boolean
 }
 
 function LayerItem(props: LayerItemPorps) {
 
-  const [index, setIndex] = React.useState(props.index);
-
   return (
-    <div className='LayerItem'>
+    <div className={`LayerItem ${props.selected ? 'selected' : ''}`}>
       <span>{props.layer.getName()}</span>
       <Button>Delete</Button>
     </div>

@@ -2,11 +2,12 @@ import React from 'react';
 import Button from './Button';
 import { ReactComponent as Pencil } from '../assets/pencil.svg';
 import { ReactComponent as Hand } from '../assets/hand.svg';
+import { MouseEventHandler } from 'react';
 
 type ToolbarProps = {
-  pen?: Function;
-  hand?: Function;
-  center?: Function;
+  pen?: MouseEventHandler<HTMLButtonElement> | undefined;
+  hand?: MouseEventHandler<HTMLButtonElement> | undefined;
+  center?: MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
 function Toolbar(props: ToolbarProps) {

@@ -31,7 +31,10 @@ export default class LayerManager {
   }
 
   public getLayers(): Layer[] {
-    return this.layers;
+    const layers: Layer[] = [];
+    this.layers.map(layer => layers.push(layer));
+
+    return layers;
   }
 
   public getLayer(index: number): Layer {
@@ -54,5 +57,17 @@ export default class LayerManager {
     } catch (error) {
       return false;
     }
+  }
+
+  public getWidth(): number {
+    return this.layersWidth;
+  }
+
+  public getHeight(): number {
+    return this.layersHeight;
+  }
+
+  public setLayers(layers: Layer[]) {
+    this.layers = layers;
   }
 }

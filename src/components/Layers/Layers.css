@@ -19,4 +19,9 @@
   align-items: center;
   padding: 8px;
   min-width: 164px;
+  background-color: var(--dark-600);
+}
+
+.LayerItem.selected {
+  background-color: var(--dark-700);
 }

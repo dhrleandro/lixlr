@@ -7,5 +7,6 @@ export interface AppState {
   primaryColor: ColorRgb,
   secondaryColor: ColorRgb,
   selectedTool: ToolType,
-  layers: LayerManager
+  layers: LayerManager,
+  selectedLayer: number,
 }
