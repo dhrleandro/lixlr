@@ -164,7 +164,7 @@ export default class CanvasPixelEditor {
     // https://stackoverflow.com/questions/48124372/pointermove-event-not-working-with-touch-why-not
 
     this.canvasReference.style.cssText = `
-      background: url(canvas-background.png) repeat;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEAAACxABrSO9dQAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAWklEQVRIS+3NoQ0AMAwDwe6/ZEdJycvkVRjmIwGvyGc+7gdZyNKBIEsHgiz7A1zhT8hClg4EWToQZNkf4Ap/QhaydCDI0oEgy/4AV/gTspClA0GWDgRZlgdmHkchNKbvgjVKAAAAAElFTkSuQmCC') repeat;
       image-rendering: optimizeSpeed;
       image-rendering: optimizeContrast;
       image-rendering: -webkit-optimize-contrast;
