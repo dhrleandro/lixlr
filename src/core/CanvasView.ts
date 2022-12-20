@@ -16,6 +16,7 @@ import { ToolType } from "./tools/ToolType";
 import { Tool } from "./tools/Tool";
 import Factory from "./tools/Factory";
 import { ToolProperty } from "./tools/Property";
+import PinchGesture from "./utils/PinchGesture";
 
 export default class CanvasView extends AbstractStateObserver {
 
@@ -29,6 +30,8 @@ export default class CanvasView extends AbstractStateObserver {
   private currentTransformedCursor: DOMPoint = new DOMPoint(0, 0);
 
   private toolState: Tool | undefined;
+
+  private pinchGesture: PinchGesture;
 
   constructor(containerReference: HTMLDivElement, stateManager: Subject) {
     super(stateManager);
@@ -60,6 +63,8 @@ export default class CanvasView extends AbstractStateObserver {
     this.context = context;
 
     this.requestDraw();
+
+    this.pinchGesture = new PinchGesture(this.containerReference, this.handlePinchIn.bind(this), this.handlePinchOut.bind(this));
   }
 
   // get containerDiv browser mouse coordinates
@@ -144,9 +149,7 @@ export default class CanvasView extends AbstractStateObserver {
     this.requestDraw();
   }
 
-  private handleWheel(event: WheelEvent) {
-    const zoom = event.deltaY < 0 ? 1.1 : 0.9;
-
+  private zoom(zoom: number) {
     this.context.translate(this.currentTransformedCursor.x, this.currentTransformedCursor.y);
     this.context.scale(zoom, zoom);
     this.context.translate(-this.currentTransformedCursor.x, -this.currentTransformedCursor.y);
@@ -158,8 +161,22 @@ export default class CanvasView extends AbstractStateObserver {
       type: ActionType.SET_ZOOM,
       value: matrix.a
     }); // scaleX: matrix.a, scaleY: matrix.d
+  }
+
+  private handleWheel(event: WheelEvent) {
+    const zoom = event.deltaY < 0 ? 1.1 : 0.9;
+
+    this.zoom(zoom);
 
     event.preventDefault();
+  }
+
+  private handlePinchIn() {
+    this.zoom(1.1);
+  }
+
+  private handlePinchOut() {
+    this.zoom(0.9);
   }
 
   private drawGrid() {
@@ -251,6 +268,8 @@ export default class CanvasView extends AbstractStateObserver {
     this.canvas.addEventListener('pointermove', this.handlePointerMove.bind(this));
     this.canvas.addEventListener('pointerup', this.handlePointerUp.bind(this));
     this.canvas.addEventListener('wheel', this.handleWheel.bind(this));
+
+    this.pinchGesture.mountEvents();
   }
 
   public unmountEvents() {
@@ -259,6 +278,8 @@ export default class CanvasView extends AbstractStateObserver {
     this.canvas.removeEventListener('pointermove', this.handlePointerMove.bind(this));
     this.canvas.removeEventListener('pointerup', this.handlePointerUp.bind(this));
     this.canvas.removeEventListener('wheel', this.handleWheel.bind(this));
+
+    this.pinchGesture.unmountEvents();
   }
 
   public setChild(child: ViewChild) {
