@@ -4,7 +4,8 @@ import { createInitialAppState, State } from "./State";
 
 export enum ActionType {
   ZOOM_UP = "ZOOM_UP",
-  ZOOM_DOWN = "ZOOM_DOWN"
+  ZOOM_DOWN = "ZOOM_DOWN",
+  SET_ZOOM = "SET_ZOOM",
 }
 
 export type Action =
@@ -12,6 +13,7 @@ export type Action =
   | { type: 'SELECT_COLOR'; value: string }
   | { type: 'ZOOM_UP'; value: number }
   | { type: 'ZOOM_DOWN'; value: number }
+  | { type: 'SET_ZOOM'; value: number }
 //  | { type: 'SET_LAYER_MANAGER'; layerManager: LayerManager }
 //  | { type: 'SELECT_LAYER'; id: number }
 //  | { type: 'DELETE_LAYER'; id: number }
@@ -112,6 +114,8 @@ export const reducer = (state: State, action: Action): State => {
     case 'ZOOM_DOWN':
       return zoomDown(state, action.value);
 
+    case 'SET_ZOOM':
+      return { ...state, scale: action.value };
   /*
     case 'SET_LAYER_MANAGER':
       const lastId = action.layerManager.getLastLayerId();

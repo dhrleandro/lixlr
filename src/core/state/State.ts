@@ -6,7 +6,7 @@ export interface State {
 
 export function createInitialAppState(): State {
   const appState: State = {
-    scale: 0
+    scale: 1
   }
 
   return appState;

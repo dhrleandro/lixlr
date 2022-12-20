@@ -4,6 +4,7 @@ import Rect2D from "./entities/Rect2D";
 import PixelEditor from "./PixelEditor";
 import StateManager from "./state/StateManager";
 import { createInitialAppState, State } from "./state/State";
+import { ActionType, makeAction } from "./state/Store";
 
 export default class App extends StateManager {
 
@@ -14,7 +15,16 @@ export default class App extends StateManager {
 
     this.appView = new CanvasView(containerReference, this);
 
-    const child = new PixelEditor(Point2D.create(0, 0), Rect2D.create(200, 200));
+    // create PixelEditor centered
+    const containerReact = containerReference.getBoundingClientRect();
+    const size = Rect2D.create(300,300);
+    const centerX = containerReact.width / 2;
+    const centerY = containerReact.height / 2;
+    const position = Point2D.create(
+      Math.floor(centerX - size.width/2),
+      Math.floor(centerY - size.height/2)
+    );
+    const child = new PixelEditor(position, size);
     this.appView.setChild(child);
   }
 

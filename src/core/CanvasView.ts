@@ -79,7 +79,7 @@ export default class CanvasView extends AbstractStateObserver {
     this.requestDraw();
 
     const matrix = this.context.getTransform();
-    this.stateManager?.updateState(makeAction(ActionType.ZOOM_UP, matrix.a)); // scaleX: matrix.a, scaleY: matrix.d
+    this.stateManager?.updateState(makeAction(ActionType.SET_ZOOM, matrix.a)); // scaleX: matrix.a, scaleY: matrix.d
 
     event.preventDefault();
   }
