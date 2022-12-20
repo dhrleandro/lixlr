@@ -16,13 +16,14 @@ export default class BrushEraser extends BaseTool {
   private lastPoint: Point2D;
   private paintStart: boolean;
 
-  private readonly PROP_COLOR = 'color';
-  private color: RGBA;
+  private color: RGBA = RGBA.create(0,0,0,255);
 
   private readonly PROP_SIZE = 'size';
   private size: number = 10;
 
   private brush: BrushConfig | undefined = undefined;
+
+  private preview: HTMLCanvasElement | undefined;
 
   constructor() {
     super();
@@ -30,16 +31,12 @@ export default class BrushEraser extends BaseTool {
     this.lastPoint = Point2D.create(0,0);
     this.paintStart = false;
 
-    this.color = RGBA.create(0,0,0);
-
-    this.addColorProperty(this.PROP_COLOR, RGBA.create(0,0,0));
     this.addNumberProperty(this.PROP_SIZE, 10);
 
     this.createBrush();
   }
 
   private createBrush() {
-    this.color = this.getProperty('color')?.value as RGBA;
     this.size = this.getProperty('size')?.value as number;
 
     const canvas = document.createElement('canvas');
@@ -118,5 +115,33 @@ export default class BrushEraser extends BaseTool {
     this.paintStart = false;
     this.lastPoint = point;
     context.restore();
+  }
+
+  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+    if (!this.preview) {
+      this.preview = document.createElement("canvas");
+
+      this.size = this.getProperty('size')?.value as number;
+      const radius = this.size;
+      const diameter = (radius*2)+5; // 5px safety margin
+      this.preview.width = diameter;
+      this.preview.height = diameter;
+
+      const ctx = this.preview.getContext('2d') as CanvasRenderingContext2D;
+
+      const center = Point2D.create(
+        Math.floor(this.preview.width/2),
+        Math.floor(this.preview.height/2)
+      );
+
+      ctx.imageSmoothingEnabled = false;
+      const color = RGBA.create(255, 0, 255);
+      const circle = circlePoints(center.x, center.y, radius);
+        circle.forEach(item => {
+        putPixel(item.x, item.y, ctx, color);
+      });
+    }
+
+    return this.preview;
   }
 }

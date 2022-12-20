@@ -109,8 +109,8 @@ export default class PixelEditor extends BaseViewChild {
 
     if (this.previewTool) {
       const previewPoint = Point2D.create(
-        (this.previewPoint.x - (this.previewTool.width/2)),
-        (this.previewPoint.y - (this.previewTool.height/2)),
+        Math.floor((this.previewPoint.x - (this.previewTool.width/2))),
+        Math.floor((this.previewPoint.y - (this.previewTool.height/2))),
       );
       ctx.drawImage(this.previewTool, previewPoint.x, previewPoint.y);
     }
