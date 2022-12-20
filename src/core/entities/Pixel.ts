@@ -1,18 +1,18 @@
-import ColorRgb from "./ColorRgb";
+import ColorRgba from "./ColorRgba";
 
 export default class Pixel {
 
   public x: number;
   public y: number;
-  private color: ColorRgb;
+  private color: ColorRgba;
 
   constructor(x: number, y: number, red: number, green: number, blue: number) {
     this.x = x;
     this.y = y;
-    this.color = ColorRgb.create(red, green, blue);
+    this.color = ColorRgba.create(red, green, blue);
   }
 
-  public getColorRgb(): ColorRgb {
+  public getColorRgba(): ColorRgba {
     return this.color;
   }
 

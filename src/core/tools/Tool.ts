@@ -1,4 +1,4 @@
-import ColorRgb from "../entities/ColorRgb";
+import ColorRgba from "../entities/ColorRgba";
 import Point from "../entities/Point";
 import { ToolProperty, ToolPropertyType, createToolProperty } from "./Property";
 import { ToolType } from "./Type";
@@ -12,7 +12,7 @@ export interface Tool {
   getToolProperties(): Map<string, ToolProperty>;
   addTextProperty(name: string, value: string): void | Error;
   addNumberProperty(name: string, value: number): void | Error;
-  addColorProperty(name: string, value: ColorRgb): void | Error;
+  addColorProperty(name: string, value: ColorRgba): void | Error;
   // addBrushProperty(name: string, value: Brush): void | Error;
 
   setCanvasContext(context: CanvasRenderingContext2D): void;
@@ -69,7 +69,7 @@ export abstract class BaseTool implements Tool {
     }
   }
 
-  addColorProperty(name: string, value: ColorRgb): void | Error {
+  addColorProperty(name: string, value: ColorRgba): void | Error {
     try {
       const property = createToolProperty(ToolPropertyType.COLOR, value);
       this.addProperty(name, property);

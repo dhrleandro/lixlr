@@ -1,4 +1,4 @@
-import ColorRgb from "../entities/ColorRgb";
+import ColorRgba from "../entities/ColorRgba";
 
 export enum ToolPropertyType {
   NUMBER = 'NUMBER',
@@ -9,13 +9,13 @@ export enum ToolPropertyType {
 
 export interface ToolProperty {
   type: ToolPropertyType;
-  value: string | number | ColorRgb | undefined;
+  value: string | number | ColorRgba | undefined;
   minValue: number | undefined;
   maxValue: number | undefined;
 }
 
 export function createToolProperty(type: ToolPropertyType,
-  value: (string | number | ColorRgb | undefined),
+  value: (string | number | ColorRgba | undefined),
   minValue: (number | undefined) = undefined,
   maxValue: (number | undefined) = undefined): ToolProperty {
 

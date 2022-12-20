@@ -1,4 +1,4 @@
-import ColorRgb from "../entities/ColorRgb";
+import ColorRgba from "../entities/ColorRgba";
 import Point from "../entities/Point";
 import { BaseTool } from "./Tool";
 import { ToolType } from "./Type";
@@ -11,16 +11,16 @@ export default class PenTool extends BaseTool {
   private static readonly SIZE: number = 1;
   private lastPoint: Point;
   private paintStart: boolean;
-  private color: ColorRgb;
+  private color: ColorRgba;
 
   constructor(context: CanvasRenderingContext2D) {
     super(context);
 
     this.lastPoint = Point.create(0,0);
     this.paintStart = false;
-    this.color = ColorRgb.create(0,0,0);
+    this.color = ColorRgba.create(0,0,0);
 
-    this.addColorProperty('color', ColorRgb.create(0,0,0));
+    this.addColorProperty('color', ColorRgba.create(0,0,0));
   }
 
   private putPoints(points: Point[]) {
@@ -32,7 +32,7 @@ export default class PenTool extends BaseTool {
   public onPointerDown(point: Point): void {
     this.paintStart = true;
     this.lastPoint = point;
-    this.color = this.getProperty('color')?.value as ColorRgb;
+    this.color = this.getProperty('color')?.value as ColorRgba;
     putPixel(Math.floor(point.x), Math.floor(point.y), this.context, this.color);
   }
 

@@ -1,11 +1,5 @@
+import ColorRgba from "./ColorRgba";
 import Pixel from "./Pixel";
-
-type RGBA = {
-  red: number,
-  green: number,
-  blue: number,
-  alpha: number
-}
 
 export default class Layer {
 
@@ -29,34 +23,38 @@ export default class Layer {
     return this.pixels;
   }
 
-  private setImageDataPixel = (imageData: ImageData, pixel: Pixel): ImageData => {
+  public setImageDataPixel = (imageData: ImageData, pixel: Pixel): ImageData => {
     const red = pixel.y * (imageData.width * 4) + pixel.x * 4;
     const green = red + 1;
     const blue = red + 2;
     const alpha = red + 3;
 
-    const colorRgb = pixel.getColorRgb();
-    imageData.data[red] = colorRgb.red;
-    imageData.data[green] = colorRgb.green;
-    imageData.data[blue] = colorRgb.blue;
+    const ColorRgba = pixel.getColorRgba();
+    imageData.data[red] = ColorRgba.red;
+    imageData.data[green] = ColorRgba.green;
+    imageData.data[blue] = ColorRgba.blue;
     imageData.data[alpha] = 255;
 
     return imageData;
   };
 
-  private getImageDataColor = (imageData: ImageData, x: number, y: number): RGBA => {
+  public getImageDataColor = (imageData: ImageData, x: number, y: number): ColorRgba => {
     const red = y * (imageData.width * 4) + x * 4;
     const green = red + 1;
     const blue = red + 2;
     const alpha = red + 3;
 
-    return {
+    const rgba = {
       red: imageData.data[red],
       green: imageData.data[green],
       blue: imageData.data[blue],
       alpha: imageData.data[alpha]
     };
+
+    return new ColorRgba(rgba.red, rgba.green, rgba.blue, rgba.alpha);
   };
+
+  public putPoint(x: number, y: number, rgba: ColorRgba) {}
 
   public render(): ImageData {
     return this.pixels;

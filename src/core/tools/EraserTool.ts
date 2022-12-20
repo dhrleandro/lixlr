@@ -1,4 +1,4 @@
-import ColorRgb from "../entities/ColorRgb";
+import ColorRgba from "../entities/ColorRgba";
 import Point from "../entities/Point";
 import { BaseTool } from "./Tool";
 import { ToolType } from "./Type";

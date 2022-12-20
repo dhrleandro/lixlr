@@ -1,11 +1,11 @@
-import ColorRgb from "./entities/ColorRgb";
+import ColorRgba from "./entities/ColorRgba";
 import LayerManager from "./LayerManager";
 import { ToolType } from "./tools/Type";
 
 export interface AppState {
   scale: number,
-  primaryColor: ColorRgb,
-  secondaryColor: ColorRgb,
+  primaryColor: ColorRgba,
+  secondaryColor: ColorRgba,
   selectedTool: ToolType,
   layers: LayerManager,
   selectedLayer: number

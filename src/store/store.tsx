@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 import { AppState } from '../core/AppState';
-import ColorRgb from '../core/entities/ColorRgb';
+import ColorRgba from '../core/entities/ColorRgba';
 import Layer from '../core/entities/Layer';
 import LayerManager from '../core/LayerManager';
 import { ToolType } from '../core/tools/Type';
@@ -19,8 +19,8 @@ type Action =
 
 const initialState: AppState = {
   scale: 1,
-  primaryColor: ColorRgb.create(0, 0, 0),
-  secondaryColor: ColorRgb.create(0, 0, 0),
+  primaryColor: ColorRgba.create(0, 0, 0),
+  secondaryColor: ColorRgba.create(0, 0, 0),
   selectedTool: ToolType.HAND,
   layers: new LayerManager(0, 0),
   selectedLayer: 0
@@ -32,7 +32,7 @@ function setColor(appState: AppState, color: string): AppState {
   if (values.length >= 3) {
     const state = {
       ...appState,
-      primaryColor: ColorRgb.create(
+      primaryColor: ColorRgba.create(
         parseInt(values[0]),
         parseInt(values[1]),
         parseInt(values[2])

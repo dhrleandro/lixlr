@@ -1,8 +1,8 @@
-import ColorRgb from "../entities/ColorRgb";
+import ColorRgba from "../entities/ColorRgba";
 import Point from "../entities/Point";
 
 /*
-export function putPixel(x: number, y: number, context: CanvasRenderingContext2D, color: ColorRgb) {
+export function putPixel(x: number, y: number, context: CanvasRenderingContext2D, color: ColorRgba) {
   const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
   const red = Math.floor(y) * (imgData.width * 4) + Math.floor(x) * 4;
   const green = red + 1;
@@ -18,7 +18,7 @@ export function putPixel(x: number, y: number, context: CanvasRenderingContext2D
 }
 */
 
-export function putPixel(x: number, y: number, context: CanvasRenderingContext2D, color: ColorRgb) {
+export function putPixel(x: number, y: number, context: CanvasRenderingContext2D, color: ColorRgba) {
   const imgData = new ImageData(1,1);
   imgData.data[0] = color.red;
   imgData.data[1] = color.green;
