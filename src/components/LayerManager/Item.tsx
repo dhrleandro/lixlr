@@ -14,9 +14,20 @@ type LayerItemPorps = {
 
 function Item(props: LayerItemPorps) {
 
+  const canvas = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    // append the layer canvas reference
+    canvas.current?.appendChild(props.layer.canvas);
+  });
+
   return (
     <div className={`${styles.layerItem} ${props.selected ? styles.itemSelected : ''}`}>
+
+      <div className={styles.layerCanvas} ref={canvas}></div>
+
       <span>{props.layer.getName()}</span>
+
       <div className={styles.flex}>
         <Button
           w={24}

@@ -146,7 +146,7 @@ export default class PixelEditor extends BaseViewChild {
       const mouse = this.globalToLocalCoordinates(point);
       const ctx = this.getLayerContext(state)
       if (ctx)
-        tool?.onPointerDown(mouse, ctx);
+        tool?.onPointerMove(mouse, ctx);
     }
   }
 
@@ -155,6 +155,6 @@ export default class PixelEditor extends BaseViewChild {
     const mouse = this.globalToLocalCoordinates(point);
     const ctx = this.getLayerContext(state)
     if (ctx)
-      tool?.onPointerDown(mouse, ctx);
+      tool?.onPointerUp(mouse, ctx);
   }
 }

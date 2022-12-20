@@ -2,11 +2,10 @@ import RGBA from "../entities/RGBA";
 import Point2D from "../entities/Point2D";
 import { BaseTool } from "./Tool";
 import { ToolType } from "./ToolType";
-import { putPixel, drawLine } from "../utils/graphic";
 
-export default class Pen extends BaseTool {
+export default class Brush extends BaseTool {
 
-  public readonly type = ToolType.PEN;
+  public readonly type = ToolType.BRUSH;
   public readonly cursorCss: string = 'crosshair';
   private lastPoint: Point2D;
   private paintStart: boolean;
@@ -17,39 +16,37 @@ export default class Pen extends BaseTool {
 
     this.lastPoint = Point2D.create(0,0);
     this.paintStart = false;
+
     this.color = RGBA.create(0,0,0);
 
     this.addColorProperty('color', RGBA.create(0,0,0));
   }
 
-  private putPoints(points: Point2D[], context: CanvasRenderingContext2D) {
-    points.forEach(point => {
-      putPixel(point.x, point.y, context, this.color);
-    });
-  }
-
   public onPointerDown(point: Point2D, context: CanvasRenderingContext2D): void {
+    console.log('haha');
     this.paintStart = true;
     this.lastPoint = point;
     this.color = this.getProperty('color')?.value as RGBA;
-    putPixel(Math.floor(point.x), Math.floor(point.y), context, this.color);
+    context.save();
   }
 
   public onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void {
     this.paintStart = false;
     this.lastPoint = point;
+    context.restore();
   }
 
   public onPointerMove(point: Point2D, context: CanvasRenderingContext2D): void {
-    if (!this.paintStart) return;
 
-    const last = this.lastPoint;
-
-    if (Math.abs(point.x-last.x) > 1 || Math.abs(point.y-last.y) > 1) {
-      const linePoints = drawLine(last.x, last.y, point.x, point.y);
-      this.putPoints(linePoints, context);
-    } else {
-      putPixel(Math.floor(point.x), Math.floor(point.y), context, this.color);
+    if (this.paintStart) {
+      context.fillStyle = this.color.rgbaCss;
+      context.strokeStyle = this.color.rgbaCss;
+      context.lineWidth = 100;
+      context.lineCap = 'round';
+      context.beginPath();
+      context.moveTo(this.lastPoint.x, this.lastPoint.y);
+      context.lineTo(point.x, point.y);
+      context.stroke();
     }
 
     this.lastPoint = point;
