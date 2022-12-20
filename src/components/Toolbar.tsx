@@ -16,9 +16,9 @@ function Toolbar(props: ToolbarProps) {
 
   return (
     <div className="Toolbar">
-      <Button click={props.pen} w={32} h={32}><Pencil></Pencil></Button>
-      <Button click={props.brush} w={32} h={32}><Brush></Brush></Button>
-      <Button click={props.hand} w={32} h={32}><Hand></Hand></Button>
+      <Button click={props.pen} w={32} h={32}><Pencil /></Button>
+      <Button click={props.brush} w={32} h={32}><Brush /></Button>
+      <Button click={props.hand} w={32} h={32}><Hand /></Button>
       {/* <Button click={props.center}>C</Button> */}
     </div>
   );

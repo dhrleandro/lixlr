@@ -5,7 +5,8 @@ type ButtonPorps = {
   color?: string;
   children?: React.ReactNode;
   w?: number,
-  h?: number
+  h?: number,
+  style?: React.CSSProperties
 }
 
 function Button(props: ButtonPorps) {
@@ -16,11 +17,18 @@ function Button(props: ButtonPorps) {
     if (props.click)
       props.click(event);
   }
+
   return (
     <button
       onClick={handleClick}
       className="Button"
-      style={{backgroundColor: props.color, width: props.w, height: props.h}}
+      style={{
+        backgroundColor: props.color,
+        width: props.w,
+        height: props.h,
+        cursor: 'grab',
+        ...props.style
+      }}
     >
       {props.children}
     </button>
