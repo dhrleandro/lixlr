@@ -147,4 +147,14 @@ export default class Brush extends BaseTool {
   //   if (name === this.PROP_SIZE)
   //     this.createBrush();
   // }
+
+  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+    const color = this.getProperty('color')?.value as RGBA;
+    const size = this.getProperty('size')?.value as number;
+
+    if (this.color !== color || this.size !== size)
+      this.createBrush();
+
+    return this.brush!.canvas;
+  }
 }

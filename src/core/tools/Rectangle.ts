@@ -15,6 +15,8 @@ export default class Rectangle extends BaseTool {
   private canvasBackup: HTMLCanvasElement | undefined;
   private backupContext: CanvasRenderingContext2D | undefined;
 
+  private preview: HTMLCanvasElement | undefined;
+
   constructor() {
     super();
 
@@ -75,5 +77,19 @@ export default class Rectangle extends BaseTool {
 
   public onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void {
     this.paintStart = false;
+  }
+
+  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+    if (!this.preview) {
+      this.preview = document.createElement("canvas");
+      this.preview.width = 1;
+      this.preview.height = 1;
+      const ctx = this.preview.getContext('2d') as CanvasRenderingContext2D;
+      this.color = this.getProperty('color')?.value as RGBA;
+      ctx.fillStyle = this.color.rgbaCss;
+      ctx.fillRect(0, 0, 1, 1);
+    }
+
+    return this.preview;
   }
 }

@@ -120,6 +120,8 @@ export default class PixelEditor extends BaseViewChild {
     // draw tool preview
     if (tool.type === ToolType.PEN ||
         tool.type === ToolType.BRUSH ||
+        tool.type === ToolType.LINE ||
+        tool.type === ToolType.RECTANGLE ||
         tool.type === ToolType.ERASER
     ) {
       this.previewTool = tool.getPreview(point, this.getContext());
