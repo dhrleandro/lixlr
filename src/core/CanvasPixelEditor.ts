@@ -17,6 +17,11 @@ export default class CanvasPixelEditor {
     context: CanvasRenderingContext2D
   };
 
+  private renderBuffer: {
+    canvas: HTMLCanvasElement,
+    context: CanvasRenderingContext2D
+  };
+
   private selectedLayer: number;
 
 
@@ -37,6 +42,14 @@ export default class CanvasPixelEditor {
     this.virtualLayer = {
       canvas: virutalCanvas,
       context: virutalCanvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D
+    }
+
+    const renderBufferCanvas = document.createElement('canvas');
+    renderBufferCanvas.width = canvasReference.width;
+    renderBufferCanvas.height = canvasReference.height;
+    this.renderBuffer = {
+      canvas: renderBufferCanvas,
+      context: renderBufferCanvas.getContext('2d') as CanvasRenderingContext2D
     }
 
     const imgData = new ImageData(canvasReference.width, canvasReference.height);
@@ -123,17 +136,13 @@ export default class CanvasPixelEditor {
 
   private async renderLayers() {
     // render all layers
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = this.canvasReference.width;
-    tempCanvas.height = this.canvasReference.height;
-    const tempContext = tempCanvas.getContext('2d') as CanvasRenderingContext2D;
-    this.context.clearRect(0, 0, this.canvasReference.width, this.canvasReference.height);
+    //this.context.clearRect(0, 0, this.canvasReference.width, this.canvasReference.height);
     this.appState.layers.getLayers().forEach((layer, index) => {
 
       const layerRendered = layer.render();
       // tempContext.clearRect(0,0,tempCanvas.width, tempCanvas.height);
-      tempContext.putImageData(layerRendered, 0, 0);
-      this.context.drawImage(tempCanvas, 0, 0);
+      this.renderBuffer.context.putImageData(layerRendered, 0, 0);
+      this.context.drawImage(this.renderBuffer.canvas, 0, 0);
 
       if (index === this.selectedLayer)
         this.context.drawImage(this.virtualLayer.canvas, 0, 0);
