@@ -1,13 +1,17 @@
 import React from "react";
 import { ActionType } from "../core/state/Store";
-import { Minus, Plus } from "../icons";
+import { ArrowsPointingIn, Minus, Plus } from "../icons";
 import { useDispatch, useTrackedState } from "../state/store";
 import styles from "../styles/Zoom.module.css";
 import Button from "./Button";
 import Container from "./Container";
 import Text from "./Text";
 
-function Zoom() {
+interface ZoomProps {
+  recenterEditor?: () => void;
+}
+
+function Zoom(props: ZoomProps) {
 
   const dispatch = useDispatch();
   const stateManager = useTrackedState();
@@ -16,42 +20,52 @@ function Zoom() {
   React.useEffect(() => {}, [stateManager.state.scale]);
 
   return (
-    <Container className={styles.zoom}>
+    <div className={styles.container}>
 
       <Button
+        className={`${styles.centerButton} ${styles.iconSize}`}
         light={true}
-        w={32}
-        h={32}
-        className={styles.iconSize}
-        click={() => {
-          const value = stateManager.state.scale - 0.1;
-          dispatch({ type: ActionType.SET_ZOOM, value });
-        }}
+        click={props.recenterEditor}
       >
-        <Minus />
+        <ArrowsPointingIn />
       </Button>
 
-      <span className={styles.vr}></span>
+      <Container className={styles.zoom}>
+        <Button
+          light={true}
+          w={32}
+          h={32}
+          className={styles.iconSize}
+          click={() => {
+            const value = stateManager.state.scale - 0.1;
+            dispatch({ type: ActionType.SET_ZOOM, value });
+          }}
+        >
+          <Minus />
+        </Button>
 
-      <div className={styles.zoomValue}>
-        <Text>{zoom}%</Text>
-      </div>
+        <span className={styles.vr}></span>
 
-      <span className={styles.vr}></span>
+        <div className={styles.zoomValue}>
+          <Text>{zoom}%</Text>
+        </div>
 
-      <Button
-        light={true}
-        w={32}
-        h={32}
-        className={styles.iconSize}
-        click={() => {
-          const value = stateManager.state.scale + 0.1;
-          dispatch({ type: ActionType.SET_ZOOM, value });
-        }}
-      >
-        <Plus />
-      </Button>
-    </Container>
+        <span className={styles.vr}></span>
+
+        <Button
+          light={true}
+          w={32}
+          h={32}
+          className={styles.iconSize}
+          click={() => {
+            const value = stateManager.state.scale + 0.1;
+            dispatch({ type: ActionType.SET_ZOOM, value });
+          }}
+        >
+          <Plus />
+        </Button>
+      </Container>
+    </div>
   );
 }
 

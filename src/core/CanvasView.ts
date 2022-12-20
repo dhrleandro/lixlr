@@ -153,6 +153,10 @@ export default class CanvasView extends AbstractStateObserver {
   }
 
   private handlePointerUp(event: PointerEvent): void {
+    const matrix = this.context.getTransform();
+    const _offset = this.getOffsetPoint(event);
+    const _currentTransformedCursor = this.getTransformedPoint(_offset.x, _offset.y);
+
     if (this.isDragging) {
       this.isDragging = false;
       return;
@@ -338,6 +342,18 @@ export default class CanvasView extends AbstractStateObserver {
 
   public setChild(child: ViewChild) {
     this.child = child;
+    this.recenterEditor();
+  }
+
+  public recenterEditor() {
+    if (!this.child || !this.state)
+      return;
+
+    const matrix = this.context.getTransform();
+    matrix.e = this.canvas.width/2 - (this.child.getSize().width/2*this.state.scale)
+    matrix.f = this.canvas.height/2 - (this.child.getSize().height/2*this.state.scale)
+    this.context.setTransform(matrix);
+    this.requestDraw();
   }
 
   private setTrasformMatrixScale(zoom: number) {

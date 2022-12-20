@@ -17,14 +17,8 @@ export default class App {
     this.attachObservers();
 
     // create PixelEditor centered
-    const containerReact = containerReference.getBoundingClientRect();
     const size = this.stateManager.state.sheetSize;
-    const centerX = containerReact.width / 2;
-    const centerY = containerReact.height / 2;
-    const position = Point2D.create(
-      Math.floor(centerX - size.width/2),
-      Math.floor(centerY - size.height/2)
-    );
+    const position = Point2D.create(0, 0);
     const child = new PixelEditor(position, size);
     this.appView.setChild(child);
   }
@@ -52,6 +46,10 @@ export default class App {
 
   public setState(state: State): void {
     this.stateManager.setAppState(state);
+  }
+
+  public recenterEditor() {
+    this.appView.recenterEditor();
   }
 
   public static create(containerReference: HTMLDivElement, stateManager: StateManager): App {

@@ -22,4 +22,12 @@ export const useCanvasPixelEditor = (containerReference: React.RefObject<HTMLDiv
     }
 
   }, [containerReference, stateManager]);
+
+  const recenterEditor = () => {
+    pixelEditorApp.current?.recenterEditor();
+  }
+
+  return {
+    recenterEditor,
+  }
 }

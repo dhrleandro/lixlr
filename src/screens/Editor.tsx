@@ -15,7 +15,7 @@ function Editor() {
   const container = React.useRef<HTMLDivElement>(null);
 
   const appState = useTrackedState();
-  useCanvasPixelEditor(container, appState);
+  const { recenterEditor } = useCanvasPixelEditor(container, appState);
 
   React.useEffect(() => {}, [appState, container]);
 
@@ -33,7 +33,7 @@ function Editor() {
 
       <LayerManager/>
       <ToolProperty/>
-      <Zoom />
+      <Zoom recenterEditor={recenterEditor} />
     </Container>
   );
 }
