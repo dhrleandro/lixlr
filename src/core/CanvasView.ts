@@ -1,7 +1,9 @@
 import Point2D from "./entities/Point2D";
+import AbstractStateObserver from "./state/AbstractStateObserver";
+import { State } from "./state/State";
 import { ViewChild } from "./ViewChild";
 
-export default class CanvasView {
+export default class CanvasView extends AbstractStateObserver {
 
   private containerReference: HTMLDivElement;
   private canvas: HTMLCanvasElement;
@@ -13,7 +15,8 @@ export default class CanvasView {
   private dragStartPosition: DOMPoint = new DOMPoint(0, 0);
   private currentTransformedCursor: DOMPoint = new DOMPoint(0, 0);
 
-  constructor(containerReference: HTMLDivElement) {
+  constructor(containerReference: HTMLDivElement, appState: State) {
+    super(appState);
     this.containerReference = containerReference;
 
     const canvas = document.createElement('canvas');

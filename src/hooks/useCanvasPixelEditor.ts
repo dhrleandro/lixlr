@@ -9,7 +9,7 @@ export const useCanvasPixelEditor = (containerReference: React.RefObject<HTMLDiv
     if (!containerReference.current) return;
 
     if (!pixelEditorApp.current) {
-      pixelEditorApp.current = new App(containerReference.current);
+      pixelEditorApp.current = App.create(containerReference.current);
       pixelEditorApp.current!.mountEvents();
     }
     // pixelEditorApp.current.setAppState(appState);
