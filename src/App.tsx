@@ -19,10 +19,9 @@ function App() {
 
   return (
     <Container className={`App ${theme}`}>
-      <Container style={{padding: '16px'}}>
+      <div style={{position: 'absolute', top: '0', right: '8px', padding: '16px'}}>
         <ThemeSwitcher />
-        <Text><h1>The New Prologue</h1></Text>
-      </Container>
+      </div>
     </Container>
   );
 }
