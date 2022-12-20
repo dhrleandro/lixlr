@@ -10,7 +10,7 @@ export default class App {
   constructor(containerReference: HTMLDivElement) {
     this.appView = new CanvasView(containerReference);
 
-    const child = new PixelEditor(Point2D.create(0, 0), Rect2D.create(800, 800 ));
+    const child = new PixelEditor(Point2D.create(0, 0), Rect2D.create(200, 200));
     this.appView.setChild(child);
   }
 
