@@ -2,7 +2,7 @@ import RGBA from "../entities/RGBA";
 import Point2D from "../entities/Point2D";
 import { BaseTool } from "./Tool";
 import { ToolType } from "./ToolType";
-import { putPixel, drawLine } from "../utils/graphic";
+import { putPixel, drawLinePoints } from "../utils/graphic";
 
 export default class Pen extends BaseTool {
 
@@ -46,7 +46,7 @@ export default class Pen extends BaseTool {
     const last = this.lastPoint;
 
     if (Math.abs(point.x-last.x) > 1 || Math.abs(point.y-last.y) > 1) {
-      const linePoints = drawLine(last.x, last.y, point.x, point.y);
+      const linePoints = drawLinePoints(last.x, last.y, point.x, point.y);
       this.putPoints(linePoints, context);
     } else {
       putPixel(Math.floor(point.x), Math.floor(point.y), context, this.color);

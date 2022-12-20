@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { AppStateProvider } from "./state/store";
 import { ThemeProvider } from "./context/ThemeContext";
 
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
