@@ -1,12 +1,15 @@
 import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import { State } from "./state/State";
+import { Tool } from "./tools/Tool";
 import { BaseViewChild } from "./ViewChild";
 
 export default class PixelEditor extends BaseViewChild {
 
   private gridCacheHighZoom: HTMLCanvasElement | undefined;
   private gridCacheLowZoom: HTMLCanvasElement | undefined;
+
+  private mouseDown: boolean = false;
 
   constructor(position?: Point2D, size?: Rect2D) {
     super(position, size);
@@ -99,5 +102,19 @@ export default class PixelEditor extends BaseViewChild {
     this.size = size;
     this.gridCacheHighZoom = undefined;
     this.gridCacheLowZoom = undefined;
+  }
+
+  public handlePointerDown(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
+    this.mouseDown = true;
+  }
+
+  public handlePointerMove(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
+    if (this.mouseDown) {
+      //
+    }
+  }
+
+  public handlePointerUp(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
+    this.mouseDown = false;
   }
 }

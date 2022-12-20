@@ -1,6 +1,7 @@
 import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import { State } from "./state/State";
+import { Tool } from "./tools/Tool";
 
 export interface ViewChild {
   getPosition(): Point2D;
@@ -8,9 +9,9 @@ export interface ViewChild {
   getSize(): Rect2D;
   setSize(size: Rect2D): void;
   getRenderedView(state?: Readonly<State>): HTMLCanvasElement;
-  handlePointerDown(event: PointerEvent): void;
-  handlePointerMove(event: PointerEvent): void;
-  handlePointerUp(event: PointerEvent): void;
+  handlePointerDown(point: Point2D, tool?: Tool, state?: Readonly<State>): void;
+  handlePointerMove(point: Point2D, tool?: Tool, state?: Readonly<State>): void;
+  handlePointerUp(point: Point2D, tool?: Tool, state?: Readonly<State>): void;
 }
 
 export abstract class BaseViewChild implements ViewChild {
@@ -60,15 +61,7 @@ export abstract class BaseViewChild implements ViewChild {
     return this.canvas;
   }
 
-  public handlePointerDown(event: PointerEvent): void {
-
-  }
-
-  public handlePointerMove(event: PointerEvent): void {
-
-  }
-
-  public handlePointerUp(event: PointerEvent): void {
-
-  }
+  public abstract handlePointerDown(point: Point2D, tool?: Tool, state?: Readonly<State>): void;
+  public abstract handlePointerMove(point: Point2D, tool?: Tool, state?: Readonly<State>): void;
+  public abstract handlePointerUp(point: Point2D, tool?: Tool, state?: Readonly<State>): void;
 }

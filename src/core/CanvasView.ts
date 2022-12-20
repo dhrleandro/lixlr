@@ -86,35 +86,63 @@ export default class CanvasView extends AbstractStateObserver {
     return hitTest(currentTransformedCursor, this.child.getPosition(), this.child.getSize());
   }
 
+  // trasnform mouse coordinates to canvas trasnform
   private getTransformedPoint(x: number, y: number) {
     const originalPoint = new DOMPoint(x, y);
     return this.context.getTransform().invertSelf().transformPoint(originalPoint);
   }
 
-  private handlePointerDown(event: PointerEvent) {
+  private handlePointerDown(event: PointerEvent): void {
     const middleButton = (event.button === 1); // pressing mouse scroll wheel
 
     if (
       middleButton ||
-      (this.state && this.state.selectedTool == ToolType.HAND)) {
+      (this.state && this.state.selectedTool == ToolType.HAND)
+    ){
       this.isDragging = true;
       const offset = this.getOffsetPoint(event);
       this.dragStartPosition = this.getTransformedPoint(offset.x, offset.y);
+      return;
     }
+
+    if (this.pointHitChild(event)) {
+      const offset = this.getOffsetPoint(event);
+      const currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
+      this.child?.handlePointerDown(currentTransformedCursor, this.toolState, this.state);
+    }
+
+    this.requestDraw();
   }
 
-  private handlePointerMove(event: PointerEvent) {
+  private handlePointerMove(event: PointerEvent): void {
     const offset = this.getOffsetPoint(event);
     this.currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
 
     if (this.isDragging) {
       this.context.translate(this.currentTransformedCursor.x - this.dragStartPosition.x, this.currentTransformedCursor.y - this.dragStartPosition.y);
       this.requestDraw();
+      return;
     }
+
+    if (this.pointHitChild(event))
+      this.child?.handlePointerMove(this.currentTransformedCursor, this.toolState, this.state);
+
+    this.requestDraw();
   }
 
-  private handlePointerUp(event: PointerEvent) {
-    this.isDragging = false;
+  private handlePointerUp(event: PointerEvent): void {
+    if (this.isDragging) {
+      this.isDragging = false;
+      return;
+    }
+
+    if (this.pointHitChild(event)) {
+      const offset = this.getOffsetPoint(event);
+      const currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
+      this.child?.handlePointerUp(currentTransformedCursor, this.toolState, this.state);
+    }
+
+    this.requestDraw();
   }
 
   private handleWheel(event: WheelEvent) {
