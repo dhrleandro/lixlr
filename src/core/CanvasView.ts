@@ -1,7 +1,17 @@
+/**
+ * Leandro Daher, 2022
+ *
+ * Reference:
+ * https://roblouie.com/article/617/transforming-mouse-coordinates-to-canvas-coordinates/
+ */
+
 import AbstractStateObserver from "./state/AbstractStateObserver";
 import { Subject } from "./state/SubjectObserver";
 import { ViewChild } from "./ViewChild";
 import { ActionType, makeAction } from "./state/Store";
+import Point2D from "./entities/Point2D";
+import Rect2D from "./entities/Rect2D";
+import { hitTest } from "./utils/math";
 
 export default class CanvasView extends AbstractStateObserver {
 
@@ -46,6 +56,31 @@ export default class CanvasView extends AbstractStateObserver {
     this.requestDraw();
   }
 
+  // get containerDiv browser mouse coordinates
+  // equivalent of event.offsetX and  event.offsetY
+  private getOffsetPoint(event: PointerEvent): Point2D {
+    const rect = this.containerReference.getBoundingClientRect();
+
+    const mouse = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    }
+
+    return Point2D.create(mouse.x, mouse.y);
+  }
+
+  // verify if point is inside of this.child
+  private pointHitChild(event: PointerEvent): boolean {
+    if (!this.child)
+      return false;
+
+    // get mouse coordinates considering canvas transformation matrix
+    const offset = this.getOffsetPoint(event);
+    const currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
+
+    return hitTest(currentTransformedCursor, this.child.getPosition(), this.child.getSize());
+  }
+
   private getTransformedPoint(x: number, y: number) {
     const originalPoint = new DOMPoint(x, y);
     return this.context.getTransform().invertSelf().transformPoint(originalPoint);
@@ -53,11 +88,13 @@ export default class CanvasView extends AbstractStateObserver {
 
   private handlePointerDown(event: PointerEvent) {
     this.isDragging = true;
-    this.dragStartPosition = this.getTransformedPoint(event.offsetX, event.offsetY);
+    const offset = this.getOffsetPoint(event);
+    this.dragStartPosition = this.getTransformedPoint(offset.x, offset.y);
   }
 
   private handlePointerMove(event: PointerEvent) {
-    this.currentTransformedCursor = this.getTransformedPoint(event.offsetX, event.offsetY);
+    const offset = this.getOffsetPoint(event);
+    this.currentTransformedCursor = this.getTransformedPoint(offset.x, offset.y);
 
     if (this.isDragging) {
       this.context.translate(this.currentTransformedCursor.x - this.dragStartPosition.x, this.currentTransformedCursor.y - this.dragStartPosition.y);
@@ -140,8 +177,10 @@ export default class CanvasView extends AbstractStateObserver {
   }
 
   private resize() {
+    const matrix = this.context.getTransform();
     this.canvas.width = this.containerReference.offsetWidth;
     this.canvas.height = this.containerReference.offsetHeight;
+    this.context.setTransform(matrix);
     this.requestDraw();
   }
 

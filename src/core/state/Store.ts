@@ -3,17 +3,19 @@ import { ToolType } from "../tools/ToolType";
 import { createInitialAppState, State } from "./State";
 
 export enum ActionType {
-  ZOOM_UP = "ZOOM_UP",
-  ZOOM_DOWN = "ZOOM_DOWN",
+  SELECT_TOOL = "SELECT_TOOL",
+  SELECT_COLOR = "SELECT_COLOR",
+  // ZOOM_UP = "ZOOM_UP",
+  // ZOOM_DOWN = "ZOOM_DOWN",
   SET_ZOOM = "SET_ZOOM",
 }
 
 export type Action =
-  | { type: 'SELECT_TOOL'; value: ToolType }
-  | { type: 'SELECT_COLOR'; value: string }
-  | { type: 'ZOOM_UP'; value: number }
-  | { type: 'ZOOM_DOWN'; value: number }
-  | { type: 'SET_ZOOM'; value: number }
+  | { type: ActionType.SELECT_TOOL; value: ToolType }
+  | { type: ActionType.SELECT_COLOR; value: string }
+  // | { type: ActionType.'ZOOM_UP'; value: number }
+  // | { type: ActionType.'ZOOM_DOWN'; value: number }
+  | { type: ActionType.SET_ZOOM; value: number }
 //  | { type: 'SET_LAYER_MANAGER'; layerManager: LayerManager }
 //  | { type: 'SELECT_LAYER'; id: number }
 //  | { type: 'DELETE_LAYER'; id: number }
@@ -96,17 +98,19 @@ function deleteLayer(appState: AppState, id: number) {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
 
-  /*
-    case 'SELECT_TOOL':
+    case ActionType.SELECT_TOOL:
       return {
         ...state,
-        selectedTool: action.tool
+        selectedTool: action.value
       };
 
+    case ActionType.SET_ZOOM:
+      return { ...state, scale: action.value };
 
+  /*
     case 'SELECT_COLOR':
       return setColor(state, action.color);
-  */
+
 
     case 'ZOOM_UP':
       return zoomUp(state, action.value);
@@ -114,9 +118,6 @@ export const reducer = (state: State, action: Action): State => {
     case 'ZOOM_DOWN':
       return zoomDown(state, action.value);
 
-    case 'SET_ZOOM':
-      return { ...state, scale: action.value };
-  /*
     case 'SET_LAYER_MANAGER':
       const lastId = action.layerManager.getLastLayerId();
       return { ...state, layers: action.layerManager, selectedLayer: lastId };
