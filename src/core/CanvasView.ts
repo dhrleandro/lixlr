@@ -87,67 +87,6 @@ export default class CanvasView {
 
     const position = this.child!.getPosition();
     const size = this.child!.getSize();
-    console.log(this.scale);
-    if (this.scale < 2)
-      return;
-
-    const scale = Math.floor(this.scale);
-    const bw = size.width; // this.canvas.width;
-    const bh = size.height; // this.canvas.height;
-    const lw = 1/this.scale; // box border
-    const boxRow = (bw / scale); // how many boxes
-    const box = bw / boxRow;   // box size
-
-    ctx.lineWidth = lw;
-    ctx.strokeStyle = 'rgb(2,7,159)';
-
-    for (let x=0;x<bw;x+=box)
-    {
-      for (let y=0;y<bh;y+=box)
-      {
-        ctx.strokeRect(x,y,box,box);
-      }
-    }
-
-    ctx.restore();
-  }
-
-  private drawGrid2(factor: number = 1) {
-    const ctx = this.context;
-
-    const position = this.child!.getPosition();
-    const size = this.child!.getSize();
-
-    if (this.scale < 2)
-      return;
-
-    const scale = Math.floor(this.scale);
-    const bw = size.width; // this.canvas.width;
-    const bh = size.height; // this.canvas.height;
-    const lw = 1/this.scale; // box border
-    const boxRow = Math.floor(bw / (bw*0.2)); // how many boxes
-    const box = bw / boxRow;   // box size
-
-    console.log({scale: this.scale, bw, boxRow} );
-    ctx.lineWidth = lw;
-    ctx.strokeStyle = 'rgb(2,7,159)';
-
-    for (let x=0;x<bw;x+=box)
-    {
-      for (let y=0;y<bh;y+=box)
-      {
-        ctx.strokeRect(x,y,box,box);
-      }
-    }
-
-    ctx.restore();
-  }
-
-  private drawGrid3(factor: number = 1) {
-    const ctx = this.context;
-
-    const position = this.child!.getPosition();
-    const size = this.child!.getSize();
 
     if (this.scale < 10)
       return;
@@ -188,7 +127,7 @@ export default class CanvasView {
       ctx.drawImage(this.child.getRenderedView(), position.x, position.y, size.width, size.height);
     }
 
-    this.drawGrid3();
+    // this.drawGrid();
   }
 
   private requestDraw() {
