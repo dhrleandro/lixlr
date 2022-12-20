@@ -1,5 +1,6 @@
 import RGBA from "../entities/RGBA";
 import Point2D from "../entities/Point2D";
+import floodFill from "./floodfill";
 
 /*
 export function putPixel(x: number, y: number, context: CanvasRenderingContext2D, color: RGBA) {
@@ -38,7 +39,7 @@ export function clearPixel(x: number, y: number, context: CanvasRenderingContext
   context.putImageData(imgData, Math.floor(x), Math.floor(y));
 }
 
-function getPixel(imageData: ImageData, x: number, y: number): RGBA {
+export function getPixel(imageData: ImageData, x: number, y: number): RGBA {
   const red = y * (imageData.width * 4) + x * 4;
   const data = imageData.data;
   return RGBA.create(data[red], data[red + 1], data[red + 2], data[red + 3]);
@@ -170,57 +171,4 @@ export function circlePoints(x0: number, y0: number, r: number): Point2D[] {
   return points;
 }
 
-// Flood Fill
-// Adpted of
-// https://stackoverflow.com/questions/53077955/how-do-i-do-flood-fill-on-the-html-canvas-in-javascript
-function _getPixel(imageData: ImageData, x: number, y: number) {
-  if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) {
-    return [-1, -1, -1, -1];  // impossible color
-  } else {
-    const offset = (y * imageData.width + x) * 4;
-    return imageData.data.slice(offset, offset + 4);
-  }
-}
-
-function _setPixel(imageData: ImageData, x: number, y: number, color: any) {
-  const offset = (y * imageData.width + x) * 4;
-  imageData.data[offset + 0] = color[0];
-  imageData.data[offset + 1] = color[1];
-  imageData.data[offset + 2] = color[2];
-  imageData.data[offset + 3] = color[0];
-}
-
-function colorsMatch(a: any, b: any) {
-  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
-}
-
-export function floodFill(ctx: CanvasRenderingContext2D, x: number, y: number, fillColor: number[]) {
-  // read the pixels in the canvas
-  const imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-  // get the color we're filling
-  const targetColor = _getPixel(imageData, x, y);
-
-  // check we are actually filling a different color
-  if (!colorsMatch(targetColor, fillColor)) {
-
-    const pixelsToCheck: any[] = [x, y];
-    while (pixelsToCheck.length > 0) {
-      const y = pixelsToCheck.pop();
-      const x = pixelsToCheck.pop();
-
-      const currentColor = _getPixel(imageData, x, y);
-      if (colorsMatch(currentColor, targetColor)) {
-        _setPixel(imageData, x, y, fillColor);
-        pixelsToCheck.push(x + 1, y);
-        pixelsToCheck.push(x - 1, y);
-        pixelsToCheck.push(x, y + 1);
-        pixelsToCheck.push(x, y - 1);
-      }
-    }
-
-    // put the data back
-    ctx.putImageData(imageData, 0, 0);
-  }
-}
-// End of Flood Fill
+export { floodFill };

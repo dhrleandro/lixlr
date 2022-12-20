@@ -26,6 +26,27 @@ export default class RGBA {
     return `rgba(${this.rgba[0]},${this.rgba[1]},${this.rgba[2]},${this.rgba[3]})`;
   }
 
+  public isEqual(color: RGBA, alpha: boolean = true): boolean {
+    if (alpha) {
+
+      return (
+        color.red === this.red &&
+        color.green === this.green &&
+        color.blue === this.blue &&
+        color.alpha === this.alpha
+      );
+
+    } else {
+
+      return (
+        color.red === this.red &&
+        color.green === this.green &&
+        color.blue === this.blue
+      );
+
+    }
+  }
+
   public static create(red: number, green: number, blue: number, alpha: number = 255) {
     return new RGBA(red, green, blue, alpha);
   }

@@ -23,7 +23,7 @@ export default class PinchGesture {
   }
 
   private log(msg: string, ev?: PointerEvent) {
-    console.log({msg, ev});
+    // console.log({msg, ev});
   }
 
   private removeEvent(ev: PointerEvent) {
