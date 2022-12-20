@@ -77,6 +77,7 @@ function App() {
       <Toolbar
         pen={() => setTool(ToolType.PEN)}
         brush={() => setTool(ToolType.BRUSH)}
+        eraser={() => setTool(ToolType.ERASER)}
         hand={() => setTool(ToolType.HAND)}
       />
       <div className="Container">

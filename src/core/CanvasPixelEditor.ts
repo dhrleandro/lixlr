@@ -169,15 +169,22 @@ export default class CanvasPixelEditor {
 
   public setTool(tool: ToolType) {
     this.selectedTool = createTool(tool, this.virtualLayer.context);
-    const cursor = this.selectedTool?.cursorCss as string;
+
+    if (!this.selectedTool)
+      return;
+
+    const cursor = this.selectedTool.cursorCss as string;
     this.canvasReference.style.cursor = cursor;
 
-    switch (this.selectedTool?.type) {
+    switch (this.selectedTool.type) {
       case ToolType.PEN:
       case ToolType.BRUSH:
         const color = this.selectedTool.getProperty('color') as ToolProperty;
         color.value = this.appState.primaryColor;
         this.selectedTool.setProperty('color', color);
+        break;
+
+      case ToolType.ERASER:
         break;
 
       default:

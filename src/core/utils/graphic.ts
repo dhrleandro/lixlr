@@ -28,6 +28,16 @@ export function putPixel(x: number, y: number, context: CanvasRenderingContext2D
   context.putImageData(imgData, Math.floor(x), Math.floor(y));
 }
 
+export function removePixel(x: number, y: number, context: CanvasRenderingContext2D) {
+  const imgData = new ImageData(1,1);
+  imgData.data[0] = 0;
+  imgData.data[1] = 0;
+  imgData.data[2] = 0;
+  imgData.data[3] = 0;
+
+  context.putImageData(imgData, Math.floor(x), Math.floor(y));
+}
+
 // Adapted of:
 // https://ghost-together.medium.com/how-to-code-your-first-algorithm-draw-a-line-ca121f9a1395
 export function drawLine(x1: number, y1: number, x2: number, y2: number): Point[] {

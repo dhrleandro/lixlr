@@ -1,4 +1,5 @@
 import BrushTool from "./BrushTool";
+import EraserTool from "./EraserTool";
 import HandTool from "./HandTool";
 import PenTool from "./PenTool";
 import { Tool } from "./Tool";
@@ -11,6 +12,10 @@ export class Factory {
 
   public static createBrush(context: CanvasRenderingContext2D): BrushTool {
     return new BrushTool(context);
+  }
+
+  public static createEraser(context: CanvasRenderingContext2D): EraserTool {
+    return new EraserTool(context);
   }
 
   public static createHand(context: CanvasRenderingContext2D): HandTool {
@@ -29,6 +34,10 @@ export const createTool = (type: ToolType, context: CanvasRenderingContext2D): T
 
     case ToolType.BRUSH:
       tool = Factory.createBrush(context);
+      break;
+
+    case ToolType.ERASER:
+      tool = Factory.createEraser(context);
       break;
 
     default:
