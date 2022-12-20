@@ -37,7 +37,7 @@ function Zoom(props: ZoomProps) {
           h={32}
           className={styles.iconSize}
           click={() => {
-            const value = stateManager.state.scale - 0.1;
+            const value = stateManager.state.scale - 1;
             dispatch({ type: ActionType.SET_ZOOM, value });
           }}
         >
@@ -58,7 +58,7 @@ function Zoom(props: ZoomProps) {
           h={32}
           className={styles.iconSize}
           click={() => {
-            const value = stateManager.state.scale + 0.1;
+            const value = stateManager.state.scale + 1;
             dispatch({ type: ActionType.SET_ZOOM, value });
           }}
         >
