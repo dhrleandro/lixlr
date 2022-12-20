@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../styles/Toolbar.module.css";
 import ToolButton from "./ToolButton";
-import { Brush, Eraser, Hand, Pencil } from "../../icons";
+import { Brush, Eraser, Hand, Pencil, Minus } from "../../icons";
 import { useDispatch, useTrackedState } from "../../state/store";
 import { ToolType } from "../../core/tools/ToolType";
 import { ActionType } from "../../core/state/Store";
@@ -18,6 +18,7 @@ function Toolbar() {
   const tools = [
     ToolType.PEN,
     ToolType.BRUSH,
+    ToolType.LINE,
     ToolType.ERASER,
     ToolType.HAND,
   ];
@@ -29,6 +30,9 @@ function Toolbar() {
 
       case ToolType.BRUSH:
         return <Brush />;
+
+      case ToolType.LINE:
+        return <Minus style={{transform: "rotate(-45deg)"}}/>;
 
       case ToolType.ERASER:
         return <Eraser />;

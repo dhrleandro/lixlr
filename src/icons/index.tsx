@@ -6,6 +6,7 @@ import { ReactComponent as Brush } from "./brush.svg";
 import { ReactComponent as Eraser } from "./eraser.svg";
 import { ReactComponent as Hand } from "./hand.svg";
 import { ReactComponent as Pencil } from "./pencil.svg";
+import { ReactComponent as Minus } from "./minus.svg";
 
 import { ReactComponent as Layers } from "./layers/layers.svg";
 import { ReactComponent as EyeSlash } from "./layers/eye-slash.svg";
@@ -21,6 +22,7 @@ export {
     Eraser,
     Hand,
     Pencil,
+    Minus,
 
     Layers,
     EyeSlash,

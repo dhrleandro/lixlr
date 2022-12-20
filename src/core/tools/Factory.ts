@@ -4,6 +4,7 @@ import Brush from "./Brush";
 import BrushEraser from "./BrushEraser";
 import Eraser from "./Eraser";
 import Hand from "./Hand";
+import Line from "./Line";
 import Pen from "./Pen";
 import { Tool } from "./Tool";
 import { ToolType } from "./ToolType";
@@ -26,6 +27,10 @@ export default class Factory {
     return new Hand();
   }
 
+  private static createLine(): Line {
+    return new Line();
+  }
+
   public static createTool(type: ToolType | undefined): Tool | undefined {
     let tool: (Tool | undefined) = undefined;
 
@@ -44,6 +49,10 @@ export default class Factory {
 
       case ToolType.ERASER:
         tool = Factory.createEraser();
+        break;
+
+      case ToolType.LINE:
+        tool = Factory.createLine();
         break;
 
       default:
