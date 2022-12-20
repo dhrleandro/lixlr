@@ -108,11 +108,17 @@ export default class PixelEditor extends BaseViewChild {
     }
 
     if (this.previewTool) {
-      const previewPoint = Point2D.create(
-        Math.floor((this.previewPoint.x - (this.previewTool.width/2))),
-        Math.floor((this.previewPoint.y - (this.previewTool.height/2))),
-      );
-      ctx.drawImage(this.previewTool, previewPoint.x, previewPoint.y);
+      // for better cursor centering in the brush preview
+      if (this.previewTool.width > 1) {
+        const previewPoint = Point2D.create(
+          Math.floor((this.previewPoint.x - (this.previewTool.width/2))),
+          Math.floor((this.previewPoint.y - (this.previewTool.height/2))),
+        );
+        ctx.drawImage(this.previewTool, previewPoint.x, previewPoint.y);
+      } else {
+        ctx.drawImage(this.previewTool, this.previewPoint.x, this.previewPoint.y);
+      }
+
     }
   }
 
@@ -140,7 +146,7 @@ export default class PixelEditor extends BaseViewChild {
       y: point.y - pos.y
     }
 
-    return Point2D.create(mouse.x, mouse.y);
+    return Point2D.create(Math.floor(mouse.x), Math.floor(mouse.y));
   }
 
   private getLayerContext(state?: Readonly<State>): CanvasRenderingContext2D | undefined {
@@ -171,14 +177,14 @@ export default class PixelEditor extends BaseViewChild {
   }
 
   public handlePointerMove(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
+    const mouse = this.globalToLocalCoordinates(point);
+
     if (this.mouseDown) {
-      const mouse = this.globalToLocalCoordinates(point);
       const ctx = this.getLayerContext(state)
       if (ctx)
         tool?.onPointerMove(mouse, ctx);
     }
 
-    const mouse = this.globalToLocalCoordinates(point);
     if (tool)
       this.drawToolPreview(mouse, tool);
   }

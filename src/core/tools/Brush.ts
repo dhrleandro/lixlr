@@ -45,7 +45,7 @@ export default class Brush extends BaseTool {
     const canvas = document.createElement('canvas');
 
     const radius = this.size;
-    const diameter = (radius*2)+5; // 5px safety margin
+    const diameter = (radius*2)+6; // 6px safety margin and an even number allows for better cursor centering in the brush preview
     canvas.width = diameter;
     canvas.height = diameter;
 
