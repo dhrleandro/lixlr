@@ -174,13 +174,17 @@ export default class CanvasView extends AbstractStateObserver {
 
     this.requestDraw();
 
+    this.updateScaleGlobalState();
+
+    event.preventDefault();
+  }
+
+  private updateScaleGlobalState() {
     const matrix = this.context.getTransform();
     this.stateManager?.updateState({
       type: ActionType.SET_ZOOM,
       value: matrix.a
     }); // scaleX: matrix.a, scaleY: matrix.d
-
-    event.preventDefault();
   }
 
   private pinchZoom(zoom: number) {
@@ -196,12 +200,14 @@ export default class CanvasView extends AbstractStateObserver {
       childPosition.y + childSize.height / 2
     );
 
-    if (zoom < 1 && this.state!.scale < 1.01)
+    if (zoom < 1 && this.state!.scale < 0.01)
       return
 
     this.context.translate(center.x, center.y);
     this.context.scale(zoom, zoom);
     this.context.translate(-center.x, -center.y);
+
+    this.updateScaleGlobalState();
 
     this.requestDraw();
   }
@@ -352,6 +358,8 @@ export default class CanvasView extends AbstractStateObserver {
     matrix.d = zoom;
     this.context.setTransform(matrix);
     this.context.translate(-center.x, -center.y);
+
+    // this.updateScaleGlobalState();
 
     this.requestDraw();
   }
