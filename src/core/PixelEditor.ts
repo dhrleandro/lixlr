@@ -5,7 +5,6 @@ import { BaseViewChild } from "./ViewChild";
 
 export default class PixelEditor extends BaseViewChild {
 
-  private lastScale: number = 1;
   private gridCacheHighZoom: HTMLCanvasElement | undefined;
   private gridCacheLowZoom: HTMLCanvasElement | undefined;
 
@@ -92,8 +91,7 @@ export default class PixelEditor extends BaseViewChild {
       this.drawGridHighZoom(ctx);
     }
 
-    ctx.fillStyle = 'red';
-    ctx.fillRect(32, 32, this.size.width/2, this.size.height/2);
+    // draw layers
   }
 
   public setSize(size: Rect2D): void {
