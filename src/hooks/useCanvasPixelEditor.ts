@@ -11,9 +11,9 @@ export const useCanvasPixelEditor = (canvasReference: React.RefObject<HTMLCanvas
 
     if (!canvasPixelEditor.current) {
       canvasPixelEditor.current = new CanvasPixelEditor(canvasReference.current, appState);
+      canvasPixelEditor.current.mountEvents();
     }
 
-    canvasPixelEditor.current.mountEvents();
     canvasPixelEditor.current.setCanvasReference(canvasReference.current);
     canvasPixelEditor.current.setAppState(appState);
 

@@ -36,6 +36,7 @@ export default class HTMLDivCameraViewer {
 
   private onmousedown(event: PointerEvent) {
     event.preventDefault();
+    event.stopPropagation();
 
     // disable multitouch
     if (!event.isPrimary) return;
@@ -57,6 +58,7 @@ export default class HTMLDivCameraViewer {
 
   private onmouseup(event: PointerEvent) {
     event.preventDefault();
+    event.stopPropagation();
 
     // disable multitouch
     if (!event.isPrimary) return;
@@ -71,6 +73,7 @@ export default class HTMLDivCameraViewer {
 
   private onmousemove(event: PointerEvent) {
     event.preventDefault();
+    event.stopPropagation();
 
     // disable multitouch
     if (!event.isPrimary) return;

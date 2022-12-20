@@ -1,4 +1,5 @@
 import { AppState } from "./AppState";
+import Layer from "./entities/Layer";
 import LayerManager from "./LayerManager";
 
 export interface CanvasContext {
@@ -82,9 +83,9 @@ export default class Render {
     return layersRenderedCache;
   }
 
-  public async renderLayers(appState: Readonly<AppState>, mainContext: CanvasRenderingContext2D) {
+  public async renderLayers(appState: Readonly<AppState>, mainContext: CanvasRenderingContext2D, rebuildCache: boolean = false) {
 
-    if (this.layersRenderedCache === undefined || appState.selectedLayer !== this.lastSelectedLayer) {
+    if (this.layersRenderedCache === undefined || appState.selectedLayer !== this.lastSelectedLayer || rebuildCache) {
       this.lastSelectedLayer = appState.selectedLayer;
       this.layersRenderedCache = this.buildLayersCache(appState);
     }
@@ -99,4 +100,19 @@ export default class Render {
     return this.virtualLayer;
   }
 
+  public renderVirtualLayerInLayer(layer: Layer, virtualLayer: CanvasContext): Layer {
+    const buffer = this.createCanvas(layer.data.width, layer.data.height);
+    const canvas = buffer.canvas;
+    const context = buffer.context;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.putImageData(layer.render(), 0, 0);
+    context.drawImage(virtualLayer.canvas, 0, 0);
+    virtualLayer.context.clearRect(0, 0, virtualLayer.canvas.width, virtualLayer.canvas.height);
+
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const newLayer = new Layer(imageData, '', canvas.width, canvas.height);
+    // this.debugDownloadCanvas(canvas);
+    return newLayer;
+  }
 }

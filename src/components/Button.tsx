@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEvent, MouseEventHandler } from 'react';
 
 type ButtonPorps = {
   click?: MouseEventHandler<HTMLButtonElement> | undefined;
@@ -10,9 +10,15 @@ type ButtonPorps = {
 
 function Button(props: ButtonPorps) {
 
+  function handleClick(event: MouseEvent<HTMLButtonElement>): void {
+    event.stopPropagation();
+
+    if (props.click)
+      props.click(event);
+  }
   return (
     <button
-      onClick={props.click}
+      onClick={handleClick}
       className="Button"
       style={{backgroundColor: props.color, width: props.w, height: props.h}}
     >

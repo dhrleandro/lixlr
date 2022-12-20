@@ -6,6 +6,7 @@ import { createTool } from "./tools/Factory";
 import { AppState } from "./AppState";
 import { ToolProperty } from "./tools/Property";
 import Render, { CanvasContext } from "./Render";
+import { isThisTypeNode } from "typescript";
 
 export default class CanvasPixelEditor {
 
@@ -66,7 +67,6 @@ export default class CanvasPixelEditor {
       const mouse = this.getOffsetPoint(event);
 
       if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
-        this.virtualLayer.context.putImageData(this.appState.layers.getLayer(this.appState.selectedLayer).render(), 0, 0);
         this.selectedTool.onPointerDown(mouse);
         this.render.renderLayers(this.appState, this.context);
       }
@@ -86,16 +86,13 @@ export default class CanvasPixelEditor {
     if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
       this.selectedTool.onPointerUp(mouse);
 
-      // set selected layer data
-      const virtualLayerImageData = this.virtualLayer.context.getImageData(
-        0, 0,
-        this.virtualLayer.canvas.width, this.virtualLayer.canvas.height
-      );
-      this.appState.layers.setImageData(this.appState.selectedLayer, virtualLayerImageData);
+      const oldLayer = this.appState.layers.getLayer(this.appState.selectedLayer);
+      const newLayer = this.render.renderVirtualLayerInLayer(oldLayer, this.virtualLayer);
+      this.appState.layers.setImageData(this.appState.selectedLayer, newLayer.render());
     }
 
-    // this.virtualLayer.context.clearRect(0, 0, this.virtualLayer.canvas.width, this.virtualLayer.canvas.height);
-    this.render.renderLayers(this.appState, this.context);
+    this.virtualLayer.context.clearRect(0, 0, this.virtualLayer.canvas.width, this.virtualLayer.canvas.height);
+    this.render.renderLayers(this.appState, this.context, true);
   }
 
   private onPointerMove(event: PointerEvent) {
@@ -154,14 +151,14 @@ export default class CanvasPixelEditor {
   public mountEvents() {
     this.canvasReference.addEventListener('pointerdown', this.onPointerDown.bind(this));
     this.canvasReference.addEventListener('pointermove', this.onPointerMove.bind(this));
-    this.canvasReference.addEventListener('pointerleave', this.onPointerUp.bind(this));
+    // this.canvasReference.addEventListener('pointerleave', this.onPointerUp.bind(this));
     window.addEventListener('pointerup', this.onPointerUp.bind(this));
   }
 
   public unmountEvents() {
     this.canvasReference.removeEventListener('pointerdown', this.onPointerDown.bind(this));
     this.canvasReference.removeEventListener('pointermove', this.onPointerMove.bind(this));
-    this.canvasReference.removeEventListener('pointerleave', this.onPointerUp.bind(this));
+    // this.canvasReference.removeEventListener('pointerleave', this.onPointerUp.bind(this));
     window.removeEventListener('pointerup', this.onPointerUp.bind(this));
   }
 
@@ -191,5 +188,6 @@ export default class CanvasPixelEditor {
   public setAppState(appState: AppState) {
     this.appState = appState;
     this.setTool(appState.selectedTool);
+    this.render.renderLayers(appState, this.context);
   }
 }

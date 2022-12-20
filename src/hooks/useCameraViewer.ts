@@ -22,11 +22,11 @@ export const useCameraViewer = (
 
     if (!cameraViewer.current) {
       cameraViewer.current = new HTMLDivCameraViewer(divReference.current);
+      cameraViewer.current.mountEvents();
       cameraViewer.current.alignToCenter();
     }
 
     if (cameraViewer.current) {
-      cameraViewer.current.mountEvents();
       cameraViewer.current.setDivReference(divReference.current);
       cameraViewer.current.setEnableMousePan(enableMousePan);
       cameraViewer.current.setScale(scale);
