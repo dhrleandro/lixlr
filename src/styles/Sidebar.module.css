@@ -37,3 +37,9 @@
     left: 200px;
     color: var(--tomato11);
 }
+
+.content {
+    width: 100%;
+    height: 100%;
+    color: var(--high-contrast-text);
+}

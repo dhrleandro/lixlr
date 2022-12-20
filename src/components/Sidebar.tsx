@@ -26,8 +26,9 @@ function Sidebar(props: SidebarProps) {
           {visible ? (<Close />) : props.openIcon}
         </Button>
 
-        {props.children}
-
+        <div className={styles.content}>
+          {props.children}
+        </div>
       </div>
     </div>
   );
