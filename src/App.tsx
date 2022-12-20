@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeContext } from "./context/ThemeContext";
 import Container from "./components/Container";
 import ThemeSwitcher from "./components/ThemeSwitcher";
+import Text from "./components/Text";
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
   return (
     <Container className={`App ${theme}`}>
       <ThemeSwitcher />
-      <h1>The New Prologue</h1>
+      <Text><h1>The New Prologue</h1></Text>
     </Container>
   );
 }
