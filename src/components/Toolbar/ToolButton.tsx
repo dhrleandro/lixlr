@@ -1,24 +1,14 @@
 import React from "react";
-import Button from '../Button';
+import Button, { ButtonProps } from '../Button';
 
-interface ToolButtonProps {
-  children?: React.ReactNode
-}
-
-function ToolButton(props: ToolButtonProps) {
-
-  const [selected, setSelected] = React.useState(false);
-
-  function toggleSelected() {
-    setSelected(!selected);
-  }
+function ToolButton(props: ButtonProps) {
 
   return (
       <Button
         w={32}
         h={32}
-        selected={selected}
-        click={toggleSelected}
+        selected={props.selected}
+        click={props.click}
       >
         <div style={{
           display: 'flex',

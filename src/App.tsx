@@ -5,6 +5,7 @@ import ThemeSwitcher from "./components/ThemeSwitcher";
 import Toolbar from "./components/Toolbar";
 
 import styles from './styles/App.module.css';
+import { ToolbarTools } from "./components/Toolbar/Toolbar";
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
       {/* <div style={{position: 'absolute', top: '0', right: '8px', padding: '16px'}}> */}
       <div className={styles.appbar}>
         <div></div>
-        <Toolbar />
+        <Toolbar selectedTool={ToolbarTools.BRUSH}/>
         <div><ThemeSwitcher/></div>
       </div>
     </Container>

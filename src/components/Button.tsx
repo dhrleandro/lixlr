@@ -1,7 +1,7 @@
 import React, { MouseEvent, MouseEventHandler } from 'react';
 import styles from "../styles/Button.module.css";
 
-export type ButtonPorps = {
+export interface ButtonProps {
   children?: React.ReactNode;
   w?: number,
   h?: number,
@@ -16,7 +16,7 @@ export type ButtonPorps = {
   click?: MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
-function Button(props: ButtonPorps) {
+function Button(props: ButtonProps) {
 
   function handleClick(event: MouseEvent<HTMLButtonElement>): void {
     event.stopPropagation();
