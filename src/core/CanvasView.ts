@@ -15,6 +15,7 @@ import { hitTest } from "./utils/math";
 import { ToolType } from "./tools/ToolType";
 import { Tool } from "./tools/Tool";
 import Factory from "./tools/Factory";
+import { ToolProperty } from "./tools/Property";
 
 export default class CanvasView extends AbstractStateObserver {
 
@@ -267,7 +268,16 @@ export default class CanvasView extends AbstractStateObserver {
   public update(stateManager: Subject): void {
     super.update(stateManager);
 
+    // set tool
     this.toolState = Factory.createTool(this.state?.selectedTool);
+    if (this.toolState) {
+      const color = this.toolState?.getProperty('color');
+      if (color) {
+        color.value = stateManager.state.selectedColor;
+        this.toolState?.setProperty('color', color);
+      }
+    }
+
     this.canvas.style.cursor = this.toolState?.cursorCss || 'default';
   }
 }

@@ -19,7 +19,7 @@ export enum ActionType {
 
 export type Action =
   | { type: ActionType.SELECT_TOOL; value: ToolType }
-  | { type: ActionType.SELECT_COLOR; value: string }
+  | { type: ActionType.SELECT_COLOR; value: RGBA }
 
   // | { type: ActionType.'ZOOM_UP'; value: number }
   // | { type: ActionType.'ZOOM_DOWN'; value: number }[]
@@ -107,11 +107,10 @@ export const reducer = (stateManager: StateManager, action: Action): StateManage
     case ActionType.SET_ZOOM:
       return createStateManager({ ...stateManager.state, scale: action.value });
 
+    case ActionType.SELECT_COLOR:
+      return createStateManager({ ...stateManager.state, selectedColor: action.value });
+
   /*
-    case 'SELECT_COLOR':
-      return setColor(state, action.color);
-
-
     case 'ZOOM_UP':
       return zoomUp(state, action.value);
 

@@ -11,8 +11,8 @@ function Colorbar() {
   const dispatch = useDispatch();
   const appState = useTrackedState();
 
-  function setTool(value: ToolType) {
-    dispatch({ type: ActionType.SELECT_TOOL, value });
+  function setColor(value: RGBA) {
+    dispatch({ type: ActionType.SELECT_COLOR, value });
   }
 
   // https://www.lexaloffle.com/bbs/?tid=44957
@@ -59,8 +59,8 @@ function Colorbar() {
           (color, key) => (
             <ColorButton
               key={key}
-              // selected={appState.state.selectedTool === color}
-              click={() => {}}
+              selected={appState.state.selectedColor.rgbaCss === color.rgbaCss}
+              click={() => setColor(color)}
               color={color}
             />
           )
