@@ -28,11 +28,8 @@
 .bottombar {
     position: absolute;
     bottom: -0.4rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    display: block;
     width: 100%;
     z-index: 99;
-    overflow: hidden;
+    overflow: auto;
 }

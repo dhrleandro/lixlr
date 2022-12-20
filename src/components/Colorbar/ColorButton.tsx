@@ -19,12 +19,10 @@ function ColorButton(props: ColorButtonProps) {
       >
         <div style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '24px',
-          height: '24px',
+          minWidth: '24px',
+          minHeight: '24px',
           borderRadius: '0.4rem',
-          backgroundColor: props.color?.rgbaCss
+          backgroundColor: props.color?.rgbaCss,
           }}
         >
         </div>

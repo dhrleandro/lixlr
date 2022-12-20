@@ -55,16 +55,16 @@ function Colorbar() {
 
   return (
     <div className={styles.colorbar}>
-      {colors.map(
-        (color, key) => (
-          <ColorButton
-            key={key}
-            // selected={appState.state.selectedTool === color}
-            click={() => {}}
-            color={color}
-          />
-        )
-      )}
+        {colors.map(
+          (color, key) => (
+            <ColorButton
+              key={key}
+              // selected={appState.state.selectedTool === color}
+              click={() => {}}
+              color={color}
+            />
+          )
+        )}
     </div>
   );
 }
