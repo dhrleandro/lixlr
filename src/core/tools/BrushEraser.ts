@@ -16,7 +16,7 @@ export default class BrushEraser extends BaseTool {
   private lastPoint: Point2D;
   private paintStart: boolean;
 
-  private color: RGBA = RGBA.create(0,0,0,255);
+  private color: RGBA;
 
   private readonly PROP_SIZE = 'size';
   private size: number = 10;
@@ -34,10 +34,12 @@ export default class BrushEraser extends BaseTool {
     this.addNumberProperty(this.PROP_SIZE, 10);
 
     this.createBrush();
+    this.color = RGBA.create(0, 0, 0, 255);
   }
 
   private createBrush() {
     this.size = this.getProperty('size')?.value as number;
+    this.color = RGBA.create(0, 0, 0, 255);
 
     const canvas = document.createElement('canvas');
 
