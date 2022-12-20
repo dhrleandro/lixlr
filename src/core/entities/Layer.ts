@@ -23,19 +23,17 @@ export default class Layer {
     return this.pixels;
   }
 
-  public setImageDataPixel = (imageData: ImageData, pixel: Pixel): ImageData => {
-    const red = pixel.y * (imageData.width * 4) + pixel.x * 4;
+  public setImageDataPixel(pixel: Pixel): void {
+    const red = pixel.y * (this.pixels.width * 4) + pixel.x * 4;
     const green = red + 1;
     const blue = red + 2;
     const alpha = red + 3;
 
     const ColorRgba = pixel.getColorRgba();
-    imageData.data[red] = ColorRgba.red;
-    imageData.data[green] = ColorRgba.green;
-    imageData.data[blue] = ColorRgba.blue;
-    imageData.data[alpha] = 255;
-
-    return imageData;
+    this.pixels.data[red] = ColorRgba.red;
+    this.pixels.data[green] = ColorRgba.green;
+    this.pixels.data[blue] = ColorRgba.blue;
+    this.pixels.data[alpha] = 255;
   };
 
   public getImageDataColor = (imageData: ImageData, x: number, y: number): ColorRgba => {
@@ -54,7 +52,14 @@ export default class Layer {
     return new ColorRgba(rgba.red, rgba.green, rgba.blue, rgba.alpha);
   };
 
-  public putPoint(x: number, y: number, rgba: ColorRgba) {}
+  public putPixel(x: number, y: number, rgba: ColorRgba) {
+    this.setImageDataPixel(Pixel.createWidthRgba(x, y, rgba));
+  }
+
+  public removePixel(x: number, y: number) {
+    const rgba = ColorRgba.create(0, 0, 0, 0);
+    this.setImageDataPixel(Pixel.createWidthRgba(x, y, rgba));
+  }
 
   public render(): ImageData {
     return this.pixels;
