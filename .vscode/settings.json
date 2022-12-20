@@ -1,0 +1,38 @@
+// https://github.com/editorconfig/editorconfig-vscode/issues/153#issuecomment-374165482
+
+{
+    // Settings to mimic `.editorconfig` as the plugin has bugs on trim trailing whitespace,
+    // see https://github.com/editorconfig/editorconfig-vscode/issues/153
+    "files.encoding": "utf8",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "files.eol": "\n", // LF, https://blog.boot.dev/clean-code/line-breaks-vs-code-lf-vs-crlf
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "[javascript]": {
+      "editor.tabSize": 2,
+    },
+    "[typescript]": {
+        "editor.tabSize": 2,
+    },
+    "[typescriptreact]": {
+        "editor.tabSize": 2,
+    },
+    "[handlebars]": {
+      "editor.tabSize": 2,
+    },
+    "[json]": {
+      "editor.tabSize": 2,
+    },
+    "[yaml]": {
+      "editor.tabSize": 2,
+    },
+    "[markdown]": {
+      "editor.tabSize": 2,
+      "files.trimTrailingWhitespace": false
+    },
+
+    // Other project settings
+    "html.format.wrapAttributes": "force-aligned",
+  }
