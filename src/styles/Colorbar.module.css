@@ -1,0 +1,16 @@
+.colorbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+    min-height: 32px;
+    background-color: var(--app-hover-bg);
+    border-color: var(--light-border);
+    border-radius: 12px;
+    -webkit-box-shadow: var(--shadow-sm);
+    -moz-box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm);
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }

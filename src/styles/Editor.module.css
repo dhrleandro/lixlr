@@ -24,3 +24,15 @@
   height: 100%;
   overflow: hidden;
 }
+
+.bottombar {
+    position: absolute;
+    bottom: -0.4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    z-index: 99;
+    overflow: hidden;
+}
