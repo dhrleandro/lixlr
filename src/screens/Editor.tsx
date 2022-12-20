@@ -1,5 +1,6 @@
 import React from "react";
 import Container from "../components/Container";
+import LayerManager from "../components/LayerManager/LayerManager";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import Toolbar from "../components/Toolbar";
 import { useCanvasPixelEditor } from "../hooks/useCanvasPixelEditor";
@@ -25,6 +26,8 @@ function Editor() {
 
       <div className={styles.pixeleditor} ref={container}>asdsadsadd</div>
 
+
+      <LayerManager></LayerManager>
     </Container>
   );
 }

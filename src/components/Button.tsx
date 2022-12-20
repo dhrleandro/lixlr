@@ -6,6 +6,7 @@ export interface ButtonProps {
   w?: number,
   h?: number,
   style?: React.CSSProperties | undefined,
+  className?: string,
 
   light?: boolean | undefined,
   solid?: boolean | undefined,
@@ -34,6 +35,7 @@ function Button(props: ButtonProps) {
         ${props.solid ? styles.solid : ''}
         ${props.border ? styles.border : ''}
         ${props.selected ? styles.selected : ''}
+        ${props.className}
       `}
       style={{
         width: props.w,
