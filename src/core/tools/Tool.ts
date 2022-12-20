@@ -15,11 +15,9 @@ export interface Tool {
   addColorProperty(name: string, value: RGBA): void | Error;
   // addBrushProperty(name: string, value: Brush): void | Error;
 
-  setCanvasContext(context: CanvasRenderingContext2D): void;
-
-  onPointerDown(point: Point2D): void;
-  onPointerUp(point: Point2D): void;
-  onPointerMove(point: Point2D): void;
+  onPointerDown(point: Point2D, context: CanvasRenderingContext2D): void;
+  onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void;
+  onPointerMove(point: Point2D, context: CanvasRenderingContext2D): void;
 }
 
 export abstract class BaseTool implements Tool {
@@ -27,13 +25,11 @@ export abstract class BaseTool implements Tool {
   // properties information for UI settings<ToolProperty>
   private properties: Map<string, ToolProperty>;
 
-  protected context: CanvasRenderingContext2D;
   public readonly cursorCss: string = 'default';
   public readonly type: ToolType | undefined = undefined;
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor() {
     this.properties = new Map<string, ToolProperty>;
-    this.context = context;
   }
 
   private addProperty(name: string, value: ToolProperty): void | Error {
@@ -82,11 +78,7 @@ export abstract class BaseTool implements Tool {
     return this.properties;
   }
 
-  public setCanvasContext(context: CanvasRenderingContext2D) {
-    this.context = context;
-  }
-
-  public abstract onPointerDown(point: Point2D): void;
-  public abstract onPointerUp(point: Point2D): void;
-  public abstract onPointerMove(point: Point2D): void;
+  public abstract onPointerDown(point: Point2D, context: CanvasRenderingContext2D): void;
+  public abstract onPointerUp(point: Point2D, context: CanvasRenderingContext2D): void;
+  public abstract onPointerMove(point: Point2D, context: CanvasRenderingContext2D): void;
 }

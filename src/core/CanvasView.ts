@@ -13,6 +13,8 @@ import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import { hitTest } from "./utils/math";
 import { ToolType } from "./tools/ToolType";
+import { Tool } from "./tools/Tool";
+import Factory from "./tools/Factory";
 
 export default class CanvasView extends AbstractStateObserver {
 
@@ -24,6 +26,8 @@ export default class CanvasView extends AbstractStateObserver {
   private isDragging: boolean = false;
   private dragStartPosition: DOMPoint = new DOMPoint(0, 0);
   private currentTransformedCursor: DOMPoint = new DOMPoint(0, 0);
+
+  private toolState: Tool | undefined;
 
   constructor(containerReference: HTMLDivElement, stateManager: Subject) {
     super(stateManager);
@@ -229,5 +233,12 @@ export default class CanvasView extends AbstractStateObserver {
 
   public setChild(child: ViewChild) {
     this.child = child;
+  }
+
+  public update(stateManager: Subject): void {
+    super.update(stateManager);
+
+    this.toolState = Factory.createTool(this.state?.selectedTool);
+    this.canvas.style.cursor = this.toolState?.cursorCss || 'default';
   }
 }

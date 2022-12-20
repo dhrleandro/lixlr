@@ -13,8 +13,8 @@ export default class Pen extends BaseTool {
   private paintStart: boolean;
   private color: RGBA;
 
-  constructor(context: CanvasRenderingContext2D) {
-    super(context);
+  constructor() {
+    super();
 
     this.lastPoint = Point.create(0,0);
     this.paintStart = false;
@@ -23,34 +23,34 @@ export default class Pen extends BaseTool {
     this.addColorProperty('color', RGBA.create(0,0,0));
   }
 
-  private putPoints(points: Point[]) {
+  private putPoints(points: Point[], context: CanvasRenderingContext2D) {
     points.forEach(point => {
-      putPixel(point.x, point.y, this.context, this.color);
+      putPixel(point.x, point.y, context, this.color);
     });
   }
 
-  public onPointerDown(point: Point): void {
+  public onPointerDown(point: Point, context: CanvasRenderingContext2D): void {
     this.paintStart = true;
     this.lastPoint = point;
     this.color = this.getProperty('color')?.value as RGBA;
-    putPixel(Math.floor(point.x), Math.floor(point.y), this.context, this.color);
+    putPixel(Math.floor(point.x), Math.floor(point.y), context, this.color);
   }
 
-  public onPointerUp(point: Point): void {
+  public onPointerUp(point: Point, context: CanvasRenderingContext2D): void {
     this.paintStart = false;
     this.lastPoint = point;
   }
 
-  public onPointerMove(point: Point): void {
+  public onPointerMove(point: Point, context: CanvasRenderingContext2D): void {
     if (!this.paintStart) return;
 
     const last = this.lastPoint;
 
     if (Math.abs(point.x-last.x) > 1 || Math.abs(point.y-last.y) > 1) {
       const linePoints = drawLine(last.x, last.y, point.x, point.y);
-      this.putPoints(linePoints);
+      this.putPoints(linePoints, context);
     } else {
-      putPixel(Math.floor(point.x), Math.floor(point.y), this.context, this.color);
+      putPixel(Math.floor(point.x), Math.floor(point.y), context, this.color);
     }
 
     this.lastPoint = point;
