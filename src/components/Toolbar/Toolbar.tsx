@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../styles/Toolbar.module.css";
 import ToolButton from "./ToolButton";
-import { Brush, Eraser, Hand, Pencil, Minus, Stop } from "../../icons";
+import { Brush, Eraser, Hand, Pencil, Minus, Stop, Beaker } from "../../icons";
 import { useDispatch, useTrackedState } from "../../state/store";
 import { ToolType } from "../../core/tools/ToolType";
 import { ActionType } from "../../core/state/Store";
@@ -20,6 +20,7 @@ function Toolbar() {
     ToolType.BRUSH,
     ToolType.LINE,
     ToolType.RECTANGLE,
+    ToolType.FILL,
     ToolType.ERASER,
     ToolType.HAND,
   ];
@@ -37,6 +38,9 @@ function Toolbar() {
 
       case ToolType.RECTANGLE:
         return <Stop />;
+
+      case ToolType.FILL:
+        return <Beaker />;
 
       case ToolType.ERASER:
         return <Eraser />;

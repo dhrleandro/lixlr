@@ -8,6 +8,7 @@ import { ReactComponent as Hand } from "./hand.svg";
 import { ReactComponent as Pencil } from "./pencil.svg";
 import { ReactComponent as Minus } from "./minus.svg";
 import { ReactComponent as Stop } from "./stop.svg";
+import { ReactComponent as Beaker } from "./beaker.svg";
 
 import { ReactComponent as Layers } from "./layers/layers.svg";
 import { ReactComponent as EyeSlash } from "./layers/eye-slash.svg";
@@ -25,6 +26,7 @@ export {
     Pencil,
     Minus,
     Stop,
+    Beaker,
 
     Layers,
     EyeSlash,

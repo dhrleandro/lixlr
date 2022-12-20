@@ -3,6 +3,7 @@ export enum ToolType {
   BRUSH = 'BRUSH',
   LINE = 'LINE',
   RECTANGLE = 'RECTANGLE',
+  FILL = 'FILL',
   ERASER = 'ERASER',
   HAND = 'HAND',
 }
