@@ -68,7 +68,11 @@ export default class CanvasPixelEditor {
 
       if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
         this.selectedTool.onPointerDown(mouse);
-        this.render.renderLayers(this.appState, this.context);
+
+        const selectedLayerImageData = this.appState.layers.getLayer(this.appState.selectedLayer).render();
+        this.virtualLayer.context.putImageData(selectedLayerImageData, 0, 0);
+
+        this.render.renderLayers(this.appState, this.context, true);
       }
     }
   }
@@ -89,9 +93,10 @@ export default class CanvasPixelEditor {
       const oldLayer = this.appState.layers.getLayer(this.appState.selectedLayer);
       const newLayer = this.render.renderVirtualLayerInLayer(oldLayer, this.virtualLayer);
       this.appState.layers.setImageData(this.appState.selectedLayer, newLayer.render());
+      this.virtualLayer.context.putImageData(newLayer.render(), 0, 0);
     }
 
-    this.virtualLayer.context.clearRect(0, 0, this.virtualLayer.canvas.width, this.virtualLayer.canvas.height);
+    // this.virtualLayer.context.clearRect(0, 0, this.virtualLayer.canvas.width, this.virtualLayer.canvas.height);
     this.render.renderLayers(this.appState, this.context, true);
   }
 

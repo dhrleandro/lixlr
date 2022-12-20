@@ -13,7 +13,7 @@ export default class LayerManager {
     this.lastLayerId = 0;
   }
 
-  private getLayerIndex(id: number): number {
+  public getLayerIndex(id: number): number {
     let arrayIndex = -1;
     this.layers.forEach((layer, index) => {
       if (layer.getId() === id) {

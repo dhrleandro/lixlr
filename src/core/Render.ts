@@ -63,15 +63,21 @@ export default class Render {
       renderedTopLayersCache: this.createCanvas(this.width, this.height),
     };
 
+    const selectedLayerIndex = appState.layers.getLayerIndex(appState.selectedLayer);
+
     // render all layers
-    appState.layers.getLayers().forEach((layer) => {
+    appState.layers.getLayers().forEach((layer, index) => {
 
       if (layer.isVisible() === false) return;
 
       const layerRendered = layer.render();
       this.renderBackBuffer.context.putImageData(layerRendered, 0, 0);
 
-      if (layer.getId() <= appState.selectedLayer) {
+      // not render actual selected layer
+      if (index === selectedLayerIndex)
+        return;
+
+      if (index < selectedLayerIndex) {
         layersRenderedCache.renderedBottomLayersCache.context.drawImage(this.renderBackBuffer.canvas, 0, 0);
       } else {
         layersRenderedCache.renderedTopLayersCache.context.drawImage(this.renderBackBuffer.canvas, 0, 0);
@@ -108,7 +114,7 @@ export default class Render {
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.putImageData(layer.render(), 0, 0);
     context.drawImage(virtualLayer.canvas, 0, 0);
-    virtualLayer.context.clearRect(0, 0, virtualLayer.canvas.width, virtualLayer.canvas.height);
+    // virtualLayer.context.clearRect(0, 0, virtualLayer.canvas.width, virtualLayer.canvas.height);
 
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     const newLayer = new Layer(imageData, 0, '', canvas.width, canvas.height);
