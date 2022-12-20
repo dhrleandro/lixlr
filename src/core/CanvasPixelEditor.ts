@@ -50,8 +50,6 @@ export default class CanvasPixelEditor {
       context: renderBufferCanvas.getContext('2d') as CanvasRenderingContext2D
     }
 
-    const imgData = new ImageData(canvasReference.width, canvasReference.height);
-
     this.setCss();
 
     this.appState = appState;
