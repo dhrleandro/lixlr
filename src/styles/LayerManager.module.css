@@ -4,10 +4,29 @@
     width: 100%;
     height: 100%;
     background-color: var(--elm-bg);
+    overflow: hidden;
+}
+
+.layerList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: var(--elm-bg);
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.layerList li {
+    list-style: none;
+}
+
+.bottomBar {
+    width: 100%;
+    padding: 0.2rem;
+    background-color: var(--app-bg);
 }
 
 .layerItem {
@@ -26,8 +45,13 @@
 .layerItem:hover {
     background-color: var(--elm-hover-bg);
 }
+
 .itemSelected {
     background-color: var(--elm-selected-bg);
+}
+
+.deleteDisabled {
+    opacity: 0.5;
 }
 
 .flex {

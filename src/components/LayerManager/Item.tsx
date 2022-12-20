@@ -29,9 +29,9 @@ function Item(props: LayerItemPorps) {
           w={24}
           h={24}
           style={{color: 'var(--tomato11)'}}
-          click={props.deleteLayer}
+          click={props.selected ? undefined : props.deleteLayer}
         >
-          { !props.selected && <Trash /> }
+          <Trash className={props.selected ? styles.deleteDisabled : ''}/>
         </Button>
       </div>
     </div>

@@ -25,11 +25,10 @@ export default class LayerManager {
   }
 
   public createLayer() {
-    const id = this.lastLayerId + 1;
-    this.lastLayerId = id;
-
     const name = 'Layer ' + (this.layers.length + 1);
-    this.layers.push(new Layer(name, this.layersWidth, this.layersHeight));
+    const newLayer = new Layer(name, this.layersWidth, this.layersHeight);
+    this.lastLayerId = newLayer.getId();
+    this.layers.push(newLayer);
   }
 
   public deleteLayer(id: number): void {

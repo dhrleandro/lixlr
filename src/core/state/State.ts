@@ -14,11 +14,14 @@ export interface State {
 export function createInitialAppState(): State {
 
   const sheetDimension = Rect2D.create(400, 400);
+  const layerManager = new LayerManager(sheetDimension.width, sheetDimension.height);
+  layerManager.createLayer();
+  const lastLayerId = layerManager.getLastLayerId();
 
   const appState: State = {
     sheetSize: Rect2D.create(sheetDimension.width, sheetDimension.height),
-    layerManager: new LayerManager(sheetDimension.width, sheetDimension.height),
-    selectedLayerId: 0,
+    layerManager: layerManager,
+    selectedLayerId: lastLayerId,
     selectedTool: ToolType.HAND,
     scale: 1
   }

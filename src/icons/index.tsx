@@ -1,4 +1,5 @@
 import { ReactComponent as Close } from "./close.svg";
+import { ReactComponent as Plus } from "./plus.svg";
 
 import { ReactComponent as Brush } from "./brush.svg";
 import { ReactComponent as Eraser } from "./eraser.svg";
@@ -12,6 +13,7 @@ import { ReactComponent as Trash } from "./layers/trash.svg";
 
 export {
     Close,
+    Plus,
 
     Brush,
     Eraser,
