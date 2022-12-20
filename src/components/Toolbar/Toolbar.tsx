@@ -47,7 +47,7 @@ function Toolbar() {
         (item, key) => (
           <ToolButton
             key={key}
-            selected={appState.selectedTool === item}
+            selected={appState.state.selectedTool === item}
             click={() => setTool(item)}
           >
             { getToolIcon(item) }

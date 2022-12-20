@@ -1,6 +1,7 @@
 import RGBA from "../entities/RGBA";
 import { ToolType } from "../tools/ToolType";
-import { createInitialAppState, State } from "./State";
+import { createInitialAppState, createStateManager, State } from "./State";
+import StateManager from "./StateManager";
 
 export enum ActionType {
   SELECT_TOOL = "SELECT_TOOL",
@@ -95,17 +96,17 @@ function deleteLayer(appState: AppState, id: number) {
 }
 */
 
-export const reducer = (state: State, action: Action): State => {
+export const reducer = (stateManager: StateManager, action: Action): StateManager => {
   switch (action.type) {
 
     case ActionType.SELECT_TOOL:
-      return {
-        ...state,
+      return createStateManager({
+        ...stateManager.state,
         selectedTool: action.value
-      };
+      });
 
     case ActionType.SET_ZOOM:
-      return { ...state, scale: action.value };
+      return createStateManager({ ...stateManager.state, scale: action.value });
 
   /*
     case 'SELECT_COLOR':
@@ -136,6 +137,6 @@ export const reducer = (state: State, action: Action): State => {
   */
 
     default:
-      return state;
+      return stateManager;
   }
 };

@@ -61,7 +61,7 @@ import { Observer, Subject } from "./SubjectObserver";
   }
 
   public updateState(action: Action): void {
-    const newState = reducer(this._state, action);
-    this.setAppState(newState);
+    const newState = reducer(this, action);
+    this.setAppState(newState.state);
   }
 }

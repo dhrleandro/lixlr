@@ -11,8 +11,8 @@ export default class App {
   private stateManager: StateManager;
   private appView: CanvasView;
 
-  constructor(containerReference: HTMLDivElement, state: State) {
-    this.stateManager = new StateManager(state);
+  constructor(containerReference: HTMLDivElement, stateManager: StateManager) {
+    this.stateManager = stateManager;
     this.appView = new CanvasView(containerReference, this.stateManager);
 
     this.attachObservers();
@@ -28,6 +28,8 @@ export default class App {
     );
     const child = new PixelEditor(position, size);
     this.appView.setChild(child);
+
+    console.log('setState: '+stateManager.state.scale);
   }
 
   private attachObservers() {
@@ -46,16 +48,18 @@ export default class App {
     this.appView.unmountEvents();
   }
 
-  // public setStateManager(stateManager: StateManager): void {
-  //   this.stateManager = stateManager;
-  //   this.attachObservers();
-  // }
+  public setStateManager(stateManager: StateManager): void {
+    this.stateManager = stateManager;
+    this.attachObservers();
+    console.log('setState: '+stateManager.state.scale);
+  }
 
   public setState(state: State): void {
     this.stateManager.setAppState(state);
+    console.log('setState: '+state.scale);
   }
 
-  public static create(containerReference: HTMLDivElement, state: State): App {
-    return new App(containerReference, state);
+  public static create(containerReference: HTMLDivElement, stateManager: StateManager): App {
+    return new App(containerReference, stateManager);
   }
 }

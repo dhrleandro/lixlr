@@ -1,8 +1,8 @@
 import React from 'react';
 import App from '../core/App';
-import { State } from '../core/state/State';
+import StateManager from '../core/state/StateManager';
 
-export const useCanvasPixelEditor = (containerReference: React.RefObject<HTMLDivElement>, state: State) => {
+export const useCanvasPixelEditor = (containerReference: React.RefObject<HTMLDivElement>, stateManager: StateManager) => {
 
   const pixelEditorApp = React.useRef<App>();
 
@@ -10,16 +10,16 @@ export const useCanvasPixelEditor = (containerReference: React.RefObject<HTMLDiv
     if (!containerReference.current) return;
 
     if (!pixelEditorApp.current) {
-      pixelEditorApp.current = App.create(containerReference.current, state);
+      pixelEditorApp.current = App.create(containerReference.current, stateManager);
       pixelEditorApp.current!.mountEvents();
     }
 
-    pixelEditorApp.current.setState(state);
+    pixelEditorApp.current.setStateManager(stateManager);
 
     return () => {
       if (!pixelEditorApp.current) return;
       pixelEditorApp.current.unmountEvents();
     }
 
-  }, [containerReference, state]);
+  }, [containerReference, stateManager]);
 }

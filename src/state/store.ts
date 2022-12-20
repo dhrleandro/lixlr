@@ -8,12 +8,12 @@
 
 import { useReducer } from 'react';
 import { createContainer } from 'react-tracked';
-import { createInitialAppState } from '../core/state/State';
+import { createDefaultStateManager } from '../core/state/State';
 import { reducer } from '../core/state/Store';
 
-const initialState = createInitialAppState();
+const defaultStateManager = createDefaultStateManager();
 
-const useValue = () => useReducer(reducer, initialState);
+const useValue = () => useReducer(reducer, defaultStateManager);
 
 export const {
   Provider: AppStateProvider,
