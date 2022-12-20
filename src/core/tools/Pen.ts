@@ -12,6 +12,8 @@ export default class Pen extends BaseTool {
   private paintStart: boolean;
   private color: RGBA;
 
+  private preview: HTMLCanvasElement | undefined;
+
   constructor() {
     super();
 
@@ -53,5 +55,19 @@ export default class Pen extends BaseTool {
     }
 
     this.lastPoint = point;
+  }
+
+  public getPreview(point: Point2D, context: CanvasRenderingContext2D): HTMLCanvasElement {
+    if (!this.preview) {
+      this.preview = document.createElement("canvas");
+      this.preview.width = 1;
+      this.preview.height = 1;
+      const ctx = this.preview.getContext('2d') as CanvasRenderingContext2D;
+      this.color = this.getProperty('color')?.value as RGBA;
+      ctx.fillStyle = this.color.rgbaCss;
+      ctx.fillRect(0, 0, 1, 1);
+    }
+
+    return this.preview;
   }
 }

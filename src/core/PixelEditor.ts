@@ -1,8 +1,8 @@
-import Layer from "./entities/Layer";
 import Point2D from "./entities/Point2D";
 import Rect2D from "./entities/Rect2D";
 import { State } from "./state/State";
 import { Tool } from "./tools/Tool";
+import { ToolType } from "./tools/ToolType";
 import { BaseViewChild } from "./ViewChild";
 
 export default class PixelEditor extends BaseViewChild {
@@ -11,6 +11,9 @@ export default class PixelEditor extends BaseViewChild {
   private gridCacheLowZoom: HTMLCanvasElement | undefined;
 
   private mouseDown: boolean = false;
+
+  private previewPoint: Point2D = Point2D.create(0, 0);
+  private previewTool: HTMLCanvasElement | undefined;
 
   constructor(position?: Point2D, size?: Rect2D) {
     super(position, size);
@@ -103,8 +106,28 @@ export default class PixelEditor extends BaseViewChild {
           ctx.drawImage(layer.canvas, 0, 0);
       });
     }
+
+    if (this.previewTool) {
+      const previewPoint = Point2D.create(
+        (this.previewPoint.x - (this.previewTool.width/2)),
+        (this.previewPoint.y - (this.previewTool.height/2)),
+      );
+      ctx.drawImage(this.previewTool, previewPoint.x, previewPoint.y);
+    }
   }
 
+  private drawToolPreview(point: Point2D, tool: Tool): void {
+    // draw tool preview
+    if (tool.type === ToolType.PEN ||
+        tool.type === ToolType.BRUSH ||
+        tool.type === ToolType.ERASER
+    ) {
+      this.previewTool = tool.getPreview(point, this.getContext());
+      this.previewPoint = point;
+    } else {
+      this.previewTool = undefined;
+    }
+  }
 
   private globalToLocalCoordinates(point: Point2D): Point2D {
     const rect = this.getSize();
@@ -140,6 +163,9 @@ export default class PixelEditor extends BaseViewChild {
     const ctx = this.getLayerContext(state)
     if (ctx)
       tool?.onPointerDown(mouse, ctx);
+
+      if (tool)
+        this.drawToolPreview(mouse, tool);
   }
 
   public handlePointerMove(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
@@ -149,6 +175,10 @@ export default class PixelEditor extends BaseViewChild {
       if (ctx)
         tool?.onPointerMove(mouse, ctx);
     }
+
+    const mouse = this.globalToLocalCoordinates(point);
+    if (tool)
+      this.drawToolPreview(mouse, tool);
   }
 
   public handlePointerUp(point: Point2D, tool?: Tool, state?: Readonly<State>): void {
@@ -157,5 +187,8 @@ export default class PixelEditor extends BaseViewChild {
     const ctx = this.getLayerContext(state)
     if (ctx)
       tool?.onPointerUp(mouse, ctx);
+
+      if (tool)
+      this.drawToolPreview(mouse, tool);
   }
 }
