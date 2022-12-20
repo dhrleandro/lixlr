@@ -5,7 +5,7 @@ import { ToolType } from "./Type";
 
 export default class BrushTool extends BaseTool {
 
-  public readonly type = ToolType.PEN;
+  public readonly type = ToolType.BRUSH;
   private static readonly SIZE: number = 1;
   private lastPoint: Point;
   private paintStart: boolean;
@@ -36,7 +36,7 @@ export default class BrushTool extends BaseTool {
     if (this.paintStart) {
       this.context.fillStyle = color.rgbCss;
       this.context.strokeStyle = color.rgbCss;
-      this.context.lineWidth = 8;
+      this.context.lineWidth = 100;
       this.context.lineCap = 'round';
       this.context.beginPath();
       this.context.moveTo(this.lastPoint.x, this.lastPoint.y);

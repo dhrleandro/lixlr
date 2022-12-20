@@ -65,6 +65,7 @@ function App() {
       </DraggableContainer>
       <Toolbar
         pen={() => setTool(ToolType.PEN)}
+        brush={() => setTool(ToolType.BRUSH)}
         hand={() => setTool(ToolType.HAND)}
       />
       <div className="Container">

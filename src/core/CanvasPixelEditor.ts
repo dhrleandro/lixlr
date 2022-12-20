@@ -28,6 +28,8 @@ export default class CanvasPixelEditor {
 
   private appState: AppState;
 
+  private mouseDown: boolean = false;
+
   constructor(canvasReference: HTMLCanvasElement, appState: AppState) {
     this.canvasReference = canvasReference;
     this.context = this.canvasReference.getContext('2d')!;
@@ -80,6 +82,7 @@ export default class CanvasPixelEditor {
     const middleButton = (event.button === 1);
 
     if (middleButton === false) {
+      this.mouseDown = true;
       const mouse = this.getOffsetPoint(event);
 
       if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
@@ -96,6 +99,8 @@ export default class CanvasPixelEditor {
 
     // disable multitouch
     if (!event.isPrimary) return;
+
+    this.mouseDown = false;
 
     const mouse = this.getOffsetPoint(event);
 
@@ -118,11 +123,11 @@ export default class CanvasPixelEditor {
     event.preventDefault();
 
     // disable multitouch
-    if (!event.isPrimary) return;
+    if (!event.isPrimary || !this.mouseDown) return;
 
     const mouse = this.getOffsetPoint(event);
 
-    if (this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
+    if (this.mouseDown && this.selectedTool && this.selectedTool.type !== ToolType.HAND) {
       this.selectedTool.onPointerMove(mouse);
       this.renderLayers();
     }
