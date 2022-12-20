@@ -19,8 +19,10 @@ function App() {
 
   return (
     <Container className={`App ${theme}`}>
-      <ThemeSwitcher />
-      <Text><h1>The New Prologue</h1></Text>
+      <Container style={{padding: '16px'}}>
+        <ThemeSwitcher />
+        <Text><h1>The New Prologue</h1></Text>
+      </Container>
     </Container>
   );
 }
