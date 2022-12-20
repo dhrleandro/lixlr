@@ -33,7 +33,7 @@ function LayerItem(props: LayerItemPorps) {
           style={{color: 'var(--red-500)'}}
           click={props.deleteLayer}
         >
-          <Trash />
+          { !props.selected && <Trash /> }
         </Button>
       </div>
     </div>

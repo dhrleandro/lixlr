@@ -26,7 +26,7 @@ function Button(props: ButtonPorps) {
         backgroundColor: props.color,
         width: props.w,
         height: props.h,
-        cursor: 'grab',
+        cursor: 'pointer',
         ...props.style
       }}
     >
