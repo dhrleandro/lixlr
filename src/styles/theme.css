@@ -10,22 +10,38 @@
   --app-hover-bg: hsl(0, 0%, 97.3%); /* 2
   Subtle background */
 
-  --elem-bg: hsl(252, 96.9%, 97.4%); /* 3 UI element background */
-  --elm-hover-bg: hsl(252, 91.5%, 95.5%); /* 4
+
+  --elm-bg: hsl(0, 0%, 95.1%); /* 3 UI element background */
+  --elm-hover-bg: hsl(0, 0%, 93.0%); /* 4
   Hovered UI element background */
-  --elm-selected-bg: hsl(252, 85.1%, 93.0%); /* 5 Active / Selected UI element background */
+  --elm-selected-bg: hsl(0, 0%, 90.9%); /* 5 Active / Selected UI element background */
 
-  --light-border: hsl(252, 77.8%, 89.4%); /* 6 Subtle borders and separators */
+  --elm-bg-colored: hsl(252, 96.9%, 97.4%); /* 3 UI element background */
+  --elm-hover-bg-colored: hsl(252, 91.5%, 95.5%); /* 4
+  Hovered UI element background */
+  --elm-selected-bg-colored: hsl(252, 85.1%, 93.0%); /* 5 Active / Selected UI element background */
 
-  --elm-border: hsl(252, 71.0%, 83.7%); /* 7 UI element border and focus rings */
-  --elm-hover-border: hsl(252, 68.6%, 76.3%); /* 8 Hovered UI element border */
+
+  --light-border: hsl(0, 0%, 88.7%); /* 6 Subtle borders and separators */
+  --elm-border: hsl(0, 0%, 85.8%); /* 7 UI element border and focus rings */
+  --elm-hover-border: hsl(0, 0%, 78.0%); /* 8 Hovered UI element border */
+
+  --light-border-colored: hsl(252, 77.8%, 89.4%); /* 6 Subtle borders and separators */
+  --elm-border-colored: hsl(252, 71.0%, 83.7%); /* 7 UI element border and focus rings */
+  --elm-hover-border-colored: hsl(252, 68.6%, 76.3%); /* 8 Hovered UI element border */
+
 
   --solid-bg: hsl(252, 56.0%, 57.5%); /* 9 Solid backgrounds */
   --solid-hover-bg: hsl(251, 48.1%, 53.5%); /* 10 Hovered solid backgrounds */
 
+
   --low-conrast-text: hsl(0, 0%, 43.5%); /* 11
   Low-contrast text */
   --high-contrast-text: hsl(0, 0%, 9.0%); /* 12 High-contrast text */
+
+
+  /* custom */
+  --shadow-color: rgba(23, 23, 23, 0.2); /* 12 custom */
 }
 
 
@@ -33,18 +49,39 @@
   --app-bg: hsl(0, 0%, 8.5%); /* 1 */
   --app-hover-bg: hsl(0, 0%, 11.0%); /* 2 */
 
-  --elem-bg: hsl(253, 37.0%, 18.4%); /* 3 */
-  --elm-hover-bg: hsl(252, 40.1%, 22.5%); /* 4 */
-  --elm-selected-bg: hsl(252, 42.2%, 26.2%); /* 5 */
 
-  --light-border: hsl(251, 44.3%, 31.1%); /* 6 */
+  --elm-bg: hsl(0, 0%, 13.6%); /* 3 */
+  --elm-hover-bg: hsl(0, 0%, 15.8%); /* 4 */
+  --elm-selected-bg: hsl(0, 0%, 17.9%); /* 5  */
 
-  --elm-border: hsl(250, 46.8%, 38.9%); /* 7 */
-  --elm-hover-border: hsl(250, 51.8%, 51.2%); /* 8 */
+  --elm-bg-colored: hsl(253, 37.0%, 18.4%); /* 3 */
+  --elm-hover-bg-colored: hsl(252, 40.1%, 22.5%); /* 4 */
+  --elm-selected-bg-colored: hsl(252, 42.2%, 26.2%); /* 5 */
+
+
+  --light-border: hsl(0, 0%, 20.5%); /* 6 */
+  --elm-border: hsl(0, 0%, 24.3%); /* 7 */
+  --elm-hover-border: hsl(0, 0%, 31.2%); /* 8 */
+
+  --light-border-colored: hsl(251, 44.3%, 31.1%); /* 6 */
+  --elm-border-colored: hsl(250, 46.8%, 38.9%); /* 7 */
+  --elm-hover-border-colored: hsl(250, 51.8%, 51.2%); /* 8 */
+
 
   --solid-bg: hsl(252, 56.0%, 57.5%); /* 9 */
   --solid-hover-bg: hsl(251, 63.2%, 63.2%); /* 10 */
 
+
   --low-conrast-text: hsl(0, 0%, 62.8%); /* 11 */
   --high-contrast-text: hsl(0, 0%, 93.0%); /* 12 */
+
+
+  /* custom */
+  --shadow-color: rgba(237, 237, 237, 0.2); /* 12 custom */
+}
+
+
+/* common */
+.theme-common {
+  --shadow-sm: 0px 0.2rem 1rem 0px var(--shadow-color);
 }

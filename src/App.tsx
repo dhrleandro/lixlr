@@ -2,7 +2,9 @@ import React from "react";
 import { ThemeContext } from "./context/ThemeContext";
 import Container from "./components/Container";
 import ThemeSwitcher from "./components/ThemeSwitcher";
-import Text from "./components/Text";
+import Toolbar from "./components/Toolbar";
+
+import styles from './styles/App.module.css';
 
 function App() {
 
@@ -18,9 +20,12 @@ function App() {
   }, [themeContext]);
 
   return (
-    <Container className={`App ${theme}`}>
-      <div style={{position: 'absolute', top: '0', right: '8px', padding: '16px'}}>
-        <ThemeSwitcher />
+    <Container className={`${styles.app} ${theme} theme-common`}>
+      {/* <div style={{position: 'absolute', top: '0', right: '8px', padding: '16px'}}> */}
+      <div className={styles.appbar}>
+        <div></div>
+        <Toolbar />
+        <div><ThemeSwitcher/></div>
       </div>
     </Container>
   );
