@@ -1,6 +1,7 @@
 // import BrushTool from "./BrushTool";
 // import EraserTool from "./EraserTool";
 import Brush from "./Brush";
+import Eraser from "./Eraser";
 import Hand from "./Hand";
 import Pen from "./Pen";
 import { Tool } from "./Tool";
@@ -15,9 +16,9 @@ export default class Factory {
     return new Brush();
   }
 
-  // private static createEraser(): EraserTool {
-  //   return new EraserTool(context);
-  // }
+  private static createEraser(): Eraser {
+    return new Eraser();
+  }
 
   private static createHand(): Hand {
     return new Hand();
@@ -39,9 +40,9 @@ export default class Factory {
         tool = Factory.createBrush();
         break;
 
-      // case ToolType.ERASER:
-      //   tool = Factory.createEraser();
-      //   break;
+      case ToolType.ERASER:
+        tool = Factory.createEraser();
+        break;
 
       default:
         tool = undefined;

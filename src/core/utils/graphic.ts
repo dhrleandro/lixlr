@@ -23,12 +23,12 @@ export function putPixel(x: number, y: number, context: CanvasRenderingContext2D
   imgData.data[0] = color.red;
   imgData.data[1] = color.green;
   imgData.data[2] = color.blue;
-  imgData.data[3] = 255;
+  imgData.data[3] = color.alpha;
 
   context.putImageData(imgData, Math.floor(x), Math.floor(y));
 }
 
-export function removePixel(x: number, y: number, context: CanvasRenderingContext2D) {
+export function clearPixel(x: number, y: number, context: CanvasRenderingContext2D) {
   const imgData = new ImageData(1,1);
   imgData.data[0] = 0;
   imgData.data[1] = 0;
