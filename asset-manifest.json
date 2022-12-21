@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/lixlr/static/css/main.97460366.css",
-    "main.js": "/lixlr/static/js/main.06ff879f.js",
+    "main.js": "/lixlr/static/js/main.4ce71915.js",
     "static/js/787.f092f2c1.chunk.js": "/lixlr/static/js/787.f092f2c1.chunk.js",
     "index.html": "/lixlr/index.html",
     "static/media/beaker.svg": "/lixlr/static/media/beaker.dd56542468211092f9acf02a90915aff.svg",
@@ -22,11 +22,11 @@
     "static/media/close.svg": "/lixlr/static/media/close.6157b2f9cef61f43cfb9afb27dae1ef8.svg",
     "static/media/minus.svg": "/lixlr/static/media/minus.cb330d74e10935222c52cad5f1704e4a.svg",
     "main.97460366.css.map": "/lixlr/static/css/main.97460366.css.map",
-    "main.06ff879f.js.map": "/lixlr/static/js/main.06ff879f.js.map",
+    "main.4ce71915.js.map": "/lixlr/static/js/main.4ce71915.js.map",
     "787.f092f2c1.chunk.js.map": "/lixlr/static/js/787.f092f2c1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.97460366.css",
-    "static/js/main.06ff879f.js"
+    "static/js/main.4ce71915.js"
   ]
 }
