@@ -172,6 +172,10 @@ export default class CanvasView extends AbstractStateObserver {
   private handleWheel(event: WheelEvent) {
     const zoom = event.deltaY < 0 ? 1.1 : 0.9;
 
+    if (this.state) {
+    if (event.deltaY > 0 && this.state.scale <= 0.2 || event.deltaY < 0 && this.state.scale >= 20)
+       return;
+    }
 
     this.context.translate(this.currentTransformedCursor.x, this.currentTransformedCursor.y);
     this.context.scale(zoom, zoom);

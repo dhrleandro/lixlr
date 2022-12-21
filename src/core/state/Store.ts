@@ -136,8 +136,8 @@ export const reducer = (stateManager: StateManager, action: Action): StateManage
       return createStateManager({ ...stateManager.state, toolSize: action.value });
 
     case ActionType.SET_ZOOM:
-      if (action.value < 1)
-        action.value = 1;
+      if (action.value < 0.2)
+        action.value = 0.2;
 
       if (action.value > 20)
         action.value = 20;
