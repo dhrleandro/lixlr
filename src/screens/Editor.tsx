@@ -1,7 +1,7 @@
 import React from "react";
 import Colorbar from "../components/Colorbar";
 import Container from "../components/Container";
-import DropdownButton from "../components/DropdownButton";
+// import DropdownButton from "../components/DropdownButton";
 import LayerManager from "../components/LayerManager/LayerManager";
 import ModalCredits from "../components/ModalCredits";
 import ThemeSwitcher from "../components/ThemeSwitcher";
