@@ -1,7 +1,9 @@
 import React from "react";
 import Colorbar from "../components/Colorbar";
 import Container from "../components/Container";
+import DropdownButton from "../components/DropdownButton";
 import LayerManager from "../components/LayerManager/LayerManager";
+import ModalCredits from "../components/ModalCredits";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import Toolbar from "../components/Toolbar";
 import { ToolProperty } from "../components/ToolProperty";
@@ -21,8 +23,18 @@ function Editor() {
 
   return (
     <Container className={styles.editor}>
+      <ModalCredits />
+
       <div className={styles.appbar}>
-        <div></div>
+        <div>
+          {/* <DropdownButton
+            items={[
+              {text: "200x200", value: 0},
+              {text: "400x400", value: 1},
+              {text: "800x800", value: 2},
+            ]}
+          ></DropdownButton> */}
+        </div>
         <Toolbar />
         <div><ThemeSwitcher/></div>
       </div>
